@@ -117,6 +117,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"><SectionHeading eyebrow="Educational insights" title="Build knowledge that travels with you" intro="Practical guides for athletes, families, and brands covering NIL, identity, financial literacy, technology, and career planning." /><div className="mt-8 grid gap-6 md:grid-cols-3">{newsItems.filter((item) => item.evergreen).slice(0, 3).map((item) => <NewsCard key={item.slug} item={item} />)}</div><Link href="/news?category=NIL%20Education" className="mt-6 inline-flex text-sm font-semibold text-[#2AFF7D]">Explore all guides</Link></section>
+
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Services"
@@ -216,6 +218,13 @@ export default function HomePage() {
             <div className="mt-6">
               <SecondaryButton href="/contact">Start a conversation</SecondaryButton>
             </div>
+          </div>
+
+          <div className="rounded-[2rem] border border-white/10 bg-[#101722] p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">For parents</p>
+            <h3 className="mt-4 text-3xl font-black text-white">A clearer support system</h3>
+            <p className="mt-4 text-base leading-7 text-[#C7CCD6]">Understand NIL conversations, planning questions, and the guardrails that help young athletes make informed decisions.</p>
+            <div className="mt-6"><SecondaryButton href="/news/parents-guide-to-nil">Read the parent guide</SecondaryButton></div>
           </div>
         </div>
       </section>

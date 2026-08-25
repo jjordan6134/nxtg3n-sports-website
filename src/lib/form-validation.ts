@@ -19,6 +19,21 @@ export type ApplicationFormValues = {
   honeypot?: string;
 };
 
+export type PartnershipFormValues = {
+  athleteSlug: string;
+  athlete: string;
+  name: string;
+  company: string;
+  email: string;
+  phone?: string;
+  campaignType: string;
+  timeline: string;
+  budget?: string;
+  description: string;
+  consent?: boolean;
+  honeypot?: string;
+};
+
 export type FormValidationResult =
   | {
       ok: true;
@@ -132,4 +147,21 @@ export function validateApplicationForm(form: Partial<ApplicationFormValues>): F
     ok: true,
     values: fields,
   };
+}
+
+export function validatePartnershipForm(form: Partial<PartnershipFormValues>) {
+  const values = Object.fromEntries(Object.entries(form).map(([key, value]) => [key, typeof value === "string" ? value.trim() : value])) as Partial<PartnershipFormValues>;
+  values.consent = form.consent === true || (typeof form.consent === "string" && ["on", "true"].includes(form.consent));
+  const errors: Record<string, string> = {};
+  if (!values.athleteSlug) errors.athleteSlug = "Please select an athlete before sending a request.";
+  if (!values.athlete) errors.athlete = "Selected athlete is required.";
+  if (!values.name) errors.name = "Name is required.";
+  if (!values.company) errors.company = "Company or organization is required.";
+  if (!values.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email = "Please provide a valid email address.";
+  if (!values.campaignType) errors.campaignType = "Campaign type is required.";
+  if (!values.timeline) errors.timeline = "Estimated timeline is required.";
+  if (!values.description || values.description.length < 20) errors.description = "Campaign description must be at least 20 characters.";
+  if (values.description && values.description.length > 1000) errors.description = "Campaign description must be 1,000 characters or fewer.";
+  if (!values.consent) errors.consent = "Consent is required.";
+  return Object.keys(errors).length ? { ok: false as const, errors, values } : { ok: true as const, values: values as PartnershipFormValues };
 }

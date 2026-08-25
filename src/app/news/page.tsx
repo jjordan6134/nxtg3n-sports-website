@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { NewsCard } from "@/components/news-card";
+import { NewsDirectory } from "@/components/news-directory";
 import { SectionHeading } from "@/components/ui";
 import { newsItems } from "@/data/news";
 import { JsonLd } from "@/components/json-ld";
 import { brand } from "@/data/site";
+import { AdSlot } from "@/components/ad-slot";
 
-export default function NewsPage() {
+export default async function NewsPage({ searchParams }: { searchParams: Promise<{ search?: string; category?: string }> }) {
+  const params = await searchParams;
   return (
     <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <JsonLd data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "NXTG3N News", url: `${brand.siteUrl}/news`, mainEntity: { "@type": "ItemList", itemListElement: newsItems.map((item, index) => ({ "@type": "ListItem", position: index + 1, url: `${brand.siteUrl}/news/${item.slug}`, name: item.title })) } }} />
@@ -15,11 +17,8 @@ export default function NewsPage() {
         intro="Stories, athlete movement, and the broader strategy behind the Neural Athlete model."
       />
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-3">
-        {newsItems.map((item) => (
-          <NewsCard key={item.slug} item={item} />
-        ))}
-      </div>
+      <div className="mt-10"><NewsDirectory items={newsItems} initialQuery={params.search} initialCategory={params.category} /></div>
+      <AdSlot />
 
       <div className="mt-12 rounded-[2rem] border border-white/10 bg-[#101722] p-8">
         <h3 className="text-2xl font-black text-white">Editorial note</h3>

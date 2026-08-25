@@ -21,7 +21,7 @@ export function TalentDirectory() {
         athlete.name.toLowerCase().includes(search) ||
         athlete.profile.toLowerCase().includes(search) ||
         athlete.status.toLowerCase().includes(search) ||
-        athlete.hometown.toLowerCase().includes(search);
+        athlete.hometown.toLowerCase().includes(search) || athlete.height.toLowerCase().includes(search);
 
       const matchesStatus = statusFilter === "all" || athlete.status === statusFilter;
       const matchesPosition = positionFilter === "all" || athlete.position === positionFilter;
@@ -78,9 +78,7 @@ export function TalentDirectory() {
         </label>
       </div>
 
-      <div className="mb-6 text-sm text-[#C7CCD6]">
-        Showing {filteredAthletes.length} athlete{filteredAthletes.length === 1 ? "" : "s"}
-      </div>
+      <div className="mb-6 text-sm text-[#C7CCD6]" aria-live="polite">Showing {filteredAthletes.length} athlete{filteredAthletes.length === 1 ? "" : "s"}</div>
 
       {filteredAthletes.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">

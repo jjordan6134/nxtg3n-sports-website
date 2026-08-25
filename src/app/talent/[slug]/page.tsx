@@ -4,6 +4,7 @@ import { athletes } from "@/data/athletes";
 import { newsItems } from "@/data/news";
 import { brand } from "@/data/site";
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld";
+import { AthletePartnershipForm } from "@/components/athlete-partnership-form";
 
 export async function generateStaticParams() {
   return athletes.map((athlete) => ({ slug: athlete.slug }));
@@ -141,9 +142,7 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
             <p className="mt-3 text-sm leading-7 text-[#C7CCD6]">
               Connect with NXTG3N to discuss campaigns, athlete storytelling, education, and long-term partnerships.
             </p>
-            <a href={`mailto:${brand.email}?subject=Partner%20With%20${encodeURIComponent(athlete.name)}`} className="mt-5 inline-flex text-sm font-semibold text-[#2AFF7D] hover:text-white">
-              Contact NXTG3N
-            </a>
+            <AthletePartnershipForm athlete={athlete.name} athleteSlug={athlete.slug} />
           </section>
         </aside>
       </div>

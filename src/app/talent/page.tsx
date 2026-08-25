@@ -3,6 +3,7 @@ import { JsonLd } from "@/components/json-ld";
 import { athletes } from "@/data/athletes";
 import { brand } from "@/data/site";
 import { SectionHeading } from "@/components/ui";
+import { AthleteCard } from "@/components/athlete-card";
 
 export default function TalentPage() {
   return (
@@ -15,6 +16,7 @@ export default function TalentPage() {
       />
 
       <div className="mt-10">
+        <section className="mb-12"><SectionHeading eyebrow="Featured talent" title="College and professional pathways" intro="Explore the roster by current status and position. Every profile preserves its stated verification context." /><div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">{athletes.filter((athlete) => athlete.status.toLowerCase().includes("professional") || athlete.status.toLowerCase().includes("college") || athlete.status.toLowerCase().includes("truman")).slice(0, 4).map((athlete) => <AthleteCard key={athlete.slug} athlete={athlete} />)}</div></section>
         <TalentDirectory />
       </div>
     </div>

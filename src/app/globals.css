@@ -90,3 +90,14 @@ textarea:focus-visible {
     animation: none;
   }
 }
+
+@media print {
+  header, footer, nav, button, aside, .ticker-track {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+    color: #111111;
+  }
+}
