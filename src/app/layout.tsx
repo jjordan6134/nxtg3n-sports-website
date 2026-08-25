@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { BreakingNewsTicker } from "@/components/breaking-news-ticker";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { JsonLd } from "@/components/json-ld";
+import { brand } from "@/data/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,6 +51,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "NXTG3N Sports | The Neural Athlete",
+    description:
+      "NXTG3N Sports Talent Agency helps athletes build NIL opportunities, personal brands, AI education, financial literacy, and career pathways beyond the game.",
+  },
 };
 
 export const viewport: Viewport = {
@@ -63,6 +72,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <BreakingNewsTicker />
           <main className="flex-1">{children}</main>
           <SiteFooter />
+          <Analytics />
+          <JsonLd data={{
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: brand.name,
+            legalName: brand.legalName,
+            url: brand.siteUrl,
+            logo: `${brand.siteUrl}${brand.logoPath}`,
+            email: brand.email,
+          }} />
+          <JsonLd data={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: brand.name,
+            url: brand.siteUrl,
+          }} />
         </div>
       </body>
     </html>

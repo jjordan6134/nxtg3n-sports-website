@@ -4,6 +4,7 @@ export const brand = {
   tagline: "The Neural Athlete",
   email: "nxtgnsportstalentagencyllc@gmail.com",
   logoPath: "/nxtg3n-logo.png",
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://nxtgnsports.com",
   colors: {
     midnight: "#0B0E11",
     blue: "#1F6AE1",

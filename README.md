@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+NXTG3N Sports is a Next.js App Router site for athlete representation, editorial updates, and athlete applications.
 
 ## Getting Started
 
@@ -34,3 +34,24 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## NXTG3N environment setup
+
+Copy `.env.example` to `.env.local` for local configuration. Set the same values in Vercel under Project Settings > Environment Variables:
+
+```text
+NEXT_PUBLIC_SITE_URL=https://your-domain.example
+NEXT_PUBLIC_GA_ID=
+NEXT_PUBLIC_ADSENSE_CLIENT=
+RESEND_API_KEY=your-resend-api-key
+FORM_TO_EMAIL=inbox@your-domain.example
+FORM_FROM_EMAIL=forms@your-domain.example
+```
+
+The Resend variables are required for successful form delivery and are server-only. Never commit `.env.local` or put the Resend key in a `NEXT_PUBLIC_` variable.
+
+Verify a production build with:
+
+```bash
+npm run build
+```

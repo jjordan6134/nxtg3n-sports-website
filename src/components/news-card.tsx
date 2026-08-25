@@ -14,7 +14,7 @@ export function NewsCard({ item }: { item: NewsItem }) {
       <h3 className="mt-5 text-xl font-bold text-white">{item.title}</h3>
       <p className="mt-3 text-sm leading-6 text-[#C7CCD6]">{item.summary}</p>
       {item.relatedAthlete ? <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[#2AFF7D]">{item.relatedAthlete}</p> : null}
-      <Link href={`/news#${item.slug}`} className="mt-5 inline-flex text-sm font-semibold text-white transition hover:text-[#2AFF7D]">
+      <Link href={`/news/${item.slug}`} className="mt-5 inline-flex text-sm font-semibold text-white transition hover:text-[#2AFF7D]">
         Read update
       </Link>
     </article>

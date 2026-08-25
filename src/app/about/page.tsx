@@ -1,5 +1,7 @@
 import { SectionHeading } from "@/components/ui";
 import { valuePillars } from "@/data/site";
+import { JsonLd } from "@/components/json-ld";
+import { brand } from "@/data/site";
 
 const pillars = [
   { title: "Mission", copy: "Represent athletes with clarity, purpose, and a future-first lens that values both winning and preparation." },
@@ -14,6 +16,7 @@ const pillars = [
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "AboutPage", name: "About NXTG3N Sports", url: `${brand.siteUrl}/about`, about: { "@type": "Organization", name: brand.name } }} />
       <SectionHeading
         eyebrow="About"
         title="NXTG3N is built for a more intelligent athlete future"

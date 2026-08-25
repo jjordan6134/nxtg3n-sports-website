@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { athletes } from "@/data/athletes";
 import { newsItems } from "@/data/news";
 import { brand } from "@/data/site";
+import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld";
 
 export async function generateStaticParams() {
   return athletes.map((athlete) => ({ slug: athlete.slug }));
@@ -26,6 +27,8 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "Person", name: athlete.name, url: `${brand.siteUrl}/talent/${athlete.slug}`, jobTitle: athlete.position, description: athlete.bio, affiliation: { "@type": "SportsTeam", name: athlete.status } }} />
+      <BreadcrumbJsonLd items={[{ name: "Home", item: brand.siteUrl }, { name: "Talent", item: `${brand.siteUrl}/talent` }, { name: athlete.name, item: `${brand.siteUrl}/talent/${athlete.slug}` }]} />
       <div className="rounded-[2.5rem] border border-white/10 bg-[#101722] p-6 sm:p-8">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-5">
@@ -123,7 +126,7 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
             <div className="mt-4 space-y-3">
               {relatedNews.length > 0 ? (
                 relatedNews.map((item) => (
-                  <Link key={item.slug} href={`/news#${item.slug}`} className="block rounded-2xl border border-white/10 bg-[#0B0E11] p-3 text-sm text-[#C7CCD6] hover:text-white">
+                  <Link key={item.slug} href={`/news/${item.slug}`} className="block rounded-2xl border border-white/10 bg-[#0B0E11] p-3 text-sm text-[#C7CCD6] hover:text-white">
                     {item.title}
                   </Link>
                 ))

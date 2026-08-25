@@ -2,10 +2,13 @@ import Link from "next/link";
 import { NewsCard } from "@/components/news-card";
 import { SectionHeading } from "@/components/ui";
 import { newsItems } from "@/data/news";
+import { JsonLd } from "@/components/json-ld";
+import { brand } from "@/data/site";
 
 export default function NewsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "NXTG3N News", url: `${brand.siteUrl}/news`, mainEntity: { "@type": "ItemList", itemListElement: newsItems.map((item, index) => ({ "@type": "ListItem", position: index + 1, url: `${brand.siteUrl}/news/${item.slug}`, name: item.title })) } }} />
       <SectionHeading
         eyebrow="News"
         title="NXTG3N editorial updates"
