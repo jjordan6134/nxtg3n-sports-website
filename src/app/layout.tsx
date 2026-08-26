@@ -7,9 +7,11 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { JsonLd } from "@/components/json-ld";
 import { GoogleAnalytics } from "@/components/google-analytics";
+import { GoogleAdsenseVerification } from "@/components/google-adsense";
 import { brand } from "@/data/site";
 
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_ID;
+const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,6 +79,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <SiteFooter />
           <Analytics />
           {gaMeasurementId && <GoogleAnalytics measurementId={gaMeasurementId} />}
+          {adsenseClient && <GoogleAdsenseVerification client={adsenseClient} />}
           <JsonLd data={{
             "@context": "https://schema.org",
             "@type": "Organization",
