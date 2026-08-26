@@ -62,6 +62,9 @@ export const metadata: Metadata = {
     description:
       "NXTG3N Sports Talent Agency helps athletes build NIL opportunities, personal brands, AI education, financial literacy, and career pathways beyond the game.",
   },
+  other: {
+    "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "",
+  },
 };
 
 export const viewport: Viewport = {
