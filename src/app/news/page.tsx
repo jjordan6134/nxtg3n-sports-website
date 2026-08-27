@@ -15,6 +15,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
         eyebrow="News"
         title="NXTG3N editorial updates"
         intro="Stories, athlete movement, and the broader strategy behind the Neural Athlete model."
+        as="h1"
       />
 
       <div className="mt-10"><NewsDirectory items={newsItems} initialQuery={params.search} initialCategory={params.category} /></div>

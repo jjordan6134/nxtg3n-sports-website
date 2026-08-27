@@ -7,6 +7,7 @@ export default function PrivacyPage() {
         eyebrow="Privacy"
         title="Privacy information"
         intro="This page is a general informational starter for website visitors and is not a legal or attorney-approved privacy policy."
+        as="h1"
       />
 
       <div className="mt-10 space-y-6 rounded-[2rem] border border-white/10 bg-[#101722] p-8 text-base leading-7 text-[#C7CCD6]">

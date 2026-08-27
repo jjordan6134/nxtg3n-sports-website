@@ -7,6 +7,7 @@ export default function TermsPage() {
         eyebrow="Terms"
         title="Website terms and general use"
         intro="This page is a general informational starter for website usage and is not an attorney-approved legal contract."
+        as="h1"
       />
 
       <div className="mt-10 space-y-6 rounded-[2rem] border border-white/10 bg-[#101722] p-8 text-base leading-7 text-[#C7CCD6]">

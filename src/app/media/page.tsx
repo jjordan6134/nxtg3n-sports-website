@@ -9,6 +9,7 @@ export default function MediaPage() {
         eyebrow="Media"
         title="Original content, athlete stories, and live conversation"
         intro="NXTG3N distributes athlete storytelling, education, and digital culture across key platforms and community channels."
+        as="h1"
       />
 
       <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">

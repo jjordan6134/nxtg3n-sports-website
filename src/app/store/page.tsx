@@ -8,6 +8,7 @@ export default function StorePage() {
         eyebrow="Store"
         title="Store launch in progress"
         intro="The brand experience is being prepared for future drops, athlete collaborations, and performance collections."
+        as="h1"
       />
 
       <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">

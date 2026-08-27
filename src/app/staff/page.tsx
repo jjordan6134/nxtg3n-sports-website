@@ -14,6 +14,7 @@ export default function StaffPage() {
         eyebrow="Staff"
         title="Leadership and support behind the athlete experience"
         intro="The NXTG3N leadership team will be introduced here as roles are officially confirmed and published."
+        as="h1"
       />
 
       <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">

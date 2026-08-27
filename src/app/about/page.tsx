@@ -21,6 +21,7 @@ export default function AboutPage() {
         eyebrow="About"
         title="NXTG3N is built for a more intelligent athlete future"
         intro="We support the athlete ecosystem with strategy, education, and values rooted in development, ownership, innovation, integrity, and legacy."
+        as="h1"
       />
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">

@@ -60,6 +60,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Choose the right pathway"
         intro="Reach out directly for athlete representation, brand partnerships, media work, education, or general inquiries."
+        as="h1"
       />
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">

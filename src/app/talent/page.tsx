@@ -13,6 +13,7 @@ export default function TalentPage() {
         eyebrow="Talent"
         title="Current roster and emerging athlete profiles"
         intro="Explore athletes by status, position, and development stage in a searchable, mobile-friendly directory."
+        as="h1"
       />
 
       <div className="mt-10">

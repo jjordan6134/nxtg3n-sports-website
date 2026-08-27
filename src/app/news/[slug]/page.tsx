@@ -18,8 +18,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const article = newsItems.find((item) => item.slug === slug);
+  const metadataTitles: Record<string, string> = {
+    "athlete-content-strategy": "Build an Athlete Content Strategy with Focus",
+    "financial-literacy-for-athletes": "Financial Literacy for Athletes: Start Early",
+    "preparing-for-the-transfer-portal": "Preparing Your Brand for the Transfer Portal",
+    "langston-wilson-joins-new-york-knicks-for-2026-nba-summer-league": "Langston Wilson Joins Knicks for 2026 Summer League",
+  };
   return {
-    title: article?.title ?? "News Story",
+    title: metadataTitles[slug] ?? article?.title ?? "News Story",
     description: article?.summary ?? "NXTG3N editorial story and athlete update.",
     alternates: { canonical: `/news/${slug}` },
   };
