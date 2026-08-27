@@ -34,6 +34,13 @@ export type PartnershipFormValues = {
   honeypot?: string;
 };
 
+export type NewsletterFormValues = {
+  email: string;
+  firstName?: string;
+  interest?: string;
+  honeypot?: string;
+};
+
 export type FormValidationResult =
   | {
       ok: true;
@@ -164,4 +171,20 @@ export function validatePartnershipForm(form: Partial<PartnershipFormValues>) {
   if (values.description && values.description.length > 1000) errors.description = "Campaign description must be 1,000 characters or fewer.";
   if (!values.consent) errors.consent = "Consent is required.";
   return Object.keys(errors).length ? { ok: false as const, errors, values } : { ok: true as const, values: values as PartnershipFormValues };
+}
+
+export function validateNewsletterForm(form: Partial<NewsletterFormValues>) {
+  const values = {
+    email: normalizeText(form.email).toLowerCase(),
+    firstName: normalizeText(form.firstName),
+    interest: normalizeText(form.interest),
+    honeypot: normalizeText(form.honeypot),
+  };
+  const errors: Record<string, string> = {};
+  if (!values.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+    errors.email = "Please provide a valid email address.";
+  }
+  if (values.firstName.length > 80) errors.firstName = "First name must be 80 characters or fewer.";
+  if (values.interest.length > 80) errors.interest = "Please select a valid interest.";
+  return Object.keys(errors).length ? { ok: false as const, errors, values } : { ok: true as const, values: values as NewsletterFormValues };
 }

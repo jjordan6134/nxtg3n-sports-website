@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/ui";
 import { validateContactForm } from "@/lib/form-validation";
 import { JsonLd } from "@/components/json-ld";
 import { brand } from "@/data/site";
+import { trackConversion } from "@/lib/analytics";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
@@ -50,6 +51,7 @@ export default function ContactPage() {
 
     setStatus("success");
     setMessage(data.message || "Thanks for reaching out. We will follow up soon.");
+    trackConversion({ name: "contact_form_submit", properties: {} });
     event.currentTarget.reset();
   }
 
@@ -104,7 +106,7 @@ export default function ContactPage() {
           </button>
 
           {message ? (
-            <p className={status === "success" ? "text-sm text-[#2AFF7D]" : status === "error" ? "text-sm text-red-300" : "text-sm text-[#C7CCD6]"}>
+            <p role="status" aria-live="polite" className={status === "success" ? "text-sm text-[#2AFF7D]" : status === "error" ? "text-sm text-red-300" : "text-sm text-[#C7CCD6]"}>
               {message}
             </p>
           ) : null}

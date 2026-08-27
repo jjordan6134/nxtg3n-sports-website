@@ -10,6 +10,7 @@ import { ArticleReadingTools, BackToTop } from "@/components/article-reading-too
 import { PrimaryButton, SecondaryButton } from "@/components/ui";
 import { athletes } from "@/data/athletes";
 import { AdSlot } from "@/components/ad-slot";
+import { ConversionLink } from "@/components/conversion-paths";
 
 export function generateStaticParams() {
   return newsItems.map((item) => ({ slug: item.slug }));
@@ -71,6 +72,13 @@ export default async function NewsStoryPage({ params }: { params: Promise<{ slug
         <ArticleSharing url={`${brand.siteUrl}/news/${article.slug}`} title={article.title} slug={article.slug} />
       </div>
       <AdSlot />
+
+      <section className="mt-10 rounded-[2rem] border border-[#1F6AE1]/30 bg-[#101722] p-6" aria-labelledby="story-next-step">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Take the next step</p>
+        <h2 id="story-next-step" className="mt-3 text-2xl font-black text-white">Turn insight into a clearer plan.</h2>
+        <p className="mt-3 text-base leading-7 text-[#C7CCD6]">Explore athlete representation or connect with the NXTG3N roster for a thoughtful brand partnership.</p>
+        <div className="mt-5 flex flex-wrap gap-3"><ConversionLink label="Apply for Representation" href="/apply" location="news_story" className="rounded-full bg-[#1F6AE1] px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" /><ConversionLink label="Partner With an Athlete" href="/talent" location="news_story" className="rounded-full border border-white/15 px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" /></div>
+      </section>
 
       {relatedAthlete ? <section className="mt-8 rounded-[2rem] border border-[#2AFF7D]/20 bg-[#101722] p-6"><p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Related athlete</p><h2 className="mt-2 text-2xl font-black text-white">{relatedAthlete.name}</h2><p className="mt-2 text-[#C7CCD6]">{relatedAthlete.profile}</p><a href={`/talent/${relatedAthlete.slug}`} className="mt-4 inline-flex text-sm font-semibold text-[#2AFF7D]">View athlete profile</a></section> : null}
       <div className="mt-10 flex flex-wrap justify-between gap-4 border-y border-white/10 py-6">{index > 0 ? <a href={`/news/${newsItems[index - 1].slug}`} className="text-sm font-semibold text-[#C7CCD6] hover:text-white">Previous article</a> : <span />}{index < newsItems.length - 1 ? <a href={`/news/${newsItems[index + 1].slug}`} className="text-sm font-semibold text-[#C7CCD6] hover:text-white">Next article</a> : null}</div>

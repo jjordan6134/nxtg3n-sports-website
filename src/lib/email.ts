@@ -7,6 +7,7 @@ const MAX_REQUESTS = 5;
 const requestLog = new Map<string, number[]>();
 
 type EmailPayload = {
+  to?: string[];
   subject: string;
   replyTo?: string;
   html: string;
@@ -68,7 +69,7 @@ export async function sendFormEmail(payload: EmailPayload) {
       },
       body: JSON.stringify({
         from: config.from,
-        to: [config.to],
+        to: payload.to ?? [config.to],
         subject: payload.subject,
         html: payload.html,
         text: payload.text,
@@ -90,4 +91,34 @@ export async function sendFormEmail(payload: EmailPayload) {
   }
 
   return NextResponse.json({ message: payload.successMessage ?? "Thanks for reaching out. NXTG3N will be in touch soon." });
+}
+
+export async function syncNewsletterContact(email: string, firstName?: string) {
+  const config = getEmailConfig();
+  if (!config) return { ok: false as const, response: NextResponse.json({ error: "Newsletter delivery is not configured. Please try again later." }, { status: 503 }) };
+
+  const headers = { Authorization: `Bearer ${config.apiKey}`, "Content-Type": "application/json" };
+  const contactUrl = `https://api.resend.com/contacts/${encodeURIComponent(email)}`;
+  let existingResponse: Response;
+  try {
+    existingResponse = await fetch(contactUrl, { headers });
+  } catch {
+    return { ok: false as const, response: NextResponse.json({ error: "We could not reach newsletter delivery. Please try again later." }, { status: 500 }) };
+  }
+
+  const contactProperties = firstName ? { first_name: firstName } : {};
+  if (existingResponse.ok) {
+    const updateResponse = await fetch(contactUrl, { method: "PATCH", headers, body: JSON.stringify({ unsubscribed: false, ...contactProperties }) });
+    if (!updateResponse.ok) return { ok: false as const, response: NextResponse.json({ error: "We could not update your newsletter subscription. Please try again later." }, { status: 500 }) };
+    return { ok: true as const, isNew: false };
+  }
+
+  if (existingResponse.status !== 404) {
+    return { ok: false as const, response: NextResponse.json({ error: "We could not verify your newsletter subscription. Please try again later." }, { status: 502 }) };
+  }
+
+  const createResponse = await fetch("https://api.resend.com/contacts", { method: "POST", headers, body: JSON.stringify({ email, unsubscribed: false, ...contactProperties }) });
+  if (createResponse.ok) return { ok: true as const, isNew: true };
+  if (createResponse.status === 409) return { ok: true as const, isNew: false };
+  return { ok: false as const, response: NextResponse.json({ error: "We could not complete your newsletter subscription. Please try again later." }, { status: 500 }) };
 }

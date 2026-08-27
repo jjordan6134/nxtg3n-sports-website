@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { brand, footerQuickLinks, legalLinks, mediaLinks, socialLinks } from "@/data/site";
+import { NewsletterSignup } from "@/components/newsletter-signup";
 
 export function SiteFooter() {
   return (
@@ -67,6 +68,11 @@ export function SiteFooter() {
               </Link>
             ))}
           </div>
+        </div>
+        <div className="mt-10 max-w-2xl border-t border-white/10 pt-8" aria-labelledby="footer-newsletter-heading">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">NXTG3N newsletter</p>
+          <h2 id="footer-newsletter-heading" className="mt-3 text-2xl font-black text-white">Useful updates for the road ahead.</h2>
+          <div className="mt-5"><NewsletterSignup location="footer" /></div>
         </div>
       </div>
     </footer>

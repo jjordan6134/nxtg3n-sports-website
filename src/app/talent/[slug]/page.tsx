@@ -5,6 +5,7 @@ import { newsItems } from "@/data/news";
 import { brand } from "@/data/site";
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld";
 import { AthletePartnershipForm } from "@/components/athlete-partnership-form";
+import { ConversionLink } from "@/components/conversion-paths";
 
 export async function generateStaticParams() {
   return athletes.map((athlete) => ({ slug: athlete.slug }));
@@ -52,6 +53,7 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
           </Link>
         </div>
       </div>
+      <div className="mt-6 flex flex-wrap gap-3"><ConversionLink label="Apply for Representation" href="/apply" location="athlete_profile" className="rounded-full bg-[#1F6AE1] px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" /><ConversionLink label="Partner With an Athlete" href="#partnership-form" location="athlete_profile" className="rounded-full border border-[#2AFF7D]/40 px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" /></div>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-8">
@@ -137,7 +139,7 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
             </div>
           </section>
 
-          <section className="rounded-[2rem] border border-[#1F6AE1]/30 bg-[#0F151B] p-6">
+          <section id="partnership-form" className="rounded-[2rem] border border-[#1F6AE1]/30 bg-[#0F151B] p-6">
             <h2 className="text-xl font-black text-white">Partner With This Athlete</h2>
             <p className="mt-3 text-sm leading-7 text-[#C7CCD6]">
               Connect with NXTG3N to discuss campaigns, athlete storytelling, education, and long-term partnerships.

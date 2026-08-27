@@ -6,6 +6,8 @@ import { PrimaryButton, SecondaryButton, SectionHeading } from "@/components/ui"
 import { featuredAthletes } from "@/data/athletes";
 import { newsItems } from "@/data/news";
 import { brand, serviceItems, storeCategories, trustPillars, valuePillars } from "@/data/site";
+import { ConversionPaths } from "@/components/conversion-paths";
+import { NewsletterSignup } from "@/components/newsletter-signup";
 
 export default function HomePage() {
   return (
@@ -229,25 +231,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-[#0F151B]">
-        <div className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8">
+      <ConversionPaths />
+
+      <section id="newsletter-signup" className="border-t border-white/10 bg-[#0F151B]">
+        <div className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2AFF7D]">Newsletter</p>
-          <h3 className="mt-4 text-3xl font-black text-white sm:text-4xl">The signal, not the noise.</h3>
+          <h2 className="mt-4 text-3xl font-black text-white sm:text-4xl">The signal, not the noise.</h2>
           <p className="mt-4 text-base leading-7 text-[#C7CCD6]">
-            Weekly athlete updates, education, and brand insights are coming soon. For now, connect directly by email for next steps.
+            Thoughtful athlete updates, education, development insights, and brand partnership news, delivered with intention.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <input
-              aria-label="Email address"
-              type="email"
-              placeholder="Email address"
-              className="w-full max-w-md rounded-full border border-white/10 bg-[#0B0E11] px-4 py-3 text-white placeholder:text-[#C7CCD6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]"
-              disabled
-            />
-            <button type="button" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white opacity-70" disabled>
-              Coming Soon
-            </button>
-          </div>
+          <div className="mt-8"><NewsletterSignup location="homepage" /></div>
         </div>
       </section>
 

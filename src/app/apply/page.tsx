@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { validateApplicationForm } from "@/lib/form-validation";
+import { trackConversion } from "@/lib/analytics";
 
 export default function ApplyPage() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const applicationStarted = useRef(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -53,7 +55,14 @@ export default function ApplyPage() {
 
     setStatus("success");
     setMessage(data.message || "Your application has been received.");
+    trackConversion({ name: "athlete_application_submit", properties: {} });
     event.currentTarget.reset();
+  }
+
+  function handleFormFocus() {
+    if (applicationStarted.current) return;
+    applicationStarted.current = true;
+    trackConversion({ name: "athlete_application_start", properties: {} });
   }
 
   return (
@@ -67,7 +76,7 @@ export default function ApplyPage() {
       </div>
 
       <div className="rounded-[2rem] border border-white/10 bg-[#101722] p-6 sm:p-8">
-        <form className="grid gap-5 md:grid-cols-2" aria-label="Athlete interest form" onSubmit={handleSubmit} noValidate>
+        <form className="grid gap-5 md:grid-cols-2" aria-label="Athlete interest form" onSubmit={handleSubmit} onFocus={handleFormFocus} noValidate>
           <label className="block text-sm text-[#C7CCD6] md:col-span-1">
             <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Athlete name</span>
             <input name="name" type="text" className="w-full rounded-2xl border border-white/10 bg-[#0B0E11] px-4 py-3 text-white placeholder:text-[#C7CCD6]" placeholder="Full name" />
@@ -137,7 +146,7 @@ export default function ApplyPage() {
           </div>
 
           {message ? (
-            <p className={status === "success" ? "md:col-span-2 text-sm text-[#2AFF7D]" : status === "error" ? "md:col-span-2 text-sm text-red-300" : "md:col-span-2 text-sm text-[#C7CCD6]"}>
+            <p role="status" aria-live="polite" className={status === "success" ? "md:col-span-2 text-sm text-[#2AFF7D]" : status === "error" ? "md:col-span-2 text-sm text-red-300" : "md:col-span-2 text-sm text-[#C7CCD6]"}>
               {message}
             </p>
           ) : null}

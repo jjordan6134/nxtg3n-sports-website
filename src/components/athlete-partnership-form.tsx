@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { validatePartnershipForm } from "@/lib/form-validation";
+import { trackConversion } from "@/lib/analytics";
 
 const campaignTypes = ["NIL Campaign", "Brand Ambassador", "Social Content", "Appearance", "Media Interview", "Merchandise Collaboration", "Community Event", "Other"];
 const inputClass = "mt-2 w-full rounded-2xl border border-white/10 bg-[#0B0E11] px-4 py-3 text-white";
@@ -11,6 +12,7 @@ export function AthletePartnershipForm({ athlete, athleteSlug }: { athlete: stri
   const [error, setError] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const firstInvalidRef = useRef<HTMLElement | null>(null);
+  const partnershipStarted = useRef(false);
 
   function showErrors(errors: Record<string, string>, form: HTMLFormElement) {
     setFieldErrors(errors);
@@ -61,11 +63,18 @@ export function AthletePartnershipForm({ athlete, athleteSlug }: { athlete: stri
         return;
       }
       setStatus(data.message || "Your partnership request has been received.");
+      trackConversion({ name: "partnership_inquiry_submit", properties: {} });
       form.reset();
     } catch {
       setError(true);
       setStatus("The request could not be submitted. Please email nxtgnsportstalentagencyllc@gmail.com.");
     }
+  }
+
+  function handleFormFocus() {
+    if (partnershipStarted.current) return;
+    partnershipStarted.current = true;
+    trackConversion({ name: "partnership_inquiry_start", properties: {} });
   }
 
   function fieldProps(name: string) {
@@ -75,7 +84,7 @@ export function AthletePartnershipForm({ athlete, athleteSlug }: { athlete: stri
     return fieldErrors[name] ? <span id={`partnership-${name}-error`} className="mt-1 block text-xs text-red-300">{fieldErrors[name]}</span> : null;
   }
 
-  return <form onSubmit={submit} className="mt-5 grid gap-4" noValidate aria-describedby="partnership-form-status">
+  return <form onSubmit={submit} onFocus={handleFormFocus} className="mt-5 grid gap-4" noValidate aria-describedby="partnership-form-status">
     <input type="hidden" name="athlete" value={athlete} />
     <input type="hidden" name="athleteSlug" value={athleteSlug} />
     <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-px w-px opacity-0" />
