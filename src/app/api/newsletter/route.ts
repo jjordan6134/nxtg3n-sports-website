@@ -20,6 +20,7 @@ export async function POST(request: Request) {
       const welcome = await sendFormEmail({
         to: [values.email],
         subject: "Welcome to NXTG3N Sports updates",
+        operation: "send_newsletter_welcome_email",
         html: `<h1>Welcome to NXTG3N Sports</h1><p>${greeting}</p><p>Thanks for joining the NXTG3N newsletter. We will share thoughtful athlete news, NIL education, development insights, and brand partnership updates.</p><p>You can unsubscribe at any time by contacting us at nxtgnsportstalentagencyllc@gmail.com.</p>`,
         text: `Welcome to NXTG3N Sports\n\n${values.firstName ? `Hi ${values.firstName},` : "Hello,"}\n\nThanks for joining the NXTG3N newsletter. We will share thoughtful athlete news, NIL education, development insights, and brand partnership updates.\n\nYou can unsubscribe at any time by contacting us at nxtgnsportstalentagencyllc@gmail.com.`,
         successMessage: "Thanks for subscribing to NXTG3N updates.",
