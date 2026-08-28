@@ -1,7 +1,7 @@
 import { athletes } from "@/data/athletes";
 import { newsItems } from "@/data/news";
 
-export type MediaType = "photo" | "video" | "interview" | "article";
+export type MediaType = "photo" | "highlight" | "interview" | "music" | "social" | "article";
 export type MediaPlatform = "youtube" | "vimeo" | "instagram" | "tiktok" | "x" | "external";
 export type SocialPostType = "post" | "reel" | "short" | "video" | "story";
 
@@ -96,7 +96,76 @@ const articleMediaItems = athletes.flatMap((athlete) => athlete.relatedNews.map(
   };
 }).filter((item): item is NonNullable<typeof item> => item !== null));
 
-export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems];
+const danielWondieMediaItems: MediaItem[] = [
+  {
+    id: "daniel-wondie-worcester-state-film",
+    athleteSlug: "daniel-wondie",
+    type: "highlight",
+    platform: "youtube",
+    title: "Daniel Wondie — Worcester State 2025–2026 Film",
+    mediaUrl: "https://www.youtube.com/watch?v=HN3XhRxwrLQ",
+    originalUrl: "https://www.youtube.com/watch?v=HN3XhRxwrLQ",
+    embedUrl: "https://www.youtube.com/embed/HN3XhRxwrLQ",
+    sourceName: "YouTube",
+    sourceUrl: "https://www.youtube.com/watch?v=HN3XhRxwrLQ",
+    sponsorSafe: true,
+  },
+  {
+    id: "daniel-wondie-green-light",
+    athleteSlug: "daniel-wondie",
+    type: "music",
+    platform: "youtube",
+    title: "Daniel Wondie — Green Light",
+    description: "Athlete lifestyle and creative content.",
+    mediaUrl: "https://www.youtube.com/watch?v=ZHNBhRdcIi0&list=OLAK5uy_kki3h_LxQmhNm2yb8S6zb9WaEOOSxJFzU",
+    originalUrl: "https://www.youtube.com/watch?v=ZHNBhRdcIi0&list=OLAK5uy_kki3h_LxQmhNm2yb8S6zb9WaEOOSxJFzU",
+    embedUrl: "https://www.youtube.com/embed/ZHNBhRdcIi0",
+    sourceName: "YouTube",
+    sourceUrl: "https://www.youtube.com/watch?v=ZHNBhRdcIi0&list=OLAK5uy_kki3h_LxQmhNm2yb8S6zb9WaEOOSxJFzU",
+    sponsorSafe: true,
+  },
+  {
+    id: "daniel-wondie-60-seconds",
+    athleteSlug: "daniel-wondie",
+    type: "interview",
+    platform: "youtube",
+    title: "60 Seconds With Daniel Wondie",
+    mediaUrl: "https://www.youtube.com/shorts/PZf3ToLgMhw",
+    originalUrl: "https://www.youtube.com/shorts/PZf3ToLgMhw",
+    embedUrl: "https://www.youtube.com/embed/PZf3ToLgMhw",
+    sourceName: "YouTube",
+    sourceUrl: "https://www.youtube.com/shorts/PZf3ToLgMhw",
+    socialPostType: "short",
+    sponsorSafe: true,
+  },
+  {
+    id: "daniel-wondie-youtube-channel",
+    athleteSlug: "daniel-wondie",
+    type: "social",
+    platform: "youtube",
+    title: "Daniel Wondie Hoops",
+    mediaUrl: "https://www.youtube.com/@DanielWondieHoops",
+    originalUrl: "https://www.youtube.com/@DanielWondieHoops",
+    sourceName: "YouTube",
+    sourceUrl: "https://www.youtube.com/@DanielWondieHoops",
+    sponsorSafe: true,
+  },
+  {
+    id: "daniel-wondie-instagram-post",
+    athleteSlug: "daniel-wondie",
+    type: "social",
+    platform: "instagram",
+    title: "Daniel Wondie on Instagram",
+    mediaUrl: "https://www.instagram.com/p/DTChGgvgJtD/",
+    originalUrl: "https://www.instagram.com/p/DTChGgvgJtD/",
+    sourceName: "Instagram",
+    sourceUrl: "https://www.instagram.com/p/DTChGgvgJtD/",
+    socialPostType: "post",
+    sponsorSafe: true,
+  },
+];
+
+export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems, ...danielWondieMediaItems];
 
 export function getMediaForAthlete(athleteSlug: string) {
   return mediaItems.filter((item) => item.athleteSlug === athleteSlug);
