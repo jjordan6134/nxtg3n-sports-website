@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { trackConversion } from "@/lib/analytics";
+import { trackConversion, trackMediaEvent } from "@/lib/analytics";
 
 const paths = [
   { label: "Apply for Representation", description: "Start a conversation about athlete branding, development, NIL strategy, and long-term planning.", href: "/apply", location: "homepage", tone: "border-[#1F6AE1]/50 bg-[#1F6AE1]/10" },
@@ -11,6 +11,10 @@ const paths = [
 
 export function ConversionLink({ label, href, location, className }: { label: string; href: string; location: string; className?: string }) {
   return <Link href={href} onClick={() => trackConversion({ name: "cta_click", properties: { cta_name: label, cta_location: location, destination: href } })} className={className}>{label}</Link>;
+}
+
+export function PartnershipLink({ athleteSlug, location, className }: { athleteSlug: string; location: string; className?: string }) {
+  return <a href="#partnership-form" onClick={() => trackMediaEvent({ name: "partnership_cta_click", properties: { athlete_slug: athleteSlug, cta_location: location } })} className={className}>Partner With This Athlete</a>;
 }
 
 export function ConversionPaths() {

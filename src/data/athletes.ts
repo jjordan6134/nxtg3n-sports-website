@@ -19,6 +19,7 @@ export type Athlete = {
   timeline: { year: string; text: string }[];
   relatedNews: string[];
   note?: string;
+  imagePath: string;
 };
 
 export const athletes: Athlete[] = [
@@ -44,6 +45,7 @@ export const athletes: Athlete[] = [
       { year: "2026", text: "Continues to sharpen his perimeter game and create efficient offense." },
     ],
     relatedNews: ["roy-henderson-iii-takes-his-scoring-to-truman-state", "inside-the-neural-athlete-philosophy"],
+    imagePath: "/images/athletes/daniel-wondie.png",
   },
   {
     slug: "vynce-overshown",
@@ -68,6 +70,7 @@ export const athletes: Athlete[] = [
     ],
     relatedNews: ["vynce-overshown-announces-king-university-commitment", "building-athlete-brands-beyond-the-game"],
     note: "Information subject to official roster verification.",
+    imagePath: "/images/athletes/vynce-overshown.jpg",
   },
   {
     slug: "demarcus-barr",
@@ -91,6 +94,7 @@ export const athletes: Athlete[] = [
     ],
     relatedNews: ["inside-the-neural-athlete-philosophy", "building-athlete-brands-beyond-the-game"],
     note: "Information subject to official roster verification.",
+    imagePath: "/images/athletes/demarcus-barr.jpg",
   },
   {
     slug: "darrion-brooks",
@@ -114,6 +118,7 @@ export const athletes: Athlete[] = [
       { year: "2026", text: "Focused on continuing his two-way development and adding versatility." },
     ],
     relatedNews: ["langston-wilson-joins-new-york-knicks-for-2026-nba-summer-league", "inside-the-neural-athlete-philosophy"],
+    imagePath: "/images/athletes/darrion-brooks.webp",
   },
   {
     slug: "caleb-coleman",
@@ -137,6 +142,7 @@ export const athletes: Athlete[] = [
       { year: "2026", text: "Looking for the next opportunity to expand his professional impact." },
     ],
     relatedNews: ["building-athlete-brands-beyond-the-game", "roy-henderson-iii-takes-his-scoring-to-truman-state"],
+    imagePath: "/images/athletes/caleb-coleman.png",
   },
   {
     slug: "marquis-carver-smith",
@@ -160,6 +166,7 @@ export const athletes: Athlete[] = [
       { year: "2026", text: "Continues to build a smoother all-around game and expand his value." },
     ],
     relatedNews: ["roy-henderson-iii-takes-his-scoring-to-truman-state", "inside-the-neural-athlete-philosophy"],
+    imagePath: "/images/athletes/marquis-carver-smith.webp",
   },
   {
     slug: "langston-wilson",
@@ -185,6 +192,7 @@ export const athletes: Athlete[] = [
     ],
     relatedNews: ["langston-wilson-joins-new-york-knicks-for-2026-nba-summer-league", "building-athlete-brands-beyond-the-game"],
     note: "Information subject to official roster verification.",
+    imagePath: "/images/athletes/langston-wilson.webp",
   },
   {
     slug: "roy-henderson-iii",
@@ -209,6 +217,7 @@ export const athletes: Athlete[] = [
       { year: "2026", text: "Keeps developing into a strong lead-guard scoring option with room to expand." },
     ],
     relatedNews: ["roy-henderson-iii-takes-his-scoring-to-truman-state", "inside-the-neural-athlete-philosophy"],
+    imagePath: "/images/athletes/roy-henderson.jpg",
   },
 ];
 

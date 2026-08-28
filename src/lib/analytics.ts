@@ -12,6 +12,13 @@ type ConversionEvent =
   | { name: "partnership_inquiry_submit"; properties: Record<string, never> }
   | { name: "contact_form_submit"; properties: Record<string, never> };
 
+type MediaEvent =
+  | { name: "media_filter_use"; properties: { filter_type: string; filter_value: string } }
+  | { name: "media_open"; properties: { media_type: string; media_id: string; athlete_slug: string; location: string } }
+  | { name: "media_source_click"; properties: { media_type: string; media_id: string; source_name: string } }
+  | { name: "athlete_share"; properties: { athlete_slug: string; share_method: string } }
+  | { name: "partnership_cta_click"; properties: { athlete_slug: string; cta_location: string } };
+
 declare global {
   interface Window {
     gtag?: (command: "event", eventName: string, parameters: Record<string, string>) => void;
@@ -23,6 +30,15 @@ export function trackEvent(event: AnalyticsEvent) {
 }
 
 export function trackConversion(event: ConversionEvent) {
+  try {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", event.name, event.properties);
+    }
+  } catch {
+  }
+}
+
+export function trackMediaEvent(event: MediaEvent) {
   try {
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("event", event.name, event.properties);

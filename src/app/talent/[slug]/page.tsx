@@ -5,7 +5,9 @@ import { newsItems } from "@/data/news";
 import { brand } from "@/data/site";
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld";
 import { AthletePartnershipForm } from "@/components/athlete-partnership-form";
-import { ConversionLink } from "@/components/conversion-paths";
+import { ConversionLink, PartnershipLink } from "@/components/conversion-paths";
+import { AthleteMediaSection, AthleteShare } from "@/components/media-hub";
+import Image from "next/image";
 
 export async function generateStaticParams() {
   return athletes.map((athlete) => ({ slug: athlete.slug }));
@@ -29,17 +31,13 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "Person", name: athlete.name, url: `${brand.siteUrl}/talent/${athlete.slug}`, jobTitle: athlete.position, description: athlete.bio, affiliation: { "@type": "SportsTeam", name: athlete.status } }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "Person", name: athlete.name, url: `${brand.siteUrl}/talent/${athlete.slug}`, image: `${brand.siteUrl}${athlete.imagePath}`, jobTitle: athlete.position, description: athlete.bio, affiliation: { "@type": "SportsTeam", name: athlete.status } }} />
       <BreadcrumbJsonLd items={[{ name: "Home", item: brand.siteUrl }, { name: "Talent", item: `${brand.siteUrl}/talent` }, { name: athlete.name, item: `${brand.siteUrl}/talent/${athlete.slug}` }]} />
       <div className="rounded-[2.5rem] border border-white/10 bg-[#101722] p-6 sm:p-8">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-5">
-            <div className="flex h-24 w-24 items-center justify-center rounded-full border border-[#2AFF7D]/40 bg-[#0B0E11] text-3xl font-black text-white">
-              {athlete.name
-                .split(" ")
-                .slice(0, 2)
-                .map((part) => part[0]?.toUpperCase() ?? "")
-                .join("")}
+            <div className="flex h-32 w-28 items-center justify-center overflow-hidden rounded-2xl border border-[#2AFF7D]/40 bg-[#0B0E11] sm:h-40 sm:w-36">
+              <Image src={athlete.imagePath} alt={athlete.slug === "marquis-carver-smith" ? `${athlete.name} action photo` : `${athlete.name} athlete photo`} width={320} height={400} sizes="(max-width: 640px) 112px, 144px" className="max-h-full max-w-full object-contain" priority={athlete.slug !== "langston-wilson"} />
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">{athlete.status}</p>
@@ -48,12 +46,10 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
             </div>
           </div>
 
-          <Link href="/talent" className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10">
-            Back to roster
-          </Link>
+          <div className="flex flex-wrap gap-3"><AthleteShare athleteSlug={athlete.slug} athleteName={athlete.name} /><Link href="/talent" className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Back to roster</Link></div>
         </div>
       </div>
-      <div className="mt-6 flex flex-wrap gap-3"><ConversionLink label="Apply for Representation" href="/apply" location="athlete_profile" className="rounded-full bg-[#1F6AE1] px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" /><ConversionLink label="Partner With an Athlete" href="#partnership-form" location="athlete_profile" className="rounded-full border border-[#2AFF7D]/40 px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" /></div>
+      <div className="mt-6 flex flex-wrap gap-3"><ConversionLink label="Apply for Representation" href="/apply" location="athlete_profile" className="rounded-full bg-[#1F6AE1] px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" /><PartnershipLink athleteSlug={athlete.slug} location="athlete_profile" className="rounded-full border border-[#2AFF7D]/40 px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" /></div>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-8">
@@ -120,11 +116,6 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
           </section>
 
           <section className="rounded-[2rem] border border-white/10 bg-[#101722] p-6">
-            <h2 className="text-xl font-black text-white">Media placeholder</h2>
-            <div className="mt-4 h-52 rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(31,106,225,0.25),_transparent_50%),linear-gradient(135deg,_#101722,_#070B0F)]" />
-          </section>
-
-          <section className="rounded-[2rem] border border-white/10 bg-[#101722] p-6">
             <h2 className="text-xl font-black text-white">Related news</h2>
             <div className="mt-4 space-y-3">
               {relatedNews.length > 0 ? (
@@ -148,6 +139,7 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
           </section>
         </aside>
       </div>
+      <div className="mt-10"><AthleteMediaSection athleteSlug={athlete.slug} /></div>
     </div>
   );
 }

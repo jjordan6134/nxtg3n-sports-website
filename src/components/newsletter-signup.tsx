@@ -7,7 +7,7 @@ import { validateNewsletterForm } from "@/lib/form-validation";
 const interests = ["Athlete News", "NIL Education", "Recruiting and Development", "NXTG3N Events and Updates"];
 const inputClass = "mt-2 w-full rounded-2xl border border-white/10 bg-[#0B0E11] px-4 py-3 text-white placeholder:text-[#C7CCD6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]";
 
-export function NewsletterSignup({ location }: { location: "homepage" | "news" | "footer" }) {
+export function NewsletterSignup({ location }: { location: "homepage" | "news" | "media" | "footer" }) {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});

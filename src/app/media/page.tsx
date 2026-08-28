@@ -1,6 +1,9 @@
 import Link from "next/link";
-import { mediaCategories, mediaLinks } from "@/data/site";
+import { mediaLinks } from "@/data/site";
 import { SectionHeading } from "@/components/ui";
+import { MediaHub } from "@/components/media-hub";
+import { NewsletterSignup } from "@/components/newsletter-signup";
+import { ConversionLink } from "@/components/conversion-paths";
 
 export default function MediaPage() {
   return (
@@ -12,17 +15,7 @@ export default function MediaPage() {
         as="h1"
       />
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {mediaCategories.map((category) => (
-          <article key={category} className="rounded-[2rem] border border-white/10 bg-[#101722] p-6">
-            <div className="mb-5 h-36 rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_left,_rgba(31,106,225,0.25),_transparent_50%),linear-gradient(135deg,_#101722,_#070B0F)]" />
-            <h3 className="text-xl font-bold text-white">{category}</h3>
-            <p className="mt-3 text-sm leading-6 text-[#C7CCD6]">
-              Premium athlete storytelling and culture-forward media designed to inform and inspire.
-            </p>
-          </article>
-        ))}
-      </div>
+      <div className="mt-10"><MediaHub /></div>
 
       <div className="mt-12 rounded-[2rem] border border-white/10 bg-[#101722] p-8">
         <h3 className="text-2xl font-black text-white">Official channels</h3>
@@ -40,6 +33,19 @@ export default function MediaPage() {
           ))}
         </div>
       </div>
+
+      <section className="mt-12 rounded-[2rem] border border-[#1F6AE1]/30 bg-[#101722] p-6 sm:p-8" aria-labelledby="media-next-step">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Work with the roster</p>
+        <h2 id="media-next-step" className="mt-3 text-2xl font-black text-white">Build a partnership around the story.</h2>
+        <p className="mt-3 text-[#C7CCD6]">Connect with NXTG3N about athlete storytelling, NIL education, campaigns, and long-term brand partnerships.</p>
+        <ConversionLink label="Partner With an Athlete" href="/talent" location="media" className="mt-5 inline-flex rounded-full bg-[#1F6AE1] px-4 py-2.5 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" />
+      </section>
+
+      <section className="mt-12 rounded-[2rem] border border-white/10 bg-[#101722] p-6 sm:p-8" aria-labelledby="media-newsletter-heading">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Newsletter</p>
+        <h2 id="media-newsletter-heading" className="mt-3 text-2xl font-black text-white">Stay connected to the work.</h2>
+        <div className="mt-6"><NewsletterSignup location="media" /></div>
+      </section>
 
       <div className="mt-12 text-center">
         <Link href="/" className="inline-flex text-sm font-semibold text-[#2AFF7D] hover:text-white">

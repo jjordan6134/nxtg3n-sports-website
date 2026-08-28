@@ -1,22 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Athlete } from "@/data/athletes";
-
-function buildInitials(name: string) {
-  return name
-    .split(" ")
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? "")
-    .join("");
-}
 
 export function AthleteCard({ athlete }: { athlete: Athlete }) {
   return (
     <article className="group overflow-hidden rounded-3xl border border-white/10 bg-[#101722] transition hover:-translate-y-1 hover:border-[#1F6AE1]/70">
       <div className="relative flex h-52 items-center justify-center overflow-hidden border-b border-white/10 bg-[radial-gradient(circle_at_top,_rgba(31,106,225,0.35),_transparent_55%),linear-gradient(135deg,_#121A24,_#0B0E11)]">
         <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:26px_26px]" aria-hidden="true" />
-        <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border border-[#2AFF7D]/40 bg-[#0B0E11] text-2xl font-black text-white shadow-[0_0_35px_rgba(42,255,125,0.2)]">
-          {buildInitials(athlete.name)}
-        </div>
+        <Image src={athlete.imagePath} alt={athlete.slug === "marquis-carver-smith" ? `${athlete.name} action photo` : `${athlete.name} athlete photo`} width={320} height={208} sizes="(max-width: 768px) 100vw, 25vw" className="relative z-10 max-h-full max-w-full w-auto object-contain" />
       </div>
       <div className="space-y-3 p-5">
         <div className="flex items-center justify-between gap-2">
