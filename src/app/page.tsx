@@ -61,12 +61,15 @@ export default function HomePage() {
               <div className="mt-8 grid gap-4 md:grid-cols-2">
                 {featuredAthletes.map((athlete) => (
                   <div key={athlete.slug} className="rounded-2xl border border-white/10 bg-[#0B0E11] p-4">
-                    <div className="mb-4 flex h-20 items-center justify-center rounded-xl border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(31,106,225,0.25),_transparent_60%),linear-gradient(135deg,_#101722,_#070B0F)] text-2xl font-black text-white">
-                      {athlete.name
-                        .split(" ")
-                        .slice(0, 2)
-                        .map((part) => part[0]?.toUpperCase() ?? "")
-                        .join("")}
+                    <div className="relative mb-4 h-20 overflow-hidden rounded-xl border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(31,106,225,0.25),_transparent_60%),linear-gradient(135deg,_#101722,_#070B0F)]">
+                      <Image
+                        src={athlete.imagePath}
+                        alt={athlete.slug === "marquis-carver-smith" ? `${athlete.name} action photo` : `${athlete.name} athlete photo`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 18rem"
+                        className="object-cover object-center"
+                        priority
+                      />
                     </div>
                     <p className="text-base font-semibold text-white">{athlete.name}</p>
                     <p className="mt-1 text-sm text-[#C7CCD6]">{athlete.position}</p>
