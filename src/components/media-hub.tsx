@@ -75,12 +75,35 @@ export function MediaHub() {
 
 export function AthleteMediaSection({ athleteSlug }: { athleteSlug: string }) {
   const items = mediaItems.filter((item) => item.athleteSlug === athleteSlug);
-  const videoItems = items.filter((item) => item.embedUrl && ["highlight", "interview", "music"].includes(item.type));
-  const interviewItems = items.filter((item) => item.type === "interview");
-  const storyItems = items.filter((item) => item.type === "article");
-  const socialItems = items.filter((item) => item.type === "social");
-  if (!items.length) return <section className="rounded-[2rem] border border-dashed border-white/15 bg-[#101722] p-6" aria-labelledby="media-development-heading"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Athlete media</p><h2 id="media-development-heading" className="mt-3 text-2xl font-black text-white">Media profile in development</h2><p className="mt-3 text-[#C7CCD6]">Verified photos, interviews, and video will appear here as they are added to the NXTG3N archive.</p></section>;
-  return <section className="rounded-[2rem] border border-white/10 bg-[#101722] p-6 sm:p-8" aria-labelledby="athlete-media-heading"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Athlete media</p><h2 id="athlete-media-heading" className="mt-3 text-2xl font-black text-white">Stories connected to this athlete</h2></div><span className="text-sm text-[#C7CCD6]">{items.length} verified {items.length === 1 ? "item" : "items"}</span></div><div className="mt-6 grid gap-6 md:grid-cols-2">{items.map((item) => <MediaCard key={item.id} item={item} location="athlete_profile" />)}</div><div className="mt-8"><h3 className="text-xl font-black text-white">Featured video</h3><div className="mt-4 grid gap-6 md:grid-cols-2">{videoItems.length ? videoItems.map((item) => <VideoHighlight key={item.id} item={item} athleteSlug={athleteSlug} location="athlete_profile" />) : <MediaDevelopmentState title="Video highlights in development" description="No verified athlete video is currently listed for this profile." />}</div></div><div className="mt-8"><h3 className="text-xl font-black text-white">Interviews & Athlete Stories</h3><div className="mt-4 grid gap-6 md:grid-cols-2">{interviewItems.length ? interviewItems.map((item) => <MediaCard key={item.id} item={item} location="athlete_profile" />) : storyItems.length ? storyItems.map((item) => <MediaCard key={item.id} item={item} location="athlete_profile" />) : <MediaDevelopmentState />}</div></div>{socialItems.length ? <div className="mt-8"><h3 className="text-xl font-black text-white">Social media</h3><div className="mt-4 grid gap-6 md:grid-cols-2">{socialItems.map((item) => <SocialMediaCard key={item.id} item={item} athleteSlug={athleteSlug} location="athlete_profile" />)}</div></div> : null}</section>;
+  const tabs = [
+    { type: "highlight" as const, label: "Highlights" },
+    { type: "interview" as const, label: "Interviews" },
+    { type: "music" as const, label: "Music" },
+    { type: "social" as const, label: "Social" },
+  ].filter((tab) => items.some((item) => item.type === tab.type));
+  const [activeType, setActiveType] = useState<MediaType>(tabs[0]?.type ?? "highlight");
+  const activeTab = tabs.find((tab) => tab.type === activeType) ?? tabs[0];
+  const activeItems = activeTab ? items.filter((item) => item.type === activeTab.type) : [];
+  const [activeItemId, setActiveItemId] = useState(activeItems[0]?.id ?? "");
+  const activeItem = activeItems.find((item) => item.id === activeItemId) ?? activeItems[0];
+
+  function selectTab(type: MediaType) {
+    const nextItems = items.filter((item) => item.type === type);
+    setActiveType(type);
+    setActiveItemId(nextItems[0]?.id ?? "");
+  }
+
+  function handleTabKeyDown(event: React.KeyboardEvent<HTMLButtonElement>, index: number) {
+    if (!tabs.length || !["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const nextIndex = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    const nextTab = tabs[nextIndex];
+    selectTab(nextTab.type);
+    document.getElementById(`athlete-media-tab-${nextTab.type}`)?.focus();
+  }
+
+  if (!tabs.length) return null;
+  return <section className="rounded-2xl border border-white/10 bg-[#101722] p-5 sm:p-6" aria-labelledby="athlete-media-heading"><div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Athlete media</p><h2 id="athlete-media-heading" className="mt-2 text-2xl font-black text-white">Verified media</h2></div><span className="text-sm text-[#C7CCD6]">{tabs.length} {tabs.length === 1 ? "category" : "categories"}</span></div><div role="tablist" aria-label="Athlete media categories" className="mt-5 flex gap-2 overflow-x-auto border-b border-white/10 pb-3">{tabs.map((tab, index) => <button key={tab.type} id={`athlete-media-tab-${tab.type}`} type="button" role="tab" aria-selected={activeTab?.type === tab.type} aria-controls="athlete-media-panel" tabIndex={activeTab?.type === tab.type ? 0 : -1} onClick={() => selectTab(tab.type)} onKeyDown={(event) => handleTabKeyDown(event, index)} className={activeTab?.type === tab.type ? "shrink-0 border-b-2 border-[#2AFF7D] px-2 pb-2 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" : "shrink-0 px-2 pb-2 text-sm font-semibold text-[#C7CCD6] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]"}>{tab.label}</button>)}</div><div id="athlete-media-panel" role="tabpanel" aria-labelledby={`athlete-media-tab-${activeTab?.type}`} className="mt-5">{activeItem?.embedUrl ? <VideoHighlight item={activeItem} athleteSlug={athleteSlug} location="athlete_profile" /> : activeItem ? <SocialMediaCard item={activeItem} athleteSlug={athleteSlug} location="athlete_profile" /> : <MediaDevelopmentState title="Media in development" description="No verified media is currently listed in this category." />}</div>{activeItems.length > 1 ? <div className="mt-4 flex flex-wrap gap-2" aria-label={`${activeTab?.label} media items`}>{activeItems.map((item) => <button key={item.id} type="button" onClick={() => setActiveItemId(item.id)} aria-pressed={activeItem?.id === item.id} className={activeItem?.id === item.id ? "border border-[#2AFF7D] bg-[#2AFF7D]/10 px-3 py-2 text-left text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" : "border border-white/15 px-3 py-2 text-left text-sm font-semibold text-[#C7CCD6] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]"}>{item.title}</button>)}</div> : null}</section>;
 }
 
 export function AthleteShare({ athleteSlug, athleteName }: { athleteSlug: string; athleteName: string }) {

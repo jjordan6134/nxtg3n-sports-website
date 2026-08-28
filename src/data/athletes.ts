@@ -44,7 +44,7 @@ export const athletes: Athlete[] = [
       { year: "2025", text: "Developing a polished scoring profile while competing at Worcester State." },
       { year: "2026", text: "Continues to sharpen his perimeter game and create efficient offense." },
     ],
-    relatedNews: ["roy-henderson-iii-takes-his-scoring-to-truman-state", "inside-the-neural-athlete-philosophy"],
+    relatedNews: ["inside-the-neural-athlete-philosophy"],
     imagePath: "/images/athletes/daniel-wondie.png",
   },
   {
