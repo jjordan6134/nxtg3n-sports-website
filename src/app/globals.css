@@ -92,7 +92,39 @@ textarea:focus-visible {
 }
 
 @media print {
+  @page {
+    size: auto;
+    margin: 0.55in;
+  }
+
   header, footer, nav, button, aside, .ticker-track {
+    display: none !important;
+  }
+
+  .media-kit-page {
+    max-width: none;
+    padding: 0;
+    color: #111111;
+    background: #ffffff;
+  }
+
+  .media-kit-page h1,
+  .media-kit-page h2,
+  .media-kit-page h3,
+  .media-kit-page p,
+  .media-kit-page dt,
+  .media-kit-page dd,
+  .media-kit-page span,
+  .media-kit-page a {
+    color: #111111 !important;
+  }
+
+  .media-kit-page section,
+  .media-kit-page article {
+    break-inside: avoid;
+  }
+
+  .media-kit-controls {
     display: none !important;
   }
 

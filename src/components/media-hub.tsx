@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { mediaItems, type MediaItem, type MediaType, getAthleteName } from "@/data/media";
 import { trackMediaEvent } from "@/lib/analytics";
+import { MediaDevelopmentState, SocialMediaCard, VideoHighlight } from "@/components/media-experience";
 
 const mediaTypes: { value: MediaType | "all"; label: string }[] = [
   { value: "all", label: "All media" },
@@ -29,7 +30,7 @@ export function MediaCard({ item, location = "media_hub" }: { item: MediaItem; l
       <div className="mt-auto pt-5 text-xs text-[#C7CCD6]">
         <p>Source: {item.sourceName}{item.credit ? ` · Credit: ${item.credit}` : ""}</p>
         {athleteName ? <Link href={`/talent/${item.athleteSlug}`} onClick={() => trackMediaEvent({ name: "media_open", properties: { media_type: item.type, media_id: item.id, athlete_slug: item.athleteSlug ?? "", location } })} className="mt-3 inline-flex text-sm font-semibold text-[#2AFF7D] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">View {athleteName}</Link> : null}
-        <Link href={item.mediaUrl ?? item.sourceUrl} onClick={() => trackMediaEvent({ name: "media_open", properties: { media_type: item.type, media_id: item.id, athlete_slug: item.athleteSlug ?? "", location } })} className="ml-4 inline-flex text-sm font-semibold text-white hover:text-[#2AFF7D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Open media</Link>
+        <Link href={item.mediaUrl ?? item.sourceUrl} onClick={() => { trackMediaEvent({ name: "media_open", properties: { media_type: item.type, media_id: item.id, athlete_slug: item.athleteSlug ?? "", location } }); if (item.type === "interview") trackMediaEvent({ name: "interview_open", properties: { media_id: item.id, athlete_slug: item.athleteSlug ?? "", interview_type: item.platform ?? "article" } }); }} className="ml-4 inline-flex text-sm font-semibold text-white hover:text-[#2AFF7D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Open media</Link>
         {item.sourceUrl ? <a href={item.sourceUrl} target={item.sourceUrl.startsWith("http") ? "_blank" : undefined} rel={item.sourceUrl.startsWith("http") ? "noreferrer" : undefined} onClick={() => trackMediaEvent({ name: "media_source_click", properties: { media_type: item.type, media_id: item.id, source_name: item.sourceName } })} className="mt-3 block text-[#C7CCD6] underline hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">View source</a> : null}
       </div>
     </article>
@@ -47,6 +48,8 @@ export function MediaHub() {
     const queryMatch = !query.trim() || `${item.title} ${getAthleteName(item.athleteSlug) ?? ""}`.toLowerCase().includes(query.trim().toLowerCase());
     return athleteMatch && typeMatch && queryMatch;
   });
+  const videoItems = mediaItems.filter((item) => item.type === "video");
+  const socialItems = mediaItems.filter((item) => item.platform && ["instagram", "tiktok", "x"].includes(item.platform));
 
   function changeFilter(filterType: "athlete" | "type", value: string) {
     if (filterType === "athlete") setAthlete(value);
@@ -62,18 +65,24 @@ export function MediaHub() {
     </div>
     <p className="mt-5 text-sm text-[#C7CCD6]" role="status" aria-live="polite">{filtered.length} {filtered.length === 1 ? "media item" : "media items"}</p>
     {filtered.length > 0 ? <div className="mt-5 grid gap-6 md:grid-cols-2 xl:grid-cols-3">{filtered.map((item) => <MediaCard key={item.id} item={item} />)}</div> : <div className="mt-5 rounded-[2rem] border border-dashed border-white/15 bg-[#101722] px-6 py-12 text-center"><h2 className="text-2xl font-black text-white">No verified media matches those filters.</h2><p className="mt-3 text-[#C7CCD6]">Try another athlete, media type, or search term.</p></div>}
+    <section className="mt-12" aria-labelledby="media-video-heading"><h2 id="media-video-heading" className="text-2xl font-black text-white">Video highlights</h2><div className="mt-5 grid gap-6 md:grid-cols-2">{videoItems.length ? videoItems.map((item) => <VideoHighlight key={item.id} item={item} athleteSlug={item.athleteSlug ?? ""} location="media_hub" />) : <MediaDevelopmentState title="Video highlights in development" description="No verified YouTube or Vimeo athlete videos are currently in the repository." />}</div></section>
+    <section className="mt-12" aria-labelledby="media-interviews-heading"><h2 id="media-interviews-heading" className="text-2xl font-black text-white">Interviews & Athlete Stories</h2><div className="mt-5 grid gap-6 md:grid-cols-2">{mediaItems.filter((item) => item.type === "interview").length ? mediaItems.filter((item) => item.type === "interview").map((item) => <MediaCard key={item.id} item={item} />) : <MediaDevelopmentState />}</div></section>
+    <section className="mt-12" aria-labelledby="media-social-heading"><h2 id="media-social-heading" className="text-2xl font-black text-white">Social media</h2><div className="mt-5 grid gap-6 md:grid-cols-2">{socialItems.length ? socialItems.map((item) => <SocialMediaCard key={item.id} item={item} athleteSlug={item.athleteSlug ?? ""} location="media_hub" />) : <MediaDevelopmentState title="Social media features in development" description="No verified athlete social posts are currently available in the repository." />}</div></section>
   </div>;
 }
 
 export function AthleteMediaSection({ athleteSlug }: { athleteSlug: string }) {
   const items = mediaItems.filter((item) => item.athleteSlug === athleteSlug);
+  const videoItems = items.filter((item) => item.type === "video");
+  const interviewItems = items.filter((item) => item.type === "interview");
+  const storyItems = items.filter((item) => item.type === "article");
   if (!items.length) return <section className="rounded-[2rem] border border-dashed border-white/15 bg-[#101722] p-6" aria-labelledby="media-development-heading"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Athlete media</p><h2 id="media-development-heading" className="mt-3 text-2xl font-black text-white">Media profile in development</h2><p className="mt-3 text-[#C7CCD6]">Verified photos, interviews, and video will appear here as they are added to the NXTG3N archive.</p></section>;
-  return <section className="rounded-[2rem] border border-white/10 bg-[#101722] p-6 sm:p-8" aria-labelledby="athlete-media-heading"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Athlete media</p><h2 id="athlete-media-heading" className="mt-3 text-2xl font-black text-white">Stories connected to this athlete</h2></div><span className="text-sm text-[#C7CCD6]">{items.length} verified {items.length === 1 ? "item" : "items"}</span></div><div className="mt-6 grid gap-6 md:grid-cols-2">{items.map((item) => <MediaCard key={item.id} item={item} location="athlete_profile" />)}</div></section>;
+  return <section className="rounded-[2rem] border border-white/10 bg-[#101722] p-6 sm:p-8" aria-labelledby="athlete-media-heading"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Athlete media</p><h2 id="athlete-media-heading" className="mt-3 text-2xl font-black text-white">Stories connected to this athlete</h2></div><span className="text-sm text-[#C7CCD6]">{items.length} verified {items.length === 1 ? "item" : "items"}</span></div><div className="mt-6 grid gap-6 md:grid-cols-2">{items.map((item) => <MediaCard key={item.id} item={item} location="athlete_profile" />)}</div><div className="mt-8"><h3 className="text-xl font-black text-white">Video highlights</h3><div className="mt-4 grid gap-6 md:grid-cols-2">{videoItems.length ? videoItems.map((item) => <VideoHighlight key={item.id} item={item} athleteSlug={athleteSlug} location="athlete_profile" />) : <MediaDevelopmentState title="Video highlights in development" description="No verified athlete video is currently listed for this profile." />}</div></div><div className="mt-8"><h3 className="text-xl font-black text-white">Interviews & Athlete Stories</h3><div className="mt-4 grid gap-6 md:grid-cols-2">{interviewItems.length ? interviewItems.map((item) => <MediaCard key={item.id} item={item} location="athlete_profile" />) : storyItems.length ? storyItems.map((item) => <MediaCard key={item.id} item={item} location="athlete_profile" />) : <MediaDevelopmentState />}</div></div></section>;
 }
 
 export function AthleteShare({ athleteSlug, athleteName }: { athleteSlug: string; athleteName: string }) {
   const [status, setStatus] = useState("");
-  const url = typeof window === "undefined" ? "" : window.location.href;
+  const url = `https://nxtgnsports.com/talent/${athleteSlug}`;
   async function share() {
     try {
       if (navigator.share) {

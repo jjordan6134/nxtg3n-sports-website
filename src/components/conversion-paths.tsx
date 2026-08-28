@@ -13,8 +13,8 @@ export function ConversionLink({ label, href, location, className }: { label: st
   return <Link href={href} onClick={() => trackConversion({ name: "cta_click", properties: { cta_name: label, cta_location: location, destination: href } })} className={className}>{label}</Link>;
 }
 
-export function PartnershipLink({ athleteSlug, location, className }: { athleteSlug: string; location: string; className?: string }) {
-  return <a href="#partnership-form" onClick={() => trackMediaEvent({ name: "partnership_cta_click", properties: { athlete_slug: athleteSlug, cta_location: location } })} className={className}>Partner With This Athlete</a>;
+export function PartnershipLink({ athleteSlug, location, href = "#partnership-form", className }: { athleteSlug: string; location: string; href?: string; className?: string }) {
+  return <a href={href} onClick={() => trackMediaEvent({ name: "partnership_cta_click", properties: { athlete_slug: athleteSlug, cta_location: location } })} className={className}>Partner With This Athlete</a>;
 }
 
 export function ConversionPaths() {

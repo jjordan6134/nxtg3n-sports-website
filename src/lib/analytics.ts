@@ -19,6 +19,15 @@ type MediaEvent =
   | { name: "athlete_share"; properties: { athlete_slug: string; share_method: string } }
   | { name: "partnership_cta_click"; properties: { athlete_slug: string; cta_location: string } };
 
+type V4CMediaEvent =
+  | { name: "video_preview_click"; properties: { media_id: string; athlete_slug: string; platform: string; location: string } }
+  | { name: "video_play"; properties: { media_id: string; athlete_slug: string; platform: string; location: string } }
+  | { name: "social_media_open"; properties: { media_id: string; athlete_slug: string; platform: string; location: string } }
+  | { name: "interview_open"; properties: { media_id: string; athlete_slug: string; interview_type: string } }
+  | { name: "media_kit_view"; properties: { athlete_slug: string } }
+  | { name: "media_kit_print"; properties: { athlete_slug: string } }
+  | { name: "media_kit_share"; properties: { athlete_slug: string; share_method: string } };
+
 declare global {
   interface Window {
     gtag?: (command: "event", eventName: string, parameters: Record<string, string>) => void;
@@ -38,7 +47,7 @@ export function trackConversion(event: ConversionEvent) {
   }
 }
 
-export function trackMediaEvent(event: MediaEvent) {
+export function trackMediaEvent(event: MediaEvent | V4CMediaEvent) {
   try {
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("event", event.name, event.properties);
