@@ -27,6 +27,8 @@ type V4CMediaEvent =
   | { name: "athlete_video_play"; properties: { athlete_slug: string; platform: string; media_title: string; category: string; location: string } }
   | { name: "athlete_video_complete"; properties: { athlete_slug: string; platform: string; media_title: string; category: string; location: string } }
   | { name: "athlete_video_external_fallback"; properties: { athlete_slug: string; platform: string; media_title: string; category: string; location: string } }
+  | { name: "athlete_social_open"; properties: { athlete_slug: string; platform: string; media_title: string; category: string; location: string } }
+  | { name: "athlete_source_open"; properties: { athlete_slug: string; publisher: string; media_title: string; category: string; location: string } }
   | { name: "rumble_media_open"; properties: { media_id: string; athlete_slug: string; location: string } }
   | { name: "wane_interview_open"; properties: { media_id: string; athlete_slug: string; location: string } }
   | { name: "instagram_profile_open"; properties: { media_id: string; athlete_slug: string; location: string } }

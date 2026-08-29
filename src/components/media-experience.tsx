@@ -1,8 +1,75 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { trackMediaEvent } from "@/lib/analytics";
 import type { MediaItem } from "@/data/media";
+
+type RumbleCommand = (command: "play", options: { video: string; div: string; publisher?: string }) => void;
+
+declare global {
+  interface Window {
+    Rumble?: RumbleCommand & { _: ["play", { video: string; div: string; publisher?: string }][] };
+  }
+}
+
+const rumbleScriptLoads = new Map<string, Promise<void>>();
+
+function loadRumbleScript(publisherId: string, videoId: string) {
+  const scriptUrl = `https://rumble.com/embedJS/${publisherId}.${videoId}/`;
+  const existing = rumbleScriptLoads.get(scriptUrl);
+  if (existing) return existing;
+  const load = new Promise<void>((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = scriptUrl;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Rumble player script could not load"));
+    document.head.append(script);
+  });
+  rumbleScriptLoads.set(scriptUrl, load);
+  return load;
+}
+
+function queueRumblePlayer(videoId: string, containerId: string, publisherId: string) {
+  if (!window.Rumble) {
+    const queue = [] as ["play", { video: string; div: string; publisher?: string }][];
+    const rumble = ((command: "play", options: { video: string; div: string; publisher?: string }) => { queue.push([command, options]); }) as RumbleCommand & { _: typeof queue };
+    rumble._ = queue;
+    window.Rumble = rumble;
+  }
+  window.Rumble("play", { video: videoId, div: containerId, publisher: publisherId });
+}
+
+export function RumblePlayer({ item, athleteSlug, location }: { item: MediaItem; athleteSlug: string; location: string }) {
+  const [status, setStatus] = useState<"loading" | "ready" | "failed">("loading");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoId = item.videoId;
+  const publisherId = item.publisherId;
+  const containerId = `rumble_${videoId}`;
+
+  useEffect(() => {
+    if (!videoId || !publisherId || !containerRef.current) return;
+    const container = containerRef.current;
+    let active = true;
+    const timer = window.setTimeout(() => {
+      if (active && !container.childElementCount) setStatus("failed");
+    }, 10000);
+    queueRumblePlayer(videoId, containerId, publisherId);
+    loadRumbleScript(publisherId, videoId).then(() => {
+      if (active) setStatus("ready");
+    }).catch(() => {
+      if (active) setStatus("failed");
+    });
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+      container.replaceChildren();
+    };
+  }, [containerId, publisherId, videoId]);
+
+  if (!videoId || !publisherId) return <ExternalMediaFallback item={item} athleteSlug={athleteSlug} location={location} />;
+  return <div className="relative h-full w-full"><div ref={containerRef} id={containerId} className="rumble-player-container h-full w-full" title={item.playerTitle ?? item.title} />{status === "loading" ? <p className="absolute inset-0 flex items-center justify-center bg-[#0B0E11] text-sm text-[#C7CCD6]" role="status">Loading Rumble player...</p> : null}{status === "failed" ? <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#0B0E11] p-5 text-center"><p role="status" className="text-sm text-[#C7CCD6]">Inline playback is unavailable. Watch on Rumble.</p><a href={item.fallbackUrl ?? item.sourceUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackMediaEvent({ name: "athlete_video_external_fallback", properties: { athlete_slug: athleteSlug, platform: "rumble", media_title: item.title, category: item.category ?? item.type, location } })} className="text-sm font-semibold text-[#2AFF7D] underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Watch on Rumble</a></div> : null}</div>;
+}
 
 export function EmbeddedMediaPlayer({ item, athleteSlug, location }: { item: MediaItem; athleteSlug: string; location: string }) {
   const [loaded, setLoaded] = useState(false);
@@ -16,7 +83,7 @@ export function EmbeddedMediaPlayer({ item, athleteSlug, location }: { item: Med
     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">{item.type} video</p>
     <h3 className="mt-3 text-xl font-black text-white">{item.title}</h3>
     <div className="mt-5 aspect-video overflow-hidden rounded-2xl border border-white/10 bg-[#0B0E11]">
-      {loaded && !failed ? platform === "direct" ? <video src={embedUrl} title={item.title} className="h-full w-full" controls playsInline preload="none" onPlay={() => trackMediaEvent({ name: "athlete_video_play", properties: analyticsProperties })} onEnded={() => trackMediaEvent({ name: "athlete_video_complete", properties: analyticsProperties })} /> : <iframe src={embedUrl} title={item.title} className="h-full w-full" loading="lazy" sandbox="allow-scripts allow-same-origin allow-presentation" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen onError={() => setFailed(true)} /> : <button type="button" onClick={() => { setLoaded(true); trackMediaEvent({ name: "athlete_video_preview", properties: analyticsProperties }); trackMediaEvent({ name: "athlete_video_play", properties: analyticsProperties }); }} aria-label={`Play ${item.title}`} className="group relative flex h-full w-full items-end justify-end overflow-hidden bg-cover bg-center text-left text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#2AFF7D]" style={item.thumbnailUrl ?? item.thumbnail ? { backgroundImage: `url(${item.thumbnailUrl ?? item.thumbnail})` } : undefined}><span className="absolute inset-0 bg-[#0B0E11]/70 transition group-hover:bg-[#0B0E11]/55" /><span className="relative z-10 m-5 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-[#2AFF7D] bg-[#0B0E11]/80 text-2xl text-white" aria-hidden="true">▶</span></button>}
+      {loaded && !failed ? platform === "rumble" && item.publisherId && item.videoId ? <RumblePlayer item={item} athleteSlug={athleteSlug} location={location} /> : platform === "direct" ? <video src={embedUrl} title={item.playerTitle ?? item.title} className="h-full w-full" controls playsInline preload="none" onPlay={() => trackMediaEvent({ name: "athlete_video_play", properties: analyticsProperties })} onEnded={() => trackMediaEvent({ name: "athlete_video_complete", properties: analyticsProperties })} /> : <iframe src={embedUrl} title={item.playerTitle ?? item.title} className="h-full w-full" loading="lazy" sandbox="allow-scripts allow-same-origin allow-presentation" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen onError={() => setFailed(true)} /> : <button type="button" onClick={() => { setLoaded(true); trackMediaEvent({ name: "athlete_video_preview", properties: analyticsProperties }); trackMediaEvent({ name: "athlete_video_play", properties: analyticsProperties }); }} aria-label={`Play ${item.title}`} className="group relative flex h-full w-full items-end justify-end overflow-hidden bg-cover bg-center text-left text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#2AFF7D]" style={item.thumbnailUrl ?? item.thumbnail ? { backgroundImage: `url(${item.thumbnailUrl ?? item.thumbnail})` } : undefined}><span className="absolute inset-0 bg-[#0B0E11]/70 transition group-hover:bg-[#0B0E11]/55" /><span className="relative z-10 m-5 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-[#2AFF7D] bg-[#0B0E11]/80 text-2xl text-white" aria-hidden="true">▶</span></button>}
     </div>
     {failed ? <p role="status" className="mt-3 text-sm text-[#C7CCD6]">This video could not be embedded. Watch it at the source instead.</p> : null}
     <a href={item.fallbackUrl ?? item.originalUrl ?? item.mediaUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackMediaEvent({ name: "athlete_video_external_fallback", properties: analyticsProperties })} className="mt-4 inline-flex text-sm font-semibold text-[#2AFF7D] underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">{actionLabel}</a>
@@ -35,6 +102,7 @@ export function SocialMediaCard({ item, athleteSlug, location }: { item: MediaIt
   const actionLabel = item.actionLabel ?? "View on platform";
   function trackOpen() {
     const properties = { media_id: item.id, athlete_slug: athleteSlug, location };
+    if (item.type === "social") trackMediaEvent({ name: "athlete_social_open", properties: { athlete_slug: athleteSlug, platform: item.platform ?? "external", media_title: item.title, category: item.category ?? item.type, location } });
     if (item.embedStatus === "fallback") trackMediaEvent({ name: "athlete_video_external_fallback", properties: { athlete_slug: athleteSlug, platform: item.platform ?? "external", media_title: item.title, category: item.category ?? item.type, location } });
     if (item.sourceName === "Rumble") trackMediaEvent({ name: "rumble_media_open", properties });
     else if (item.sourceName === "WANE 15") trackMediaEvent({ name: "wane_interview_open", properties });

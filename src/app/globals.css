@@ -101,7 +101,7 @@ textarea:focus-visible {
     margin: 0.55in;
   }
 
-  header, footer, nav, button, aside, .ticker-track, .media-kit-page iframe, .media-kit-page video {
+  header, footer, nav, button, aside, .ticker-track, .media-kit-page iframe, .media-kit-page video, .media-kit-page .rumble-player-container {
     display: none !important;
   }
 

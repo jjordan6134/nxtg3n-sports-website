@@ -20,6 +20,7 @@ export type Athlete = {
   relatedNews: string[];
   note?: string;
   imagePath: string;
+  officialSources?: { publisher: string; label: string; url: string }[];
 };
 
 export const athletes: Athlete[] = [
@@ -119,6 +120,10 @@ export const athletes: Athlete[] = [
     ],
     relatedNews: ["langston-wilson-joins-new-york-knicks-for-2026-nba-summer-league", "inside-the-neural-athlete-philosophy"],
     imagePath: "/images/athletes/darrion-brooks.webp",
+    officialSources: [
+      { publisher: "Allegany College of Maryland Athletics", label: "Darrion Brooks — Allegany College of Maryland Men’s Basketball", url: "https://acmtrojans.com/sports/mens-basketball/roster/darrion-brooks/624" },
+      { publisher: "NJCAA Region 20", label: "Darrion Brooks — NJCAA Region 20 Player Profile", url: "https://www.njcaaregion20.org/sports/mbkb/2025-26/players/darrionbrooksrsqp" },
+    ],
   },
   {
     slug: "caleb-coleman",

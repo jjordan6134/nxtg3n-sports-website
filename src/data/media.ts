@@ -32,7 +32,9 @@ export type MediaItem = {
   sponsorSafe?: boolean;
   actionLabel?: string;
   videoId?: string;
+  publisherId?: string;
   thumbnailUrl?: string;
+  playerTitle?: string;
   category?: MediaType;
   embedStatus?: EmbedStatus;
   fallbackUrl?: string;
@@ -287,7 +289,56 @@ const demarcusBarrMediaItems: MediaItem[] = [
   },
 ];
 
-export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems, ...danielWondieMediaItems, ...demarcusBarrMediaItems];
+const darrionBrooksMediaItems: MediaItem[] = [
+  {
+    id: "darrion-brooks-rumble-jam",
+    athleteSlug: "darrion-brooks",
+    type: "highlight",
+    platform: "rumble",
+    title: "Darrion Brooks With the Jam! | Explosive Basketball Highlight",
+    description: "Darrion Brooks rises and throws it down with authority for an explosive finish at the rim. The Allegany College of Maryland wing displays his athleticism, energy and finishing ability in this powerful basketball highlight.",
+    mediaUrl: "https://rumble.com/v7esmr0-darrion-brooks-with-the-jam-explosive-basketball-highlight.html",
+    originalUrl: "https://rumble.com/v7esmr0-darrion-brooks-with-the-jam-explosive-basketball-highlight.html",
+    sourceName: "Rumble",
+    sourceUrl: "https://rumble.com/v7esmr0-darrion-brooks-with-the-jam-explosive-basketball-highlight.html",
+    publisherId: "u4o7brs",
+    videoId: "v7cm9ti",
+    playerTitle: "Darrion Brooks with the jam — Rumble basketball highlight",
+    embedUrl: "https://rumble.com/embed/v7cm9ti/?pub=u4o7brs",
+    embedStatus: "embedded",
+    fallbackUrl: "https://rumble.com/v7esmr0-darrion-brooks-with-the-jam-explosive-basketball-highlight.html",
+    actionLabel: "Watch on Rumble",
+    sponsorSafe: true,
+  },
+  {
+    id: "darrion-brooks-instagram-profile",
+    athleteSlug: "darrion-brooks",
+    type: "social",
+    platform: "instagram",
+    title: "Follow Darrion Brooks on Instagram",
+    mediaUrl: "https://www.instagram.com/dlb.xxiii/",
+    originalUrl: "https://www.instagram.com/dlb.xxiii/",
+    sourceName: "Instagram @dlb.xxiii",
+    sourceUrl: "https://www.instagram.com/dlb.xxiii/",
+    actionLabel: "Open Instagram",
+    sponsorSafe: true,
+  },
+  {
+    id: "darrion-brooks-x-profile",
+    athleteSlug: "darrion-brooks",
+    type: "social",
+    platform: "x",
+    title: "Follow Darrion Brooks on X",
+    mediaUrl: "https://x.com/dlb_xxiii",
+    originalUrl: "https://x.com/dlb_xxiii",
+    sourceName: "X @dlb_xxiii",
+    sourceUrl: "https://x.com/dlb_xxiii",
+    actionLabel: "Open X",
+    sponsorSafe: true,
+  },
+];
+
+export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems, ...danielWondieMediaItems, ...demarcusBarrMediaItems, ...darrionBrooksMediaItems];
 
 const trustedEmbedHosts = new Set(["www.youtube-nocookie.com", "www.youtube.com", "rumble.com", "player.vimeo.com"]);
 
@@ -299,7 +350,7 @@ export function validateMediaItems(items: MediaItem[]) {
     if (sourceUrls.has(sourceKey)) throw new Error(`Duplicate media source URL for ${item.athleteSlug}`);
     sourceUrls.add(sourceKey);
     if (!item.embedUrl) {
-      if (item.platform === "external" && !item.fallbackUrl) throw new Error(`External media requires a fallback URL: ${item.id}`);
+      if (item.embedStatus === "fallback" && !item.fallbackUrl) throw new Error(`Fallback media requires a fallback URL: ${item.id}`);
       continue;
     }
     const embed = new URL(item.embedUrl);
