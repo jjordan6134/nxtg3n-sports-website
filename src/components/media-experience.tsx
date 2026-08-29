@@ -72,17 +72,17 @@ export function RumblePlayer({ item, athleteSlug, location }: { item: MediaItem;
 }
 
 export function EmbeddedMediaPlayer({ item, athleteSlug, location }: { item: MediaItem; athleteSlug: string; location: string }) {
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(item.platform === "spotify");
   const [failed, setFailed] = useState(false);
-  if (!item.embedUrl || !item.platform || !["youtube", "vimeo", "rumble", "direct"].includes(item.platform)) return <ExternalMediaFallback item={item} athleteSlug={athleteSlug} location={location} />;
+  if (!item.embedUrl || !item.platform || !["youtube", "vimeo", "rumble", "spotify", "direct"].includes(item.platform)) return <ExternalMediaFallback item={item} athleteSlug={athleteSlug} location={location} />;
   const platform = item.platform;
   const embedUrl = platform === "youtube" ? `${item.embedUrl}${item.embedUrl.includes("?") ? "&" : "?"}playsinline=1` : item.embedUrl;
   const analyticsProperties = { athlete_slug: athleteSlug, platform, media_title: item.title, category: item.category ?? item.type, location };
-  const actionLabel = platform === "youtube" ? "Watch on YouTube" : platform === "rumble" ? "Watch on Rumble" : platform === "vimeo" ? "Watch on Vimeo" : "Open video source";
+  const actionLabel = platform === "youtube" ? "Watch on YouTube" : platform === "rumble" ? "Watch on Rumble" : platform === "vimeo" ? "Watch on Vimeo" : platform === "spotify" ? "Open in Spotify" : "Open video source";
   return <article className="rounded-[2rem] border border-white/10 bg-[#101722] p-6">
-    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">{item.type} video</p>
+    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">{item.type} {platform === "spotify" ? "player" : "video"}</p>
     <h3 className="mt-3 text-xl font-black text-white">{item.title}</h3>
-    <div className="mt-5 aspect-video overflow-hidden rounded-2xl border border-white/10 bg-[#0B0E11]">
+    <div className={platform === "spotify" ? "mt-5 h-[152px] overflow-hidden rounded-2xl border border-white/10 bg-[#0B0E11]" : "mt-5 aspect-video overflow-hidden rounded-2xl border border-white/10 bg-[#0B0E11]"}>
       {loaded && !failed ? platform === "rumble" && item.publisherId && item.videoId ? <RumblePlayer item={item} athleteSlug={athleteSlug} location={location} /> : platform === "direct" ? <video src={embedUrl} title={item.playerTitle ?? item.title} className="h-full w-full" controls playsInline preload="none" onPlay={() => trackMediaEvent({ name: "athlete_video_play", properties: analyticsProperties })} onEnded={() => trackMediaEvent({ name: "athlete_video_complete", properties: analyticsProperties })} /> : <iframe src={embedUrl} title={item.playerTitle ?? item.title} className="h-full w-full" loading="lazy" sandbox="allow-scripts allow-same-origin allow-presentation" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen onError={() => setFailed(true)} /> : <button type="button" onClick={() => { setLoaded(true); trackMediaEvent({ name: "athlete_video_preview", properties: analyticsProperties }); trackMediaEvent({ name: "athlete_video_play", properties: analyticsProperties }); }} aria-label={`Play ${item.title}`} className="group relative flex h-full w-full items-end justify-end overflow-hidden bg-cover bg-center text-left text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#2AFF7D]" style={item.thumbnailUrl ?? item.thumbnail ? { backgroundImage: `url(${item.thumbnailUrl ?? item.thumbnail})` } : undefined}><span className="absolute inset-0 bg-[#0B0E11]/70 transition group-hover:bg-[#0B0E11]/55" /><span className="relative z-10 m-5 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-[#2AFF7D] bg-[#0B0E11]/80 text-2xl text-white" aria-hidden="true">▶</span></button>}
     </div>
     {failed ? <p role="status" className="mt-3 text-sm text-[#C7CCD6]">This video could not be embedded. Watch it at the source instead.</p> : null}

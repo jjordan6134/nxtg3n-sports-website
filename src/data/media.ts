@@ -2,7 +2,7 @@ import { athletes } from "@/data/athletes";
 import { newsItems } from "@/data/news";
 
 export type MediaType = "photo" | "highlight" | "interview" | "music" | "social" | "article";
-export type MediaPlatform = "youtube" | "vimeo" | "rumble" | "direct" | "instagram" | "tiktok" | "x" | "external";
+export type MediaPlatform = "youtube" | "vimeo" | "rumble" | "spotify" | "direct" | "instagram" | "tiktok" | "x" | "external";
 export type SocialPostType = "post" | "reel" | "short" | "video" | "story";
 export type EmbedStatus = "embedded" | "fallback";
 
@@ -44,6 +44,7 @@ const allowedHosts: Record<MediaPlatform, string[]> = {
   youtube: ["youtube.com", "www.youtube.com", "youtu.be", "www.youtube-nocookie.com"],
   vimeo: ["vimeo.com", "www.vimeo.com", "player.vimeo.com"],
   rumble: ["rumble.com", "www.rumble.com"],
+  spotify: ["open.spotify.com"],
   direct: [],
   instagram: ["instagram.com", "www.instagram.com"],
   tiktok: ["tiktok.com", "www.tiktok.com"],
@@ -180,6 +181,109 @@ const danielWondieMediaItems: MediaItem[] = [
     sourceName: "Instagram",
     sourceUrl: "https://www.instagram.com/p/DTChGgvgJtD/",
     socialPostType: "post",
+    sponsorSafe: true,
+  },
+];
+
+const vynceOvershownMediaItems: MediaItem[] = [
+  {
+    id: "vynce-overshown-coaches-alert",
+    athleteSlug: "vynce-overshown",
+    type: "highlight",
+    platform: "rumble",
+    title: "COACHES ALERT: Vynce Overshown | King University Guard & JUCO DPOTY Highlights",
+    description: "Vynce Overshown is a proven two-way guard who has taken his talent to King University in Tennessee. These conference highlights demonstrate the defensive pressure, athleticism, playmaking, scoring ability and competitive energy that helped him earn JUCO Defensive Player of the Year and First Team All-Conference honors.",
+    mediaUrl: "https://rumble.com/v7espcc-coaches-alert-vynce-overshown-king-university-guard-and-juco-dpoty-highligh.html",
+    originalUrl: "https://rumble.com/v7espcc-coaches-alert-vynce-overshown-king-university-guard-and-juco-dpoty-highligh.html",
+    sourceName: "Rumble",
+    sourceUrl: "https://rumble.com/v7espcc-coaches-alert-vynce-overshown-king-university-guard-and-juco-dpoty-highligh.html",
+    publisherId: "u4o7brs",
+    videoId: "v7cmceu",
+    playerTitle: "Vynce Overshown Coaches Alert — Rumble basketball highlights",
+    embedUrl: "https://rumble.com/embed/v7cmceu/?pub=u4o7brs",
+    embedStatus: "embedded",
+    fallbackUrl: "https://rumble.com/v7espcc-coaches-alert-vynce-overshown-king-university-guard-and-juco-dpoty-highligh.html",
+    actionLabel: "Watch on Rumble",
+    featured: true,
+    featuredPriority: 0,
+    sponsorSafe: true,
+  },
+  {
+    id: "vynce-overshown-youtube-short",
+    athleteSlug: "vynce-overshown",
+    type: "highlight",
+    platform: "youtube",
+    title: "Vynce Overshown YouTube Short",
+    mediaUrl: "https://youtube.com/shorts/3nZCJkvW1Gk",
+    originalUrl: "https://youtube.com/shorts/3nZCJkvW1Gk",
+    thumbnail: "https://i.ytimg.com/vi/3nZCJkvW1Gk/hqdefault.jpg",
+    embedUrl: "https://www.youtube-nocookie.com/embed/3nZCJkvW1Gk",
+    sourceName: "YouTube",
+    sourceUrl: "https://youtube.com/shorts/3nZCJkvW1Gk",
+    videoId: "3nZCJkvW1Gk",
+    socialPostType: "short",
+    featured: false,
+    featuredPriority: 1,
+    sponsorSafe: true,
+  },
+  {
+    id: "vynce-overshown-youtube-highlight",
+    athleteSlug: "vynce-overshown",
+    type: "highlight",
+    platform: "youtube",
+    title: "Vynce Overshown | #8 | G | Freshman | Hammond, IN",
+    mediaUrl: "https://www.youtube.com/watch?v=stTOCxv0Fbg",
+    originalUrl: "https://www.youtube.com/watch?v=stTOCxv0Fbg",
+    thumbnail: "https://i.ytimg.com/vi/stTOCxv0Fbg/hqdefault.jpg",
+    embedUrl: "https://www.youtube-nocookie.com/embed/stTOCxv0Fbg",
+    sourceName: "YouTube",
+    sourceUrl: "https://www.youtube.com/watch?v=stTOCxv0Fbg",
+    videoId: "stTOCxv0Fbg",
+    featured: false,
+    featuredPriority: 2,
+    sponsorSafe: true,
+  },
+  {
+    id: "vynce-overshown-spotify-artist",
+    athleteSlug: "vynce-overshown",
+    type: "music",
+    platform: "spotify",
+    title: "Vynce Overshown on Spotify",
+    mediaUrl: "https://open.spotify.com/artist/7Mkdi65xQwobSN6TlwcvvS",
+    originalUrl: "https://open.spotify.com/artist/7Mkdi65xQwobSN6TlwcvvS",
+    embedUrl: "https://open.spotify.com/embed/artist/7Mkdi65xQwobSN6TlwcvvS",
+    sourceName: "Spotify",
+    sourceUrl: "https://open.spotify.com/artist/7Mkdi65xQwobSN6TlwcvvS",
+    videoId: "7Mkdi65xQwobSN6TlwcvvS",
+    embedStatus: "embedded",
+    fallbackUrl: "https://open.spotify.com/artist/7Mkdi65xQwobSN6TlwcvvS",
+    actionLabel: "Open in Spotify",
+    sponsorSafe: true,
+  },
+  {
+    id: "vynce-overshown-instagram-profile",
+    athleteSlug: "vynce-overshown",
+    type: "social",
+    platform: "instagram",
+    title: "Follow Vynce Overshown on Instagram",
+    mediaUrl: "https://www.instagram.com/vynce.25/",
+    originalUrl: "https://www.instagram.com/vynce.25/",
+    sourceName: "Instagram @vynce.25",
+    sourceUrl: "https://www.instagram.com/vynce.25/",
+    actionLabel: "Open Instagram",
+    sponsorSafe: true,
+  },
+  {
+    id: "vynce-overshown-x-profile",
+    athleteSlug: "vynce-overshown",
+    type: "social",
+    platform: "x",
+    title: "Follow Vynce Overshown on X",
+    mediaUrl: "https://x.com/OvershownVynce",
+    originalUrl: "https://x.com/OvershownVynce",
+    sourceName: "X @OvershownVynce",
+    sourceUrl: "https://x.com/OvershownVynce",
+    actionLabel: "Open X",
     sponsorSafe: true,
   },
 ];
@@ -338,9 +442,9 @@ const darrionBrooksMediaItems: MediaItem[] = [
   },
 ];
 
-export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems, ...danielWondieMediaItems, ...demarcusBarrMediaItems, ...darrionBrooksMediaItems];
+export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems, ...danielWondieMediaItems, ...vynceOvershownMediaItems, ...demarcusBarrMediaItems, ...darrionBrooksMediaItems];
 
-const trustedEmbedHosts = new Set(["www.youtube-nocookie.com", "www.youtube.com", "rumble.com", "player.vimeo.com"]);
+const trustedEmbedHosts = new Set(["www.youtube-nocookie.com", "www.youtube.com", "rumble.com", "player.vimeo.com", "open.spotify.com"]);
 
 export function validateMediaItems(items: MediaItem[]) {
   const sourceUrls = new Set<string>();
@@ -361,6 +465,7 @@ export function validateMediaItems(items: MediaItem[]) {
     if (embed.protocol !== "https:" || !trustedEmbedHosts.has(embed.hostname)) throw new Error(`Untrusted media embed URL: ${item.id}`);
     if (item.platform === "rumble" && !/^\/embed\/v[\w-]+\/$/.test(embed.pathname)) throw new Error(`Invalid Rumble embed URL: ${item.id}`);
     if (item.platform === "youtube" && !/^\/embed\/[\w-]{11}$/.test(embed.pathname)) throw new Error(`Invalid YouTube embed URL: ${item.id}`);
+    if (item.platform === "spotify" && !/^\/embed\/artist\/[\w-]+$/.test(embed.pathname)) throw new Error(`Invalid Spotify embed URL: ${item.id}`);
     if (item.embedUrl === item.sourceUrl) throw new Error(`Media embed URL cannot be a webpage URL: ${item.id}`);
   }
 }
