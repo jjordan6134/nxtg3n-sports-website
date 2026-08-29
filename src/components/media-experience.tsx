@@ -4,25 +4,45 @@ import { useState } from "react";
 import { trackMediaEvent } from "@/lib/analytics";
 import type { MediaItem } from "@/data/media";
 
-export function VideoHighlight({ item, athleteSlug, location }: { item: MediaItem; athleteSlug: string; location: string }) {
+export function EmbeddedMediaPlayer({ item, athleteSlug, location }: { item: MediaItem; athleteSlug: string; location: string }) {
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
-  if (!item.embedUrl || !item.platform || !["youtube", "vimeo"].includes(item.platform)) return <MediaDevelopmentState title="Video highlights in development" description="Verified video highlights will appear here when an eligible source is added." />;
+  if (!item.embedUrl || !item.platform || !["youtube", "vimeo", "rumble", "direct"].includes(item.platform)) return <ExternalMediaFallback item={item} athleteSlug={athleteSlug} location={location} />;
   const platform = item.platform;
-  const embedUrl = platform === "youtube" ? `${item.embedUrl}${item.embedUrl.includes("?") ? "&" : "?"}autoplay=1&playsinline=1` : item.embedUrl;
+  const embedUrl = platform === "youtube" ? `${item.embedUrl}${item.embedUrl.includes("?") ? "&" : "?"}playsinline=1` : item.embedUrl;
+  const analyticsProperties = { athlete_slug: athleteSlug, platform, media_title: item.title, category: item.category ?? item.type, location };
+  const actionLabel = platform === "youtube" ? "Watch on YouTube" : platform === "rumble" ? "Watch on Rumble" : platform === "vimeo" ? "Watch on Vimeo" : "Open video source";
   return <article className="rounded-[2rem] border border-white/10 bg-[#101722] p-6">
     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">{item.type} video</p>
     <h3 className="mt-3 text-xl font-black text-white">{item.title}</h3>
     <div className="mt-5 aspect-video overflow-hidden rounded-2xl border border-white/10 bg-[#0B0E11]">
-      {loaded && !failed ? <iframe src={embedUrl} title={item.title} className="h-full w-full" loading="lazy" sandbox="allow-scripts allow-same-origin allow-presentation" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen onError={() => setFailed(true)} /> : <button type="button" onClick={() => { setLoaded(true); trackMediaEvent({ name: "video_preview_click", properties: { media_id: item.id, athlete_slug: athleteSlug, platform, location } }); trackMediaEvent({ name: "video_play", properties: { media_id: item.id, athlete_slug: athleteSlug, platform, location } }); }} aria-label={`Play ${item.title}`} className="group relative flex h-full w-full items-end justify-end overflow-hidden bg-cover bg-center text-left text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#2AFF7D]" style={item.thumbnail ? { backgroundImage: `url(${item.thumbnail})` } : undefined}><span className="absolute inset-0 bg-[#0B0E11]/70 transition group-hover:bg-[#0B0E11]/55" /><span className="relative z-10 m-5 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-[#2AFF7D] bg-[#0B0E11]/80 text-2xl text-white" aria-hidden="true">▶</span></button>}
+      {loaded && !failed ? platform === "direct" ? <video src={embedUrl} title={item.title} className="h-full w-full" controls playsInline preload="none" onPlay={() => trackMediaEvent({ name: "athlete_video_play", properties: analyticsProperties })} onEnded={() => trackMediaEvent({ name: "athlete_video_complete", properties: analyticsProperties })} /> : <iframe src={embedUrl} title={item.title} className="h-full w-full" loading="lazy" sandbox="allow-scripts allow-same-origin allow-presentation" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen onError={() => setFailed(true)} /> : <button type="button" onClick={() => { setLoaded(true); trackMediaEvent({ name: "athlete_video_preview", properties: analyticsProperties }); trackMediaEvent({ name: "athlete_video_play", properties: analyticsProperties }); }} aria-label={`Play ${item.title}`} className="group relative flex h-full w-full items-end justify-end overflow-hidden bg-cover bg-center text-left text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#2AFF7D]" style={item.thumbnailUrl ?? item.thumbnail ? { backgroundImage: `url(${item.thumbnailUrl ?? item.thumbnail})` } : undefined}><span className="absolute inset-0 bg-[#0B0E11]/70 transition group-hover:bg-[#0B0E11]/55" /><span className="relative z-10 m-5 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-[#2AFF7D] bg-[#0B0E11]/80 text-2xl text-white" aria-hidden="true">▶</span></button>}
     </div>
     {failed ? <p role="status" className="mt-3 text-sm text-[#C7CCD6]">This video could not be embedded. Watch it at the source instead.</p> : null}
-    <a href={item.originalUrl ?? item.mediaUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex text-sm font-semibold text-[#2AFF7D] underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Watch on YouTube</a>
+    <a href={item.fallbackUrl ?? item.originalUrl ?? item.mediaUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackMediaEvent({ name: "athlete_video_external_fallback", properties: analyticsProperties })} className="mt-4 inline-flex text-sm font-semibold text-[#2AFF7D] underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">{actionLabel}</a>
   </article>;
 }
 
+export const VideoHighlight = EmbeddedMediaPlayer;
+
+export function ExternalMediaFallback({ item, athleteSlug, location }: { item: MediaItem; athleteSlug: string; location: string }) {
+  const actionLabel = item.actionLabel ?? `Watch on ${item.sourceName}`;
+  return <article className="border border-white/10 bg-[#101722] p-5"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">{item.sourceName}</p><h3 className="mt-2 text-lg font-black text-white">{item.title}</h3>{item.description ? <p className="mt-3 text-sm leading-6 text-[#C7CCD6]">{item.description}</p> : null}<a href={item.fallbackUrl ?? item.originalUrl ?? item.mediaUrl} target="_blank" rel="noopener noreferrer" onClick={() => trackMediaEvent({ name: "athlete_video_external_fallback", properties: { athlete_slug: athleteSlug, platform: item.platform ?? "external", media_title: item.title, category: item.category ?? item.type, location } })} className="mt-4 inline-flex text-sm font-semibold text-[#2AFF7D] underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">{actionLabel}</a></article>;
+}
+
 export function SocialMediaCard({ item, athleteSlug, location }: { item: MediaItem; athleteSlug: string; location: string }) {
-  return <article className="rounded-[2rem] border border-white/10 bg-[#101722] p-6"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">{item.platform ?? "Social"} {item.socialPostType ?? "post"}</p><h3 className="mt-3 text-xl font-black text-white">{item.title}</h3>{item.description ? <p className="mt-3 text-sm leading-6 text-[#C7CCD6]">{item.description}</p> : null}<p className="mt-4 text-sm text-[#C7CCD6]">{athleteSlug ? `Athlete: ${athleteSlug}` : "Verified social source"}</p><a href={item.originalUrl} target="_blank" rel="noreferrer" onClick={() => trackMediaEvent({ name: "social_media_open", properties: { media_id: item.id, athlete_slug: athleteSlug, platform: item.platform ?? "external", location } })} className="mt-5 inline-flex text-sm font-semibold text-[#2AFF7D] underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">View on platform</a></article>;
+  const label = item.platform === "external" ? item.sourceName : item.platform ?? "Social";
+  const actionLabel = item.actionLabel ?? "View on platform";
+  function trackOpen() {
+    const properties = { media_id: item.id, athlete_slug: athleteSlug, location };
+    if (item.embedStatus === "fallback") trackMediaEvent({ name: "athlete_video_external_fallback", properties: { athlete_slug: athleteSlug, platform: item.platform ?? "external", media_title: item.title, category: item.category ?? item.type, location } });
+    if (item.sourceName === "Rumble") trackMediaEvent({ name: "rumble_media_open", properties });
+    else if (item.sourceName === "WANE 15") trackMediaEvent({ name: "wane_interview_open", properties });
+    else if (item.platform === "instagram") trackMediaEvent({ name: "instagram_profile_open", properties });
+    else if (item.platform === "x") trackMediaEvent({ name: "x_post_open", properties });
+    else trackMediaEvent({ name: "social_media_open", properties: { ...properties, platform: item.platform ?? "external" } });
+  }
+  return <article className="border border-white/10 bg-[#101722] p-5"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">{label}</p><h3 className="mt-2 text-lg font-black text-white">{item.title}</h3>{item.description ? <p className="mt-3 text-sm leading-6 text-[#C7CCD6]">{item.description}</p> : null}{item.publishedDate ? <time dateTime={item.publishedDate} className="mt-3 block text-sm text-[#C7CCD6]">March 4, 2025</time> : null}<a href={item.originalUrl ?? item.mediaUrl} target="_blank" rel="noopener noreferrer" onClick={trackOpen} className="mt-4 inline-flex text-sm font-semibold text-[#2AFF7D] underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">{actionLabel}</a></article>;
 }
 
 export function MediaDevelopmentState({ title = "Interviews & Athlete Stories in development", description = "Verified interviews, video, and audio sources will appear here when added to the NXTG3N archive." }: { title?: string; description?: string }) {

@@ -50,6 +50,10 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
+.ticker-shell {
+  contain: paint;
+}
+
 .ticker-track {
   display: flex;
   width: max-content;
@@ -97,7 +101,7 @@ textarea:focus-visible {
     margin: 0.55in;
   }
 
-  header, footer, nav, button, aside, .ticker-track {
+  header, footer, nav, button, aside, .ticker-track, .media-kit-page iframe, .media-kit-page video {
     display: none !important;
   }
 

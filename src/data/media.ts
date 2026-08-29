@@ -2,8 +2,9 @@ import { athletes } from "@/data/athletes";
 import { newsItems } from "@/data/news";
 
 export type MediaType = "photo" | "highlight" | "interview" | "music" | "social" | "article";
-export type MediaPlatform = "youtube" | "vimeo" | "instagram" | "tiktok" | "x" | "external";
+export type MediaPlatform = "youtube" | "vimeo" | "rumble" | "direct" | "instagram" | "tiktok" | "x" | "external";
 export type SocialPostType = "post" | "reel" | "short" | "video" | "story";
+export type EmbedStatus = "embedded" | "fallback";
 
 export type MediaItem = {
   id: string;
@@ -29,11 +30,19 @@ export type MediaItem = {
   transcript?: string;
   socialPostType?: SocialPostType;
   sponsorSafe?: boolean;
+  actionLabel?: string;
+  videoId?: string;
+  thumbnailUrl?: string;
+  category?: MediaType;
+  embedStatus?: EmbedStatus;
+  fallbackUrl?: string;
 };
 
 const allowedHosts: Record<MediaPlatform, string[]> = {
   youtube: ["youtube.com", "www.youtube.com", "youtu.be", "www.youtube-nocookie.com"],
   vimeo: ["vimeo.com", "www.vimeo.com", "player.vimeo.com"],
+  rumble: ["rumble.com", "www.rumble.com"],
+  direct: [],
   instagram: ["instagram.com", "www.instagram.com"],
   tiktok: ["tiktok.com", "www.tiktok.com"],
   x: ["x.com", "www.x.com", "twitter.com", "www.twitter.com"],
@@ -53,6 +62,11 @@ export function parseMediaUrl(value: string, platform: MediaPlatform, externalHo
       const videoId = url.pathname.match(/\/(\d+)(?:$|\/)/)?.[1];
       return videoId ? { originalUrl: url.toString(), embedUrl: `https://player.vimeo.com/video/${videoId}?dnt=1` } : null;
     }
+    if (platform === "rumble") {
+      const videoId = url.pathname.match(/\/(v[\w-]+)(?:-|\/|$)/)?.[1];
+      return videoId ? { originalUrl: url.toString() } : null;
+    }
+    if (platform === "direct") return url.pathname.match(/\.(mp4|webm)$/i) ? { originalUrl: url.toString(), embedUrl: url.toString() } : null;
     return { originalUrl: url.toString() };
   } catch {
     return null;
@@ -168,7 +182,139 @@ const danielWondieMediaItems: MediaItem[] = [
   },
 ];
 
-export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems, ...danielWondieMediaItems];
+const demarcusBarrMediaItems: MediaItem[] = [
+  {
+    id: "demarcus-barr-rumble-steal-slam",
+    athleteSlug: "demarcus-barr",
+    type: "highlight",
+    platform: "rumble",
+    title: "De’Marcus Barr Incredible Steal & Breakaway Slam",
+    description: "De’Marcus Barr creates the turnover and finishes the play with an explosive breakaway slam.",
+    mediaUrl: "https://rumble.com/v7esk7i-demarcus-barr-incredible-steal-and-breakaway-slam-semo-basketball-commit.html",
+    originalUrl: "https://rumble.com/v7esk7i-demarcus-barr-incredible-steal-and-breakaway-slam-semo-basketball-commit.html",
+    sourceName: "Rumble",
+    sourceUrl: "https://rumble.com/v7esk7i-demarcus-barr-incredible-steal-and-breakaway-slam-semo-basketball-commit.html",
+    videoId: "v7cm7a0",
+    thumbnailUrl: "https://hugh.cdn.rumble.cloud/video/fwe2/4b/s8/1/o/9/z/T/o9zTA.qR4e-small-DeMarcus-Barr-Incredible-St..jpg",
+    thumbnail: "https://hugh.cdn.rumble.cloud/video/fwe2/4b/s8/1/o/9/z/T/o9zTA.qR4e-small-DeMarcus-Barr-Incredible-St..jpg",
+    embedUrl: "https://rumble.com/embed/v7cm7a0/",
+    embedStatus: "embedded",
+    fallbackUrl: "https://rumble.com/v7esk7i-demarcus-barr-incredible-steal-and-breakaway-slam-semo-basketball-commit.html",
+    actionLabel: "Watch on Rumble",
+    sponsorSafe: true,
+  },
+  {
+    id: "demarcus-barr-wane-interview",
+    athleteSlug: "demarcus-barr",
+    type: "interview",
+    platform: "external",
+    title: "De’Marcus Barr Full Interview at South Side Archers Boys Basketball Practice",
+    description: "De’Marcus Barr discusses basketball during an interview at South Side Archers boys basketball practice.",
+    mediaUrl: "https://www.wane.com/video/demarcus-barr-full-interview-at-south-side-archers-boys-basketball-practice-on-3425/10509144/",
+    originalUrl: "https://www.wane.com/video/demarcus-barr-full-interview-at-south-side-archers-boys-basketball-practice-on-3425/10509144/",
+    sourceName: "WANE 15",
+    sourceUrl: "https://www.wane.com/video/demarcus-barr-full-interview-at-south-side-archers-boys-basketball-practice-on-3425/10509144/",
+    embedStatus: "fallback",
+    fallbackUrl: "https://www.wane.com/video/demarcus-barr-full-interview-at-south-side-archers-boys-basketball-practice-on-3425/10509144/",
+    publishedDate: "2025-03-04",
+    actionLabel: "Watch Full Interview",
+    sponsorSafe: true,
+  },
+  {
+    id: "demarcus-barr-instagram-profile",
+    athleteSlug: "demarcus-barr",
+    type: "social",
+    platform: "instagram",
+    title: "Follow De’Marcus Barr on Instagram",
+    mediaUrl: "https://www.instagram.com/5star_jackson/",
+    originalUrl: "https://www.instagram.com/5star_jackson/",
+    sourceName: "Instagram",
+    sourceUrl: "https://www.instagram.com/5star_jackson/",
+    actionLabel: "Open Instagram",
+    sponsorSafe: true,
+  },
+  {
+    id: "demarcus-barr-x-2021343694960591154",
+    athleteSlug: "demarcus-barr",
+    type: "social",
+    platform: "x",
+    title: "View De’Marcus Barr’s post on X",
+    mediaUrl: "https://x.com/D_Barr13/status/2021343694960591154",
+    originalUrl: "https://x.com/D_Barr13/status/2021343694960591154",
+    sourceName: "X @D_Barr13",
+    sourceUrl: "https://x.com/D_Barr13/status/2021343694960591154",
+    actionLabel: "View post on X",
+    sponsorSafe: true,
+  },
+  {
+    id: "demarcus-barr-x-2016576771731120561",
+    athleteSlug: "demarcus-barr",
+    type: "social",
+    platform: "x",
+    title: "View De’Marcus Barr’s post on X",
+    mediaUrl: "https://x.com/D_Barr13/status/2016576771731120561",
+    originalUrl: "https://x.com/D_Barr13/status/2016576771731120561",
+    sourceName: "X @D_Barr13",
+    sourceUrl: "https://x.com/D_Barr13/status/2016576771731120561",
+    actionLabel: "View post on X",
+    sponsorSafe: true,
+  },
+  {
+    id: "demarcus-barr-x-1996982271182569614",
+    athleteSlug: "demarcus-barr",
+    type: "social",
+    platform: "x",
+    title: "View De’Marcus Barr’s post on X",
+    mediaUrl: "https://x.com/D_Barr13/status/1996982271182569614",
+    originalUrl: "https://x.com/D_Barr13/status/1996982271182569614",
+    sourceName: "X @D_Barr13",
+    sourceUrl: "https://x.com/D_Barr13/status/1996982271182569614",
+    actionLabel: "View post on X",
+    sponsorSafe: true,
+  },
+  {
+    id: "demarcus-barr-x-1986206650089230494",
+    athleteSlug: "demarcus-barr",
+    type: "social",
+    platform: "x",
+    title: "View De’Marcus Barr’s post on X",
+    mediaUrl: "https://x.com/D_Barr13/status/1986206650089230494",
+    originalUrl: "https://x.com/D_Barr13/status/1986206650089230494",
+    sourceName: "X @D_Barr13",
+    sourceUrl: "https://x.com/D_Barr13/status/1986206650089230494",
+    actionLabel: "View post on X",
+    sponsorSafe: true,
+  },
+];
+
+export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems, ...danielWondieMediaItems, ...demarcusBarrMediaItems];
+
+const trustedEmbedHosts = new Set(["www.youtube-nocookie.com", "www.youtube.com", "rumble.com", "player.vimeo.com"]);
+
+export function validateMediaItems(items: MediaItem[]) {
+  const sourceUrls = new Set<string>();
+  for (const item of items) {
+    if (!item.athleteSlug) continue;
+    const sourceKey = `${item.athleteSlug}:${item.sourceUrl}`;
+    if (sourceUrls.has(sourceKey)) throw new Error(`Duplicate media source URL for ${item.athleteSlug}`);
+    sourceUrls.add(sourceKey);
+    if (!item.embedUrl) {
+      if (item.platform === "external" && !item.fallbackUrl) throw new Error(`External media requires a fallback URL: ${item.id}`);
+      continue;
+    }
+    const embed = new URL(item.embedUrl);
+    if (item.platform === "direct") {
+      if (embed.protocol !== "https:" || !/\.(mp4|webm)$/i.test(embed.pathname)) throw new Error(`Invalid direct media URL: ${item.id}`);
+      continue;
+    }
+    if (embed.protocol !== "https:" || !trustedEmbedHosts.has(embed.hostname)) throw new Error(`Untrusted media embed URL: ${item.id}`);
+    if (item.platform === "rumble" && !/^\/embed\/v[\w-]+\/$/.test(embed.pathname)) throw new Error(`Invalid Rumble embed URL: ${item.id}`);
+    if (item.platform === "youtube" && !/^\/embed\/[\w-]{11}$/.test(embed.pathname)) throw new Error(`Invalid YouTube embed URL: ${item.id}`);
+    if (item.embedUrl === item.sourceUrl) throw new Error(`Media embed URL cannot be a webpage URL: ${item.id}`);
+  }
+}
+
+if (process.env.NODE_ENV !== "production") validateMediaItems(mediaItems);
 
 export function getMediaForAthlete(athleteSlug: string) {
   return mediaItems.filter((item) => item.athleteSlug === athleteSlug);

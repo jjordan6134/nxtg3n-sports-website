@@ -23,6 +23,14 @@ type V4CMediaEvent =
   | { name: "video_preview_click"; properties: { media_id: string; athlete_slug: string; platform: string; location: string } }
   | { name: "video_play"; properties: { media_id: string; athlete_slug: string; platform: string; location: string } }
   | { name: "social_media_open"; properties: { media_id: string; athlete_slug: string; platform: string; location: string } }
+  | { name: "athlete_video_preview"; properties: { athlete_slug: string; platform: string; media_title: string; category: string; location: string } }
+  | { name: "athlete_video_play"; properties: { athlete_slug: string; platform: string; media_title: string; category: string; location: string } }
+  | { name: "athlete_video_complete"; properties: { athlete_slug: string; platform: string; media_title: string; category: string; location: string } }
+  | { name: "athlete_video_external_fallback"; properties: { athlete_slug: string; platform: string; media_title: string; category: string; location: string } }
+  | { name: "rumble_media_open"; properties: { media_id: string; athlete_slug: string; location: string } }
+  | { name: "wane_interview_open"; properties: { media_id: string; athlete_slug: string; location: string } }
+  | { name: "instagram_profile_open"; properties: { media_id: string; athlete_slug: string; location: string } }
+  | { name: "x_post_open"; properties: { media_id: string; athlete_slug: string; location: string } }
   | { name: "interview_open"; properties: { media_id: string; athlete_slug: string; interview_type: string } }
   | { name: "media_kit_view"; properties: { athlete_slug: string } }
   | { name: "media_kit_print"; properties: { athlete_slug: string } }

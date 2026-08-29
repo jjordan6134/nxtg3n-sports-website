@@ -74,7 +74,7 @@ export const athletes: Athlete[] = [
   },
   {
     slug: "demarcus-barr",
-    name: "Demarcus Barr",
+    name: "De’Marcus Barr",
     status: "Southeast Missouri State Commit",
     position: "Point Guard",
     height: "6'1\"",
