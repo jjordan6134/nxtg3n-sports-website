@@ -13,6 +13,7 @@ export type NewsItem = {
   topic?: string;
   relatedArticles?: string[];
   evergreen?: boolean;
+  imagePath?: string;
 };
 
 const editorialImages: Record<string, string> = {
@@ -25,8 +26,8 @@ const editorialImages: Record<string, string> = {
   Editorial: "/images/editorial/athlete-branding.png",
 };
 
-export function getNewsImage(item: Pick<NewsItem, "category">) {
-  return editorialImages[item.category] ?? "/images/editorial/athlete-news.png";
+export function getNewsImage(item: Pick<NewsItem, "category" | "imagePath">) {
+  return item.imagePath ?? editorialImages[item.category] ?? "/images/editorial/athlete-news.png";
 }
 
 export function estimateReadingTime(content: string[]) {
@@ -44,6 +45,7 @@ export const newsItems: NewsItem[] = [
     label: "Talent",
     accent: "#1F6AE1",
     relatedAthlete: "Langston J. Wilson",
+    imagePath: "/images/editorial/langston-wilson-summer-league.jpg",
     author: "NXTG3N Sports Editorial Team",
     publishedAt: "2026-05-14",
     readTime: "4 min read",
@@ -62,6 +64,7 @@ export const newsItems: NewsItem[] = [
     label: "Commitment",
     accent: "#C7CCD6",
     relatedAthlete: "Vynce Overshown",
+    imagePath: "/images/editorial/vynce-overshown-commitment.jpg",
     author: "NXTG3N Sports Editorial Team",
     publishedAt: "2026-05-02",
     readTime: "4 min read",
