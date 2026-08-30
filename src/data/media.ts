@@ -442,7 +442,67 @@ const darrionBrooksMediaItems: MediaItem[] = [
   },
 ];
 
-export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems, ...danielWondieMediaItems, ...vynceOvershownMediaItems, ...demarcusBarrMediaItems, ...darrionBrooksMediaItems];
+const calebColemanMediaItems: MediaItem[] = [
+  {
+    id: "caleb-coleman-rwanda-highlights",
+    athleteSlug: "caleb-coleman",
+    type: "highlight",
+    platform: "rumble",
+    title: "Caleb Coleman | 2026 Rwanda Basketball League Division 1 First-Leg Highlights",
+    description: "Caleb Coleman competes internationally during the first leg of the 2026 Rwanda Basketball League Division 1 season. The professional forward displays athleticism, length, versatility and finishing ability against professional competition in Rwanda.",
+    mediaUrl: "https://rumble.com/v7esqhs-caleb-coleman-2026-rwanda-basketball-league-division-1-first-leg-highlights.html",
+    originalUrl: "https://rumble.com/v7esqhs-caleb-coleman-2026-rwanda-basketball-league-division-1-first-leg-highlights.html",
+    sourceName: "Rumble",
+    sourceUrl: "https://rumble.com/v7esqhs-caleb-coleman-2026-rwanda-basketball-league-division-1-first-leg-highlights.html",
+    publisherId: "u4o7brs",
+    videoId: "v7cmdka",
+    playerTitle: "Caleb Coleman Rwanda Basketball League Division 1 highlights",
+    embedUrl: "https://rumble.com/embed/v7cmdka/?pub=u4o7brs",
+    embedStatus: "embedded",
+    fallbackUrl: "https://rumble.com/v7esqhs-caleb-coleman-2026-rwanda-basketball-league-division-1-first-leg-highlights.html",
+    actionLabel: "Watch on Rumble",
+    featured: true,
+    featuredPriority: 0,
+    sponsorSafe: true,
+  },
+  {
+    id: "caleb-coleman-bf-majestics-highlights",
+    athleteSlug: "caleb-coleman",
+    type: "highlight",
+    platform: "rumble",
+    title: "Caleb Coleman Pro Highlights | BF Majestics TBL Basketball 2025",
+    description: "Caleb Coleman competes professionally with the BF Majestics during the 2025 TBL season. The highlights display his size, athleticism, versatility and finishing ability.",
+    mediaUrl: "https://rumble.com/v7esqau-caleb-coleman-pro-highlights-bf-majestics-tbl-basketball-2025.html",
+    originalUrl: "https://rumble.com/v7esqau-caleb-coleman-pro-highlights-bf-majestics-tbl-basketball-2025.html",
+    sourceName: "Rumble",
+    sourceUrl: "https://rumble.com/v7esqau-caleb-coleman-pro-highlights-bf-majestics-tbl-basketball-2025.html",
+    publisherId: "u4o7brs",
+    videoId: "v7cmddc",
+    playerTitle: "Caleb Coleman BF Majestics TBL basketball highlights",
+    embedUrl: "https://rumble.com/embed/v7cmddc/?pub=u4o7brs",
+    embedStatus: "embedded",
+    fallbackUrl: "https://rumble.com/v7esqau-caleb-coleman-pro-highlights-bf-majestics-tbl-basketball-2025.html",
+    actionLabel: "Watch on Rumble",
+    featured: false,
+    featuredPriority: 1,
+    sponsorSafe: true,
+  },
+  {
+    id: "caleb-coleman-instagram-profile",
+    athleteSlug: "caleb-coleman",
+    type: "social",
+    platform: "instagram",
+    title: "Follow Caleb Coleman on Instagram",
+    mediaUrl: "https://www.instagram.com/c_coleman03/",
+    originalUrl: "https://www.instagram.com/c_coleman03/",
+    sourceName: "Instagram @c_coleman03",
+    sourceUrl: "https://www.instagram.com/c_coleman03/",
+    actionLabel: "Open Instagram",
+    sponsorSafe: true,
+  },
+];
+
+export const mediaItems: MediaItem[] = [...athletePhotoItems, ...articleMediaItems, ...danielWondieMediaItems, ...vynceOvershownMediaItems, ...demarcusBarrMediaItems, ...darrionBrooksMediaItems, ...calebColemanMediaItems];
 
 const trustedEmbedHosts = new Set(["www.youtube-nocookie.com", "www.youtube.com", "rumble.com", "player.vimeo.com", "open.spotify.com"]);
 
