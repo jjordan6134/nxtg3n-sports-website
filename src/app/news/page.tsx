@@ -7,6 +7,7 @@ import { brand } from "@/data/site";
 import { AdSlot } from "@/components/ad-slot";
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { ConversionLink } from "@/components/conversion-paths";
+import { AthleteNewsFeed } from "@/components/athlete-news-feed";
 
 export default async function NewsPage({ searchParams }: { searchParams: Promise<{ search?: string; category?: string }> }) {
   const params = await searchParams;
@@ -21,6 +22,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
       />
 
       <div className="mt-10"><NewsDirectory items={newsItems} initialQuery={params.search} initialCategory={params.category} /></div>
+      <div className="mt-12"><AthleteNewsFeed /></div>
       <AdSlot />
 
       <section className="mt-12 rounded-[2rem] border border-[#1F6AE1]/30 bg-[#101722] p-6 sm:p-8" aria-labelledby="news-next-step">

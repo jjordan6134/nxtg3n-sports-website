@@ -40,24 +40,6 @@ export const newsItems: NewsItem[] = [
     ],
   },
   {
-    slug: "roy-henderson-iii-takes-his-scoring-to-truman-state",
-    title: "Roy Henderson III Takes His Scoring to Truman State",
-    summary:
-      "A confident scoring guard profile continues to evolve as he builds his game around creation, rhythm, and perimeter confidence.",
-    category: "Athlete News",
-    label: "Performance",
-    accent: "#2AFF7D",
-    relatedAthlete: "Roy Henderson III",
-    author: "NXTG3N Sports Editorial Team",
-    publishedAt: "2026-05-09",
-    readTime: "3 min read",
-    content: [
-      "Roy Henderson III continues to evolve as a confident scoring guard and a player who understands that production has to be paired with intentional decision-making. The most valuable part of his profile is not only the points, but the way he continues to turn pressure into rhythm.",
-      "The next step for a guard like Henderson is to improve the consistency of the small decisions: pace, spacing, passing angles, and how he attacks when the defense is already anticipating his next move. Those actions create the difference between a productive scorer and a complete offensive engine.",
-      "That is the framework NXTG3N uses across the roster: identify what the athlete does best, optimize it, and build habits that scale as the environment becomes more competitive.",
-    ],
-  },
-  {
     slug: "vynce-overshown-announces-king-university-commitment",
     title: "Vynce Overshown Announces King University Commitment",
     summary:

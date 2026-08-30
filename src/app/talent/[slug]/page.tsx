@@ -7,6 +7,7 @@ import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld";
 import { AthletePartnershipCta, AthleteSnapshot } from "@/components/athlete-profile-sections";
 import { AthleteMediaSection, AthleteShare } from "@/components/media-hub";
 import Image from "next/image";
+import { AthleteNewsFeed } from "@/components/athlete-news-feed";
 
 export async function generateStaticParams() {
   return athletes.map((athlete) => ({ slug: athlete.slug }));
@@ -49,6 +50,7 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
       <div className="mt-6"><AthleteSnapshot athlete={athlete} /></div>
       <div className="mt-6"><AthletePartnershipCta athlete={athlete} /></div>
       <div className="mt-6"><AthleteMediaSection athleteSlug={athlete.slug} /></div>
+      <div className="mt-6"><AthleteNewsFeed athleteSlug={athlete.slug} /></div>
       {relatedNews.length ? <section className="mt-6 rounded-2xl border border-white/10 bg-[#101722] p-5" aria-labelledby="related-news-heading"><h2 id="related-news-heading" className="text-xl font-black text-white">Related news</h2><div className="mt-3 grid gap-3 md:grid-cols-2">{relatedNews.map((item) => <Link key={item.slug} href={`/news/${item.slug}`} className="border-l-2 border-[#1F6AE1] bg-[#0B0E11] px-4 py-3 text-sm text-[#C7CCD6] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">{item.title}</Link>)}</div></section> : null}
     </div>
   );

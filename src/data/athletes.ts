@@ -146,7 +146,7 @@ export const athletes: Athlete[] = [
       { year: "2025", text: "Competed professionally with the BF Majestics in The Basketball League." },
       { year: "2026", text: "Competes in Rwanda Basketball League Division 1 international basketball." },
     ],
-    relatedNews: ["building-athlete-brands-beyond-the-game", "roy-henderson-iii-takes-his-scoring-to-truman-state"],
+    relatedNews: ["building-athlete-brands-beyond-the-game", "inside-the-neural-athlete-philosophy"],
     imagePath: "/images/athletes/caleb-coleman.png",
     officialSources: [
       { publisher: "ESPN", label: "Caleb Coleman — ESPN Player Profile", url: "https://www.espn.com/mens-college-basketball/player/_/id/4594101/caleb-coleman" },
@@ -173,8 +173,12 @@ export const athletes: Athlete[] = [
       { year: "2025", text: "Showed flashes of versatility with an active defensive and transitional profile." },
       { year: "2026", text: "Continues to build a smoother all-around game and expand his value." },
     ],
-    relatedNews: ["roy-henderson-iii-takes-his-scoring-to-truman-state", "inside-the-neural-athlete-philosophy"],
+    relatedNews: ["inside-the-neural-athlete-philosophy", "building-athlete-brands-beyond-the-game"],
     imagePath: "/images/athletes/marquis-carver-smith.webp",
+    officialSources: [
+      { publisher: "Truman State Athletics", label: "Marquis Carver-Smith — Truman State Men’s Basketball", url: "https://trumanbulldogs.com/sports/mens-basketball/roster/marquis-carver-smith/8228" },
+      { publisher: "Northeastern State Athletics", label: "Balanced Attack Lifts Northeastern State Past Truman State", url: "https://goriverhawksgo.com/news/2025/12/14/mens-basketball-balanced-attack-lifts-northeastern-state-past-truman-state-90-81.aspx" },
+    ],
   },
   {
     slug: "langston-wilson",
@@ -201,31 +205,12 @@ export const athletes: Athlete[] = [
     relatedNews: ["langston-wilson-joins-new-york-knicks-for-2026-nba-summer-league", "building-athlete-brands-beyond-the-game"],
     note: "Information subject to official roster verification.",
     imagePath: "/images/athletes/langston-wilson.webp",
-  },
-  {
-    slug: "roy-henderson-iii",
-    name: "Roy Henderson III",
-    status: "Truman State",
-    position: "Guard",
-    height: "6'1\"",
-    hometown: "Oklahoma City, Oklahoma",
-    profile: "High-scoring guard and confident perimeter creator",
-    previousPrograms: "Eastern Oklahoma State",
-    featuredStats: "18.0 PPG, 35.9% 3PT, 80.2% FT in 2025–26",
-    bio: "Roy Henderson III is a confident scoring guard who attacks the rim, creates his own shot, and steadily stretches the floor. His profile combines energy, self-belief, and perimeter creation in a way that continues to translate into production.",
-    identity: ["Scoring guard", "Perimeter creator", "Late-clock threat"],
-    brandCategories: ["Scoring Identity", "Athlete Confidence", "Performance Storytelling"],
-    keyStats: [
-      { label: "School", value: "Truman State" },
-      { label: "Scoring", value: "18.0 PPG" },
-      { label: "FT%", value: "80.2%" },
+    officialSources: [
+      { publisher: "Milwaukee Athletics", label: "Langston Wilson — Milwaukee Men’s Basketball", url: "https://mkepanthers.com/sports/mens-basketball/roster/langston-wilson/15292" },
+      { publisher: "Eurobasket", label: "Langston Wilson Basketball Profile", url: "https://basketball.eurobasket.com/player/Langston-Wilson/545419" },
+      { publisher: "Washington Athletics", label: "Langston Wilson — Washington Men’s Basketball", url: "https://gohuskies.com/sports/mens-basketball/roster/langston-wilson/14480" },
+      { publisher: "FIBA", label: "Langston Jake Wilson — KK Pelister", url: "https://www.fiba.basketball/en/events/fiba-europe-cup-25-26/teams/kk-pelister/374856-langston-jake-wilson" },
     ],
-    timeline: [
-      { year: "2025", text: "Delivered strong scoring numbers and a confident perimeter profile at Truman State." },
-      { year: "2026", text: "Keeps developing into a strong lead-guard scoring option with room to expand." },
-    ],
-    relatedNews: ["roy-henderson-iii-takes-his-scoring-to-truman-state", "inside-the-neural-athlete-philosophy"],
-    imagePath: "/images/athletes/roy-henderson.jpg",
   },
 ];
 
