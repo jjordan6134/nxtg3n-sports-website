@@ -15,6 +15,20 @@ export type NewsItem = {
   evergreen?: boolean;
 };
 
+const editorialImages: Record<string, string> = {
+  "NIL Education": "/images/editorial/nil-education.png",
+  "Athlete Branding": "/images/editorial/athlete-branding.png",
+  "Financial Literacy": "/images/editorial/financial-literacy.png",
+  "AI & Technology": "/images/editorial/ai-technology.png",
+  "Career Development": "/images/editorial/career-development.png",
+  "Athlete News": "/images/editorial/athlete-news.png",
+  Editorial: "/images/editorial/athlete-branding.png",
+};
+
+export function getNewsImage(item: Pick<NewsItem, "category">) {
+  return editorialImages[item.category] ?? "/images/editorial/athlete-news.png";
+}
+
 export function estimateReadingTime(content: string[]) {
   const words = content.join(" ").trim().split(/\s+/).filter(Boolean).length;
   return `${Math.max(1, Math.ceil(words / 220))} min read`;

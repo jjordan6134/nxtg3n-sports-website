@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { estimateReadingTime, newsItems } from "@/data/news";
+import { estimateReadingTime, getNewsImage, newsItems } from "@/data/news";
 import { ArticleSharing } from "@/components/article-sharing";
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld";
 import { brand } from "@/data/site";
@@ -48,7 +49,7 @@ export default async function NewsStoryPage({ params }: { params: Promise<{ slug
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "NewsArticle", headline: article.title, description: article.summary, url: `${brand.siteUrl}/news/${article.slug}`, ...(article.publishedAt ? { datePublished: article.publishedAt } : {}), author: { "@type": "Organization", name: article.author }, publisher: { "@type": "Organization", name: brand.name, url: brand.siteUrl } }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "NewsArticle", headline: article.title, description: article.summary, image: `${brand.siteUrl}${getNewsImage(article)}`, url: `${brand.siteUrl}/news/${article.slug}`, ...(article.publishedAt ? { datePublished: article.publishedAt } : {}), author: { "@type": "Organization", name: article.author }, publisher: { "@type": "Organization", name: brand.name, url: brand.siteUrl } }} />
       <BreadcrumbJsonLd items={[{ name: "Home", item: brand.siteUrl }, { name: "News", item: `${brand.siteUrl}/news` }, { name: article.title, item: `${brand.siteUrl}/news/${article.slug}` }]} />
       <div className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">
         <span>{article.category}</span>
@@ -62,7 +63,10 @@ export default async function NewsStoryPage({ params }: { params: Promise<{ slug
 
       <div className="mt-10 rounded-[2rem] border border-white/10 bg-[#101722] p-6 sm:p-8">
         <ArticleReadingTools headings={headings} />
-        <div className="h-64 rounded-[1.5rem] border border-white/10" style={{ background: `linear-gradient(135deg, ${article.accent}55, rgba(11,14,17,0.95))` }} />
+        <div className="relative h-64 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0B0E11] sm:h-80">
+          <Image src={getNewsImage(article)} alt={`${article.title} editorial illustration`} fill priority sizes="(max-width: 896px) 100vw, 896px" className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E11]/45 via-transparent to-transparent" aria-hidden="true" />
+        </div>
 
         <div className="mt-8 space-y-6 text-base leading-8 text-[#D7DBE4]">
           {article.content.map((paragraph, paragraphIndex) => (
