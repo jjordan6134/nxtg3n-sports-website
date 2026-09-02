@@ -8,8 +8,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const articleRoutes = newsItems.map((item) => `/news/${item.slug}`);
   const athleteRoutes = athletes.map((athlete) => `/talent/${athlete.slug}`);
+  const oneSheetRoutes = athletes.map((athlete) => `/talent/${athlete.slug}/one-sheet`);
 
-  return [...staticRoutes, ...articleRoutes, ...athleteRoutes].map((path) => ({
+  return [...staticRoutes, ...articleRoutes, ...athleteRoutes, ...oneSheetRoutes].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
     changeFrequency: "weekly",

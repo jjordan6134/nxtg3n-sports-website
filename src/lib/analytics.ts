@@ -46,7 +46,10 @@ type V4CMediaEvent =
   | { name: "interview_open"; properties: { media_id: string; athlete_slug: string; interview_type: string } }
   | { name: "media_kit_view"; properties: { athlete_slug: string } }
   | { name: "media_kit_print"; properties: { athlete_slug: string } }
-  | { name: "media_kit_share"; properties: { athlete_slug: string; share_method: string } };
+  | { name: "media_kit_share"; properties: { athlete_slug: string; share_method: string } }
+  | { name: "one_sheet_view"; properties: { athlete_slug: string } }
+  | { name: "one_sheet_download"; properties: { athlete_slug: string } }
+  | { name: "one_sheet_share"; properties: { athlete_slug: string; share_method: string } };
 
 declare global {
   interface Window {

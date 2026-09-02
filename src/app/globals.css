@@ -101,6 +101,11 @@ textarea:focus-visible {
     margin: 0.55in;
   }
 
+  @page one-sheet {
+    size: letter;
+    margin: 0.25in;
+  }
+
   header, footer, nav, button, aside, .ticker-track, .media-kit-page iframe, .media-kit-page video, .media-kit-page .rumble-player-container {
     display: none !important;
   }
@@ -130,6 +135,49 @@ textarea:focus-visible {
 
   .media-kit-controls {
     display: none !important;
+  }
+
+  .one-sheet-controls {
+    display: none !important;
+  }
+
+  .one-sheet-shell {
+    max-width: none;
+    padding: 0;
+  }
+
+  .one-sheet-page {
+    page: one-sheet;
+    width: 7.95in;
+    height: 10.4in;
+    min-height: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .one-sheet-page section,
+  .one-sheet-page div {
+    break-inside: auto;
+  }
+
+  .one-sheet-page > div:last-child {
+    height: calc(10.4in - 0.5rem);
+    min-height: 0;
+    padding: 0.28in;
+  }
+
+  .one-sheet-page > div:last-child > section:nth-child(2) {
+    grid-template-columns: 2.35in minmax(0, 1fr);
+    gap: 0.22in;
+    padding: 0.22in 0;
+  }
+
+  .one-sheet-page > div:last-child > section:nth-child(2) > div:first-child > div:first-child {
+    height: 3.35in;
   }
 
   body {
