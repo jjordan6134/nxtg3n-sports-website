@@ -35,7 +35,7 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-4">
             <div className="flex h-28 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[#2AFF7D]/40 bg-[#0B0E11] sm:h-32 sm:w-28">
-              <Image src={athlete.imagePath} alt={athlete.slug === "marquis-carver-smith" ? `${athlete.name} action photo` : `${athlete.name} athlete photo`} width={320} height={400} sizes="(max-width: 640px) 112px, 144px" className="max-h-full max-w-full object-contain" priority={athlete.slug !== "langston-wilson"} />
+              <Image src={athlete.imagePath} alt={athlete.slug === "marquis-carver-smith" ? `${athlete.name} action photo` : `${athlete.name} athlete photo`} width={320} height={400} sizes="(max-width: 640px) 112px, 144px" className="max-h-full max-w-full object-contain" style={{ objectPosition: athlete.imagePosition ?? "50% 50%" }} priority={athlete.slug !== "langston-wilson"} />
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">{athlete.status}</p>

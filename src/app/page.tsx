@@ -67,7 +67,8 @@ export default function HomePage() {
                         alt={athlete.slug === "marquis-carver-smith" ? `${athlete.name} action photo` : `${athlete.name} athlete photo`}
                         fill
                         sizes="(max-width: 768px) 100vw, 18rem"
-                        className="object-cover object-center"
+                        className={athlete.imageFit === "contain" ? "object-contain" : "object-cover"}
+                        style={{ objectPosition: athlete.imagePosition ?? "50% 50%" }}
                         priority
                       />
                     </div>

@@ -20,6 +20,8 @@ export type Athlete = {
   relatedNews: string[];
   note?: string;
   imagePath: string;
+  imagePosition?: string;
+  imageFit?: "cover" | "contain";
   officialSources?: { publisher: string; label: string; url: string }[];
 };
 
@@ -47,6 +49,7 @@ export const athletes: Athlete[] = [
     ],
     relatedNews: ["inside-the-neural-athlete-philosophy"],
     imagePath: "/images/athletes/daniel-wondie.png",
+    imagePosition: "50% 22%",
   },
   {
     slug: "vynce-overshown",
@@ -72,6 +75,7 @@ export const athletes: Athlete[] = [
     relatedNews: ["vynce-overshown-announces-king-university-commitment", "building-athlete-brands-beyond-the-game"],
     note: "Information subject to official roster verification.",
     imagePath: "/images/athletes/vynce-overshown.jpg",
+    imagePosition: "50% 20%",
   },
   {
     slug: "demarcus-barr",
@@ -96,6 +100,7 @@ export const athletes: Athlete[] = [
     relatedNews: ["inside-the-neural-athlete-philosophy", "building-athlete-brands-beyond-the-game"],
     note: "Information subject to official roster verification.",
     imagePath: "/images/athletes/demarcus-barr.jpg",
+    imagePosition: "50% 20%",
   },
   {
     slug: "darrion-brooks",
@@ -120,6 +125,7 @@ export const athletes: Athlete[] = [
     ],
     relatedNews: ["langston-wilson-joins-new-york-knicks-for-2026-nba-summer-league", "inside-the-neural-athlete-philosophy"],
     imagePath: "/images/athletes/darrion-brooks.webp",
+    imagePosition: "50% 22%",
     officialSources: [
       { publisher: "Allegany College of Maryland Athletics", label: "Darrion Brooks — Allegany College of Maryland Men’s Basketball", url: "https://acmtrojans.com/sports/mens-basketball/roster/darrion-brooks/624" },
       { publisher: "NJCAA Region 20", label: "Darrion Brooks — NJCAA Region 20 Player Profile", url: "https://www.njcaaregion20.org/sports/mbkb/2025-26/players/darrionbrooksrsqp" },
@@ -148,6 +154,7 @@ export const athletes: Athlete[] = [
     ],
     relatedNews: ["building-athlete-brands-beyond-the-game", "inside-the-neural-athlete-philosophy"],
     imagePath: "/images/athletes/caleb-coleman.png",
+    imagePosition: "50% 30%",
     officialSources: [
       { publisher: "ESPN", label: "Caleb Coleman — ESPN Player Profile", url: "https://www.espn.com/mens-college-basketball/player/_/id/4594101/caleb-coleman" },
     ],
@@ -175,6 +182,7 @@ export const athletes: Athlete[] = [
     ],
     relatedNews: ["inside-the-neural-athlete-philosophy", "building-athlete-brands-beyond-the-game"],
     imagePath: "/images/athletes/marquis-carver-smith.webp",
+    imagePosition: "50% 24%",
     officialSources: [
       { publisher: "Truman State Athletics", label: "Marquis Carver-Smith — Truman State Men’s Basketball", url: "https://trumanbulldogs.com/sports/mens-basketball/roster/marquis-carver-smith/8228" },
       { publisher: "Northeastern State Athletics", label: "Balanced Attack Lifts Northeastern State Past Truman State", url: "https://goriverhawksgo.com/news/2025/12/14/mens-basketball-balanced-attack-lifts-northeastern-state-past-truman-state-90-81.aspx" },
@@ -205,6 +213,7 @@ export const athletes: Athlete[] = [
     relatedNews: ["langston-wilson-joins-new-york-knicks-for-2026-nba-summer-league", "building-athlete-brands-beyond-the-game"],
     note: "Information subject to official roster verification.",
     imagePath: "/images/athletes/langston-wilson.webp",
+    imagePosition: "50% 24%",
     officialSources: [
       { publisher: "Milwaukee Athletics", label: "Langston Wilson — Milwaukee Men’s Basketball", url: "https://mkepanthers.com/sports/mens-basketball/roster/langston-wilson/15292" },
       { publisher: "Eurobasket", label: "Langston Wilson Basketball Profile", url: "https://basketball.eurobasket.com/player/Langston-Wilson/545419" },

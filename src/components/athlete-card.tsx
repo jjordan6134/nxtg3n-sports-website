@@ -7,7 +7,7 @@ export function AthleteCard({ athlete }: { athlete: Athlete }) {
     <article className="group overflow-hidden rounded-3xl border border-white/10 bg-[#101722] transition hover:-translate-y-1 hover:border-[#1F6AE1]/70">
       <div className="relative flex h-52 items-center justify-center overflow-hidden border-b border-white/10 bg-[radial-gradient(circle_at_top,_rgba(31,106,225,0.35),_transparent_55%),linear-gradient(135deg,_#121A24,_#0B0E11)]">
         <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:26px_26px]" aria-hidden="true" />
-        <Image src={athlete.imagePath} alt={athlete.slug === "marquis-carver-smith" ? `${athlete.name} action photo` : `${athlete.name} athlete photo`} width={320} height={208} sizes="(max-width: 768px) 100vw, 25vw" className="relative z-10 max-h-full max-w-full w-auto object-contain" />
+        <Image src={athlete.imagePath} alt={athlete.slug === "marquis-carver-smith" ? `${athlete.name} action photo` : `${athlete.name} athlete photo`} width={320} height={208} sizes="(max-width: 768px) 100vw, 25vw" className="relative z-10 max-h-full max-w-full w-auto object-contain" style={{ objectPosition: athlete.imagePosition ?? "50% 50%" }} />
       </div>
       <div className="space-y-3 p-5">
         <div className="flex items-center justify-between gap-2">

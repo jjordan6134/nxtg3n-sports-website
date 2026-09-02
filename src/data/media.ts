@@ -34,6 +34,7 @@ export type MediaItem = {
   videoId?: string;
   publisherId?: string;
   thumbnailUrl?: string;
+  thumbnailPosition?: string;
   playerTitle?: string;
   category?: MediaType;
   embedStatus?: EmbedStatus;
@@ -83,6 +84,7 @@ const athletePhotoItems: MediaItem[] = athletes.map((athlete, index) => ({
   title: `${athlete.name} athlete photo`,
   description: "Verified client photo from the NXTG3N athlete archive.",
   thumbnail: athlete.imagePath,
+  thumbnailPosition: athlete.imagePosition,
   mediaUrl: athlete.imagePath,
   originalUrl: athlete.imagePath,
   sourceName: "NXTG3N Sports",
