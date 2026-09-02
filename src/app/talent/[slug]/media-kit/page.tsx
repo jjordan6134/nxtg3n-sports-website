@@ -19,7 +19,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const athlete = athletes.find((item) => item.slug === slug);
-  return { title: athlete ? `${athlete.name} Media Kit` : "Athlete Media Kit", robots: { index: false, follow: true }, alternates: { canonical: `/talent/${slug}/media-kit` } };
+  if (!athlete) return { title: "Athlete Media Kit", robots: { index: false, follow: true } };
+  const title = `${athlete.name} Media Kit`;
+  const description = `Verified media, athlete details, highlights, source links, and partnership information for ${athlete.name} of ${athlete.status}.`;
+  return {
+    title,
+    description,
+    robots: { index: false, follow: true },
+    alternates: { canonical: `/talent/${slug}/media-kit` },
+    openGraph: { title, description, url: `/talent/${slug}/media-kit`, type: "profile", images: [{ url: athlete.imagePath, alt: `${athlete.name} media kit` }] },
+    twitter: { card: "summary_large_image", title, description, images: [athlete.imagePath] },
+  };
 }
 
 export default async function AthleteMediaKitPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -26,10 +26,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     "preparing-for-the-transfer-portal": "Preparing Your Brand for the Transfer Portal",
     "langston-wilson-joins-new-york-knicks-for-2026-nba-summer-league": "Langston Wilson Joins Knicks for 2026 Summer League",
   };
+  const title = metadataTitles[slug] ?? article?.title ?? "News Story";
+  const description = article?.summary ?? "NXTG3N editorial story and athlete update.";
+  const image = article ? getNewsImage(article) : "/images/editorial/athlete-news.png";
   return {
-    title: metadataTitles[slug] ?? article?.title ?? "News Story",
-    description: article?.summary ?? "NXTG3N editorial story and athlete update.",
+    title,
+    description,
     alternates: { canonical: `/news/${slug}` },
+    openGraph: { title, description, url: `/news/${slug}`, type: "article", images: [{ url: image, alt: article?.title ?? "NXTG3N Sports news" }], ...(article?.publishedAt ? { publishedTime: article.publishedAt } : {}) },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
   };
 }
 

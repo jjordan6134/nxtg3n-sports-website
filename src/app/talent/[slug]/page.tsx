@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { athletes } from "@/data/athletes";
 import { newsItems } from "@/data/news";
@@ -11,6 +12,22 @@ import { AthleteNewsFeed } from "@/components/athlete-news-feed";
 
 export async function generateStaticParams() {
   return athletes.map((athlete) => ({ slug: athlete.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const athlete = athletes.find((item) => item.slug === slug);
+  if (!athlete) return { title: "Athlete Profile" };
+  const title = `${athlete.name} — ${athlete.position} at ${athlete.status}`;
+  const description = `${athlete.name} is a ${athlete.height} ${athlete.position} from ${athlete.hometown}. Explore verified athlete details, media, highlights, and partnership opportunities with NXTG3N Sports.`;
+  return {
+    title,
+    description,
+    keywords: [athlete.name, athlete.status, athlete.position, "NXTG3N Sports", "athlete profile", "NIL athlete"],
+    alternates: { canonical: `/talent/${athlete.slug}` },
+    openGraph: { title, description, url: `/talent/${athlete.slug}`, type: "profile", images: [{ url: athlete.imagePath, alt: `${athlete.name} athlete profile` }] },
+    twitter: { card: "summary_large_image", title, description, images: [athlete.imagePath] },
+  };
 }
 
 export default function AthleteProfilePage({ params }: { params: Promise<{ slug: string }> }) {

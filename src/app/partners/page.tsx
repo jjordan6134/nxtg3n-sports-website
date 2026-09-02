@@ -14,7 +14,9 @@ export const metadata: Metadata = {
     title: "Partner With NXTG3N Athletes",
     description: "Build a credible athlete partnership around content, appearances, community, and long-term brand fit.",
     url: "/partners",
+    images: [{ url: "/images/editorial/athlete-branding.png", alt: "NXTG3N athlete partnerships" }],
   },
+  twitter: { card: "summary_large_image", title: "Partner With NXTG3N Athletes", description: "Build a credible athlete partnership around content, appearances, community, and long-term brand fit.", images: ["/images/editorial/athlete-branding.png"] },
 };
 
 const campaignOptions = [

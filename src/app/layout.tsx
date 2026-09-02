@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     siteName: "NXTG3N Sports",
     locale: "en_US",
     type: "website",
-    images: [{ url: "/nxtg3n-logo.png", width: 1200, height: 630, alt: "NXTG3N Sports logo" }],
+    images: [{ url: "/images/editorial/athlete-branding.png", width: 1536, height: 1024, alt: "NXTG3N Sports athlete branding and development" }],
   },
   robots: {
     index: true,
@@ -61,6 +61,7 @@ export const metadata: Metadata = {
     title: "NXTG3N Sports | The Neural Athlete",
     description:
       "NXTG3N Sports Talent Agency helps athletes build NIL opportunities, personal brands, AI education, financial literacy, and career pathways beyond the game.",
+    images: ["/images/editorial/athlete-branding.png"],
   },
   other: {
     "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "",
