@@ -64,7 +64,15 @@ export default async function NewsStoryPage({ params }: { params: Promise<{ slug
       <div className="mt-10 rounded-[2rem] border border-white/10 bg-[#101722] p-6 sm:p-8">
         <ArticleReadingTools headings={headings} />
         <div className="relative h-64 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0B0E11] sm:h-80">
-          <Image src={getNewsImage(article)} alt={`${article.title} editorial illustration`} fill priority sizes="(max-width: 896px) 100vw, 896px" className="object-cover" />
+          <Image
+            src={getNewsImage(article)}
+            alt={`${article.title} editorial illustration`}
+            fill
+            priority
+            sizes="(max-width: 896px) 100vw, 896px"
+            className={article.imageFit === "contain" ? "object-contain" : "object-cover"}
+            style={{ objectPosition: article.imagePosition ?? "50% 50%" }}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E11]/45 via-transparent to-transparent" aria-hidden="true" />
         </div>
 

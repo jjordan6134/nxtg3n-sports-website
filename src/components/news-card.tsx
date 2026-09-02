@@ -12,7 +12,14 @@ export function NewsCard({ item }: { item: NewsItem }) {
         <span className="text-xs font-medium uppercase tracking-[0.14em] text-[#2AFF7D]">{item.label}</span>
       </div>
       <div className="relative h-40 overflow-hidden rounded-2xl border border-white/10 bg-[#0B0E11]">
-        <Image src={getNewsImage(item)} alt={`${item.title} editorial illustration`} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition duration-500 group-hover:scale-[1.03]" />
+        <Image
+          src={getNewsImage(item)}
+          alt={`${item.title} editorial illustration`}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className={`${item.imageFit === "contain" ? "object-contain" : "object-cover"} transition duration-500 group-hover:scale-[1.03]`}
+          style={{ objectPosition: item.imagePosition ?? "50% 50%" }}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E11]/55 via-transparent to-transparent" aria-hidden="true" />
       </div>
       <h3 className="mt-5 text-xl font-bold text-white">{item.title}</h3>

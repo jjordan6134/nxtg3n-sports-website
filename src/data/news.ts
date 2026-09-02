@@ -14,6 +14,8 @@ export type NewsItem = {
   relatedArticles?: string[];
   evergreen?: boolean;
   imagePath?: string;
+  imagePosition?: string;
+  imageFit?: "cover" | "contain";
 };
 
 const editorialImages: Record<string, string> = {
@@ -46,6 +48,7 @@ export const newsItems: NewsItem[] = [
     accent: "#1F6AE1",
     relatedAthlete: "Langston J. Wilson",
     imagePath: "/images/editorial/langston-wilson-summer-league.jpg",
+    imagePosition: "50% 24%",
     author: "NXTG3N Sports Editorial Team",
     publishedAt: "2026-05-14",
     readTime: "4 min read",
@@ -65,6 +68,7 @@ export const newsItems: NewsItem[] = [
     accent: "#C7CCD6",
     relatedAthlete: "Vynce Overshown",
     imagePath: "/images/editorial/vynce-overshown-commitment.jpg",
+    imagePosition: "50% 28%",
     author: "NXTG3N Sports Editorial Team",
     publishedAt: "2026-05-02",
     readTime: "4 min read",
