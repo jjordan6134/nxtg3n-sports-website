@@ -11,8 +11,9 @@ export async function POST(request: Request) {
     const validation = validatePartnershipForm(payload);
     if (!validation.ok) return NextResponse.json({ error: "Please complete the required fields.", details: validation.errors }, { status: 400 });
     const values = validation.values;
+    const isRosterRequest = values.athleteSlug === "roster" && values.athlete === "the NXTG3N roster";
     const selectedAthlete = athletes.find((athlete) => athlete.slug === values.athleteSlug);
-    if (!selectedAthlete || selectedAthlete.name !== values.athlete) {
+    if (!isRosterRequest && (!selectedAthlete || selectedAthlete.name !== values.athlete)) {
       return NextResponse.json({ error: "Please select a valid athlete profile before submitting.", details: { athleteSlug: "The selected athlete could not be verified." } }, { status: 400 });
     }
     const timestamp = new Date().toISOString();

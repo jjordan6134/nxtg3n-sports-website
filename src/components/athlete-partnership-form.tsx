@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { validatePartnershipForm } from "@/lib/form-validation";
 import { trackConversion } from "@/lib/analytics";
+import { getLeadAttribution } from "@/lib/attribution";
 
 const campaignTypes = ["NIL Campaign", "Brand Ambassador", "Social Content", "Appearance", "Media Interview", "Merchandise Collaboration", "Community Event", "Other"];
 const inputClass = "mt-2 w-full rounded-2xl border border-white/10 bg-[#0B0E11] px-4 py-3 text-white";
 
-export function AthletePartnershipForm({ athlete, athleteSlug }: { athlete: string; athleteSlug: string }) {
+export function AthletePartnershipForm({ athlete, athleteSlug, location = "athlete_profile" }: { athlete: string; athleteSlug: string; location?: string }) {
   const [status, setStatus] = useState("");
   const [error, setError] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -31,6 +32,7 @@ export function AthletePartnershipForm({ athlete, athleteSlug }: { athlete: stri
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const attribution = getLeadAttribution();
     const payload = {
       athleteSlug,
       athlete: String(formData.get("athlete") ?? ""),
@@ -44,6 +46,8 @@ export function AthletePartnershipForm({ athlete, athleteSlug }: { athlete: stri
       description: String(formData.get("description") ?? ""),
       consent: formData.get("consent") === "on",
       honeypot: String(formData.get("website") ?? ""),
+      formLocation: location,
+      ...attribution,
     };
     const validation = validatePartnershipForm(payload);
     if (!validation.ok) {
@@ -63,7 +67,7 @@ export function AthletePartnershipForm({ athlete, athleteSlug }: { athlete: stri
         return;
       }
       setStatus(data.message || "Your partnership request has been received.");
-      trackConversion({ name: "partnership_inquiry_submit", properties: {} });
+      trackConversion({ name: "partnership_inquiry_submit", properties: { athlete_slug: athleteSlug, form_location: location, campaign_type: validation.values.campaignType } });
       form.reset();
     } catch {
       setError(true);
@@ -74,7 +78,7 @@ export function AthletePartnershipForm({ athlete, athleteSlug }: { athlete: stri
   function handleFormFocus() {
     if (partnershipStarted.current) return;
     partnershipStarted.current = true;
-    trackConversion({ name: "partnership_inquiry_start", properties: {} });
+    trackConversion({ name: "partnership_inquiry_start", properties: { athlete_slug: athleteSlug, form_location: location } });
   }
 
   function fieldProps(name: string) {
@@ -105,7 +109,7 @@ export function AthletePartnershipForm({ athlete, athleteSlug }: { athlete: stri
   </form>;
 }
 
-export function AthletePartnershipDialog({ athlete, athleteSlug }: { athlete: string; athleteSlug: string }) {
+export function AthletePartnershipDialog({ athlete, athleteSlug, location = "athlete_profile" }: { athlete: string; athleteSlug: string; location?: string }) {
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -125,5 +129,5 @@ export function AthletePartnershipDialog({ athlete, athleteSlug }: { athlete: st
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open]);
 
-  return <><button ref={triggerRef} type="button" onClick={() => setOpen(true)} className="shrink-0 rounded-full bg-[#1F6AE1] px-5 py-3 text-sm font-semibold text-white hover:bg-[#2E7BFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Start a partnership request</button>{open ? <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/75 p-4 sm:items-center" role="presentation"><div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="partnership-dialog-heading" tabIndex={-1} className="my-4 w-full max-w-2xl rounded-2xl border border-white/10 bg-[#101722] p-5 shadow-2xl sm:p-6"><div className="flex items-start justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Partnership request</p><h2 id="partnership-dialog-heading" className="mt-2 text-2xl font-black text-white">Partner With {athlete}</h2></div><button type="button" onClick={close} className="shrink-0 border border-white/15 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" aria-label="Close partnership request">Close</button></div><AthletePartnershipForm athlete={athlete} athleteSlug={athleteSlug} /></div></div> : null}</>;
+  return <><button ref={triggerRef} type="button" onClick={() => setOpen(true)} className="shrink-0 rounded-full bg-[#1F6AE1] px-5 py-3 text-sm font-semibold text-white hover:bg-[#2E7BFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Start a partnership request</button>{open ? <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/75 p-4 sm:items-center" role="presentation"><div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="partnership-dialog-heading" tabIndex={-1} className="my-4 w-full max-w-2xl rounded-2xl border border-white/10 bg-[#101722] p-5 shadow-2xl sm:p-6"><div className="flex items-start justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Partnership request</p><h2 id="partnership-dialog-heading" className="mt-2 text-2xl font-black text-white">Partner With {athlete}</h2></div><button type="button" onClick={close} className="shrink-0 border border-white/15 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" aria-label="Close partnership request">Close</button></div><AthletePartnershipForm athlete={athlete} athleteSlug={athleteSlug} location={location} /></div></div> : null}</>;
 }

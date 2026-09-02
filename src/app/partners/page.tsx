@@ -5,6 +5,7 @@ import { AthletePartnershipDialog } from "@/components/athlete-partnership-form"
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld";
 import { athletes } from "@/data/athletes";
 import { brand } from "@/data/site";
+import { ConversionPageView } from "@/components/conversion-page-view";
 
 export const metadata: Metadata = {
   title: "Athlete Partnerships and NIL Campaigns",
@@ -43,6 +44,7 @@ const faqs = [
 export default function PartnersPage() {
   return (
     <main>
+      <ConversionPageView event={{ name: "partners_page_view", properties: { page_name: "partners" } }} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "Service", name: "NXTG3N Athlete Partnerships", provider: { "@type": "Organization", name: brand.legalName, url: brand.siteUrl }, areaServed: "United States", serviceType: ["Athlete partnerships", "NIL campaigns", "Sponsored content", "Athlete appearances"], url: `${brand.siteUrl}/partners` }} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) }} />
       <BreadcrumbJsonLd items={[{ name: "Home", item: brand.siteUrl }, { name: "Partners", item: `${brand.siteUrl}/partners` }]} />
@@ -54,7 +56,7 @@ export default function PartnersPage() {
             <h1 className="mt-5 max-w-4xl text-4xl font-black tracking-tight text-white sm:text-6xl">Build an athlete partnership with purpose.</h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[#C7CCD6]">Connect your campaign with credible athlete stories, clear deliverables, and a process designed around fit—not forced promotion.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <AthletePartnershipDialog athlete="the NXTG3N roster" athleteSlug="roster" />
+              <AthletePartnershipDialog athlete="the NXTG3N roster" athleteSlug="roster" location="partners_hero" />
               <Link href="#roster-match" className="rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Explore roster fit</Link>
             </div>
             <p className="mt-5 text-xs leading-5 text-[#7F8795]">All opportunities are subject to review, athlete availability, written terms, and applicable school, conference, state, or governing-body requirements.</p>
@@ -97,7 +99,7 @@ export default function PartnersPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#2AFF7D]">Partner FAQ</p>
           <h2 className="mt-3 text-3xl font-black text-white">Before you send the brief.</h2>
           <div className="mt-6 divide-y divide-white/10">{faqs.map((faq) => <details key={faq.question} className="group py-5"><summary className="cursor-pointer list-none pr-8 font-bold text-white marker:content-none">{faq.question}<span className="float-right text-[#2AFF7D] group-open:rotate-45" aria-hidden="true">+</span></summary><p className="mt-3 max-w-3xl text-sm leading-6 text-[#C7CCD6]">{faq.answer}</p></details>)}</div>
-          <div className="mt-7 flex flex-wrap items-center gap-4"><AthletePartnershipDialog athlete="the NXTG3N roster" athleteSlug="roster" /><Link href="/contact" className="text-sm font-semibold text-[#2AFF7D] hover:text-white">Contact the agency</Link></div>
+          <div className="mt-7 flex flex-wrap items-center gap-4"><AthletePartnershipDialog athlete="the NXTG3N roster" athleteSlug="roster" location="partners_faq" /><Link href="/contact" className="text-sm font-semibold text-[#2AFF7D] hover:text-white">Contact the agency</Link></div>
         </div>
       </section>
     </main>

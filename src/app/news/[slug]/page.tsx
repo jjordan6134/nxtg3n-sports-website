@@ -12,6 +12,7 @@ import { PrimaryButton, SecondaryButton } from "@/components/ui";
 import { athletes } from "@/data/athletes";
 import { AdSlot } from "@/components/ad-slot";
 import { ConversionLink } from "@/components/conversion-paths";
+import { ConversionPageView } from "@/components/conversion-page-view";
 
 export function generateStaticParams() {
   return newsItems.map((item) => ({ slug: item.slug }));
@@ -54,6 +55,7 @@ export default async function NewsStoryPage({ params }: { params: Promise<{ slug
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
+      <ConversionPageView event={{ name: "news_article_view", properties: { article_slug: article.slug, related_athlete: article.relatedAthlete ?? "none" } }} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "NewsArticle", headline: article.title, description: article.summary, image: `${brand.siteUrl}${getNewsImage(article)}`, url: `${brand.siteUrl}/news/${article.slug}`, ...(article.publishedAt ? { datePublished: article.publishedAt } : {}), author: { "@type": "Organization", name: article.author }, publisher: { "@type": "Organization", name: brand.name, url: brand.siteUrl } }} />
       <BreadcrumbJsonLd items={[{ name: "Home", item: brand.siteUrl }, { name: "News", item: `${brand.siteUrl}/news` }, { name: article.title, item: `${brand.siteUrl}/news/${article.slug}` }]} />
       <div className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">

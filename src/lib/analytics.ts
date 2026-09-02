@@ -8,8 +8,11 @@ type ConversionEvent =
   | { name: "newsletter_signup"; properties: { signup_location: string; interest: string } }
   | { name: "athlete_application_start"; properties: Record<string, never> }
   | { name: "athlete_application_submit"; properties: Record<string, never> }
-  | { name: "partnership_inquiry_start"; properties: Record<string, never> }
-  | { name: "partnership_inquiry_submit"; properties: Record<string, never> }
+  | { name: "partnership_inquiry_start"; properties: { athlete_slug: string; form_location: string } }
+  | { name: "partnership_inquiry_submit"; properties: { athlete_slug: string; form_location: string; campaign_type: string } }
+  | { name: "athlete_profile_view"; properties: { athlete_slug: string } }
+  | { name: "news_article_view"; properties: { article_slug: string; related_athlete: string } }
+  | { name: "partners_page_view"; properties: { page_name: string } }
   | { name: "contact_form_submit"; properties: Record<string, never> };
 
 type MediaEvent =
@@ -51,6 +54,7 @@ export function trackEvent(event: AnalyticsEvent) {
 
 export function trackConversion(event: ConversionEvent) {
   try {
+    track(event.name, event.properties);
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("event", event.name, event.properties);
     }
@@ -60,6 +64,7 @@ export function trackConversion(event: ConversionEvent) {
 
 export function trackMediaEvent(event: MediaEvent | V4CMediaEvent) {
   try {
+    track(event.name, event.properties);
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("event", event.name, event.properties);
     }

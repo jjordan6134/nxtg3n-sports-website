@@ -9,6 +9,7 @@ import { AthletePartnershipCta, AthleteSnapshot } from "@/components/athlete-pro
 import { AthleteMediaSection, AthleteShare } from "@/components/media-hub";
 import Image from "next/image";
 import { AthleteNewsFeed } from "@/components/athlete-news-feed";
+import { ConversionPageView } from "@/components/conversion-page-view";
 
 export async function generateStaticParams() {
   return athletes.map((athlete) => ({ slug: athlete.slug }));
@@ -46,6 +47,7 @@ async function AthleteProfileContent({ slug }: { slug: Promise<string> }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <ConversionPageView event={{ name: "athlete_profile_view", properties: { athlete_slug: athlete.slug } }} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "Person", name: athlete.name, url: `${brand.siteUrl}/talent/${athlete.slug}`, image: `${brand.siteUrl}${athlete.imagePath}`, jobTitle: athlete.position, description: athlete.bio, affiliation: { "@type": "SportsTeam", name: athlete.status } }} />
       <BreadcrumbJsonLd items={[{ name: "Home", item: brand.siteUrl }, { name: "Talent", item: `${brand.siteUrl}/talent` }, { name: athlete.name, item: `${brand.siteUrl}/talent/${athlete.slug}` }]} />
       <div className="rounded-2xl border border-white/10 bg-[#101722] p-4 sm:p-6">

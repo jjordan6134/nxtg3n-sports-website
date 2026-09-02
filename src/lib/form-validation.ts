@@ -32,6 +32,13 @@ export type PartnershipFormValues = {
   description: string;
   consent?: boolean;
   honeypot?: string;
+  formLocation?: string;
+  landingPage?: string;
+  referrer?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
 };
 
 export type NewsletterFormValues = {
@@ -159,6 +166,9 @@ export function validateApplicationForm(form: Partial<ApplicationFormValues>): F
 export function validatePartnershipForm(form: Partial<PartnershipFormValues>) {
   const values = Object.fromEntries(Object.entries(form).map(([key, value]) => [key, typeof value === "string" ? value.trim() : value])) as Partial<PartnershipFormValues>;
   values.consent = form.consent === true || (typeof form.consent === "string" && ["on", "true"].includes(form.consent));
+  for (const key of ["formLocation", "landingPage", "referrer", "utmSource", "utmMedium", "utmCampaign", "utmContent"] as const) {
+    if (typeof values[key] === "string") values[key] = values[key]!.slice(0, 500);
+  }
   const errors: Record<string, string> = {};
   if (!values.athleteSlug) errors.athleteSlug = "Please select an athlete before sending a request.";
   if (!values.athlete) errors.athlete = "Selected athlete is required.";

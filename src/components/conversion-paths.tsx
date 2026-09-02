@@ -5,7 +5,7 @@ import { trackConversion, trackMediaEvent } from "@/lib/analytics";
 
 const paths = [
   { label: "Apply for Representation", description: "Start a conversation about athlete branding, development, NIL strategy, and long-term planning.", href: "/apply", location: "homepage", tone: "border-[#1F6AE1]/50 bg-[#1F6AE1]/10" },
-  { label: "Partner With an Athlete", description: "Explore credible athlete media, storytelling, NIL campaigns, and brand partnerships.", href: "/talent", location: "homepage", tone: "border-[#2AFF7D]/30 bg-[#2AFF7D]/5" },
+  { label: "Partner With an Athlete", description: "Explore credible athlete media, storytelling, NIL campaigns, and brand partnerships.", href: "/partners", location: "homepage", tone: "border-[#2AFF7D]/30 bg-[#2AFF7D]/5" },
   { label: "Join the NXTG3N Newsletter", description: "Get thoughtful athlete news, education, development, and agency updates in your inbox.", href: "#newsletter-signup", location: "homepage", tone: "border-white/15 bg-white/5" },
 ];
 
@@ -30,7 +30,7 @@ export function ConversionPaths() {
       </div>
       <div className="sticky bottom-3 z-20 mt-6 flex gap-2 rounded-2xl border border-white/10 bg-[#0B0E11]/95 p-2 shadow-xl backdrop-blur md:hidden">
         <ConversionLink label="Apply for Representation" href="/apply" location="mobile_cta" className="flex-1 rounded-xl bg-[#1F6AE1] px-3 py-2.5 text-center text-xs font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" />
-        <ConversionLink label="Partner With an Athlete" href="/talent" location="mobile_cta" className="flex-1 rounded-xl border border-[#2AFF7D]/40 px-3 py-2.5 text-center text-xs font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" />
+        <ConversionLink label="Partner With an Athlete" href="/partners" location="mobile_cta" className="flex-1 rounded-xl border border-[#2AFF7D]/40 px-3 py-2.5 text-center text-xs font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" />
       </div>
     </div>
   </section>;
