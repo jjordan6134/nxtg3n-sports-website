@@ -18,6 +18,7 @@ export const navItems = [
   { label: "Home", href: "/" },
   { label: "News", href: "/news" },
   { label: "Talent", href: "/talent" },
+  { label: "Partners", href: "/partners" },
   { label: "Staff", href: "/staff" },
   { label: "Media", href: "/media" },
   { label: "Store", href: "/store" },
@@ -143,6 +144,7 @@ export const footerQuickLinks = [
   { label: "Home", href: "/" },
   { label: "News", href: "/news" },
   { label: "Talent", href: "/talent" },
+  { label: "Partners", href: "/partners" },
   { label: "Apply", href: "/apply" },
   { label: "Contact", href: "/contact" },
 ];

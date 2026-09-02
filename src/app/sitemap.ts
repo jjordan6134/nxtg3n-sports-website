@@ -4,7 +4,7 @@ import { athletes } from "@/data/athletes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://nxtgnsports.com";
-  const staticRoutes = ["", "/news", "/talent", "/staff", "/media", "/store", "/about", "/apply", "/contact", "/privacy", "/terms"];
+  const staticRoutes = ["", "/news", "/talent", "/partners", "/staff", "/media", "/store", "/about", "/apply", "/contact", "/privacy", "/terms"];
 
   const articleRoutes = newsItems.map((item) => `/news/${item.slug}`);
   const athleteRoutes = athletes.map((athlete) => `/talent/${athlete.slug}`);
