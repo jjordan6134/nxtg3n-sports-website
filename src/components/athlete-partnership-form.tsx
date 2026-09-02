@@ -8,7 +8,7 @@ import { getLeadAttribution } from "@/lib/attribution";
 const campaignTypes = ["NIL Campaign", "Brand Ambassador", "Social Content", "Appearance", "Media Interview", "Merchandise Collaboration", "Community Event", "Other"];
 const inputClass = "mt-2 w-full rounded-2xl border border-white/10 bg-[#0B0E11] px-4 py-3 text-white";
 
-export function AthletePartnershipForm({ athlete, athleteSlug, location = "athlete_profile" }: { athlete: string; athleteSlug: string; location?: string }) {
+export function AthletePartnershipForm({ athlete, athleteSlug, location = "athlete_profile", shortlistedAthletes = "" }: { athlete: string; athleteSlug: string; location?: string; shortlistedAthletes?: string }) {
   const [status, setStatus] = useState("");
   const [error, setError] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -47,6 +47,7 @@ export function AthletePartnershipForm({ athlete, athleteSlug, location = "athle
       consent: formData.get("consent") === "on",
       honeypot: String(formData.get("website") ?? ""),
       formLocation: location,
+      shortlistedAthletes,
       ...attribution,
     };
     const validation = validatePartnershipForm(payload);
@@ -91,6 +92,7 @@ export function AthletePartnershipForm({ athlete, athleteSlug, location = "athle
   return <form onSubmit={submit} onFocus={handleFormFocus} className="mt-5 grid gap-4" noValidate aria-describedby="partnership-form-status">
     <input type="hidden" name="athlete" value={athlete} />
     <input type="hidden" name="athleteSlug" value={athleteSlug} />
+    <input type="hidden" name="shortlistedAthletes" value={shortlistedAthletes} />
     <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-px w-px opacity-0" />
     <p className="text-xs text-[#C7CCD6]">Fields marked Required must be completed. Campaign description: 20-1,000 characters.</p>
     <label className="text-sm text-[#C7CCD6]">Name <span className="text-[#2AFF7D]">Required</span><input {...fieldProps("name")} required name="name" className={inputClass} />{errorMessage("name")}</label>
@@ -109,7 +111,7 @@ export function AthletePartnershipForm({ athlete, athleteSlug, location = "athle
   </form>;
 }
 
-export function AthletePartnershipDialog({ athlete, athleteSlug, location = "athlete_profile" }: { athlete: string; athleteSlug: string; location?: string }) {
+export function AthletePartnershipDialog({ athlete, athleteSlug, location = "athlete_profile", shortlistedAthletes = "", triggerLabel = "Start a partnership request", onOpen }: { athlete: string; athleteSlug: string; location?: string; shortlistedAthletes?: string; triggerLabel?: string; onOpen?: () => void }) {
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -129,5 +131,5 @@ export function AthletePartnershipDialog({ athlete, athleteSlug, location = "ath
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open]);
 
-  return <><button ref={triggerRef} type="button" onClick={() => setOpen(true)} className="shrink-0 rounded-full bg-[#1F6AE1] px-5 py-3 text-sm font-semibold text-white hover:bg-[#2E7BFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Start a partnership request</button>{open ? <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/75 p-4 sm:items-center" role="presentation"><div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="partnership-dialog-heading" tabIndex={-1} className="my-4 w-full max-w-2xl rounded-2xl border border-white/10 bg-[#101722] p-5 shadow-2xl sm:p-6"><div className="flex items-start justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Partnership request</p><h2 id="partnership-dialog-heading" className="mt-2 text-2xl font-black text-white">Partner With {athlete}</h2></div><button type="button" onClick={close} className="shrink-0 border border-white/15 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" aria-label="Close partnership request">Close</button></div><AthletePartnershipForm athlete={athlete} athleteSlug={athleteSlug} location={location} /></div></div> : null}</>;
+  return <><button ref={triggerRef} type="button" onClick={() => { onOpen?.(); setOpen(true); }} className="shrink-0 rounded-full bg-[#1F6AE1] px-5 py-3 text-sm font-semibold text-white hover:bg-[#2E7BFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">{triggerLabel}</button>{open ? <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/75 p-4 sm:items-center" role="presentation"><div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="partnership-dialog-heading" tabIndex={-1} className="my-4 w-full max-w-2xl rounded-2xl border border-white/10 bg-[#101722] p-5 shadow-2xl sm:p-6"><div className="flex items-start justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Partnership request</p><h2 id="partnership-dialog-heading" className="mt-2 text-2xl font-black text-white">Partner With {athlete}</h2>{shortlistedAthletes ? <p className="mt-2 text-sm text-[#C7CCD6]">Shortlist: {shortlistedAthletes}</p> : null}</div><button type="button" onClick={close} className="shrink-0 border border-white/15 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]" aria-label="Close partnership request">Close</button></div><AthletePartnershipForm athlete={athlete} athleteSlug={athleteSlug} location={location} shortlistedAthletes={shortlistedAthletes} /></div></div> : null}</>;
 }

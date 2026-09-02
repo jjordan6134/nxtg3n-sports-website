@@ -6,6 +6,7 @@ import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld";
 import { athletes } from "@/data/athletes";
 import { brand } from "@/data/site";
 import { ConversionPageView } from "@/components/conversion-page-view";
+import { AthleteMatchmaker } from "@/components/athlete-matchmaker";
 
 export const metadata: Metadata = {
   title: "Athlete Partnerships and NIL Campaigns",
@@ -91,7 +92,7 @@ export default function PartnersPage() {
 
       <section id="roster-match" className="mx-auto max-w-7xl scroll-mt-28 px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#2AFF7D]">Roster matching</p><h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">Find a potential campaign fit.</h2></div><Link href="/talent" className="text-sm font-semibold text-[#2AFF7D] hover:text-white">View complete athlete profiles</Link></div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{athletes.map((athlete) => <article key={athlete.slug} className="rounded-2xl border border-white/10 bg-[#101722] p-5"><p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#2AFF7D]">{athlete.position} · {athlete.height}</p><h3 className="mt-2 text-xl font-black text-white">{athlete.name}</h3><p className="mt-2 text-sm text-[#C7CCD6]">{athlete.profile}</p><div className="mt-4 flex flex-wrap gap-2">{athlete.brandCategories.slice(0, 2).map((category) => <span key={category} className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] text-[#C7CCD6]">{category}</span>)}</div><Link href={`/talent/${athlete.slug}`} className="mt-5 inline-flex text-sm font-semibold text-white hover:text-[#2AFF7D]">Review profile and media</Link></article>)}</div>
+        <AthleteMatchmaker athletes={athletes} />
       </section>
 
       <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">

@@ -13,6 +13,10 @@ type ConversionEvent =
   | { name: "athlete_profile_view"; properties: { athlete_slug: string } }
   | { name: "news_article_view"; properties: { article_slug: string; related_athlete: string } }
   | { name: "partners_page_view"; properties: { page_name: string } }
+  | { name: "athlete_match_filter"; properties: { filter_type: string; filter_value: string } }
+  | { name: "athlete_shortlist_add"; properties: { athlete_slug: string; shortlist_size: string } }
+  | { name: "athlete_shortlist_remove"; properties: { athlete_slug: string; shortlist_size: string } }
+  | { name: "athlete_shortlist_submit"; properties: { athlete_slugs: string; shortlist_size: string } }
   | { name: "contact_form_submit"; properties: Record<string, never> };
 
 type MediaEvent =

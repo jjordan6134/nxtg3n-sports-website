@@ -16,6 +16,14 @@ export async function POST(request: Request) {
     if (!isRosterRequest && (!selectedAthlete || selectedAthlete.name !== values.athlete)) {
       return NextResponse.json({ error: "Please select a valid athlete profile before submitting.", details: { athleteSlug: "The selected athlete could not be verified." } }, { status: 400 });
     }
+    if (values.shortlistedAthletes) {
+      if (!isRosterRequest) return NextResponse.json({ error: "Athlete shortlists are only available for roster requests." }, { status: 400 });
+      const validNames = new Set(athletes.map((athlete) => athlete.name));
+      const shortlist = values.shortlistedAthletes.split(",").map((name) => name.trim()).filter(Boolean);
+      if (shortlist.length > 4 || shortlist.some((name) => !validNames.has(name))) {
+        return NextResponse.json({ error: "Please select a valid athlete shortlist." }, { status: 400 });
+      }
+    }
     const timestamp = new Date().toISOString();
     const entries = Object.entries(values).filter(([key]) => key !== "consent" && key !== "honeypot");
     const html = `<h1>New NXTG3N athlete partnership request</h1>${entries.map(([key, value]) => `<p><strong>${escapeHtml(key)}:</strong> ${escapeHtml(String(value))}</p>`).join("")}<p><strong>Submitted:</strong> ${timestamp}</p><p><strong>Source:</strong> Website athlete partnership form</p>`;

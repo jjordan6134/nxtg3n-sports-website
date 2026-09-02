@@ -39,6 +39,7 @@ export type PartnershipFormValues = {
   utmMedium?: string;
   utmCampaign?: string;
   utmContent?: string;
+  shortlistedAthletes?: string;
 };
 
 export type NewsletterFormValues = {
@@ -166,7 +167,7 @@ export function validateApplicationForm(form: Partial<ApplicationFormValues>): F
 export function validatePartnershipForm(form: Partial<PartnershipFormValues>) {
   const values = Object.fromEntries(Object.entries(form).map(([key, value]) => [key, typeof value === "string" ? value.trim() : value])) as Partial<PartnershipFormValues>;
   values.consent = form.consent === true || (typeof form.consent === "string" && ["on", "true"].includes(form.consent));
-  for (const key of ["formLocation", "landingPage", "referrer", "utmSource", "utmMedium", "utmCampaign", "utmContent"] as const) {
+  for (const key of ["formLocation", "landingPage", "referrer", "utmSource", "utmMedium", "utmCampaign", "utmContent", "shortlistedAthletes"] as const) {
     if (typeof values[key] === "string") values[key] = values[key]!.slice(0, 500);
   }
   const errors: Record<string, string> = {};
