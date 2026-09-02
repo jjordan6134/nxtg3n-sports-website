@@ -15,6 +15,7 @@ export function AthleteMatchmaker({ athletes }: { athletes: Athlete[] }) {
   const [position, setPosition] = useState(all);
   const [category, setCategory] = useState(all);
   const [shortlist, setShortlist] = useState<string[]>([]);
+  const [comparisonOpen, setComparisonOpen] = useState(false);
   const matches = athletes.filter((athlete) => (position === all || athlete.position === position) && (category === all || athlete.brandCategories.includes(category)));
   const selected = athletes.filter((athlete) => shortlist.includes(athlete.slug));
 
@@ -28,10 +29,16 @@ export function AthleteMatchmaker({ athletes }: { athletes: Athlete[] }) {
     const next = removing ? shortlist.filter((slug) => slug !== athlete.slug) : shortlist.length < 4 ? [...shortlist, athlete.slug] : shortlist;
     if (next === shortlist) return;
     setShortlist(next);
+    if (!next.length) setComparisonOpen(false);
     trackConversion({ name: removing ? "athlete_shortlist_remove" : "athlete_shortlist_add", properties: { athlete_slug: athlete.slug, shortlist_size: String(next.length) } });
   }
 
   const names = selected.map((athlete) => athlete.name).join(", ");
+
+  function openComparison() {
+    setComparisonOpen(true);
+    trackConversion({ name: "athlete_shortlist_compare", properties: { athlete_slugs: shortlist.join("|"), shortlist_size: String(shortlist.length) } });
+  }
 
   return <div className="mt-8">
     <div className="grid gap-4 rounded-3xl border border-white/10 bg-[#101722] p-5 md:grid-cols-2">
@@ -54,6 +61,16 @@ export function AthleteMatchmaker({ athletes }: { athletes: Athlete[] }) {
         <div className="p-5"><p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#2AFF7D]">{athlete.position} · {athlete.height}</p><h3 className="mt-2 text-xl font-black text-white">{athlete.name}</h3><p className="mt-2 text-sm text-[#C7CCD6]">{athlete.profile}</p><div className="mt-4 flex flex-wrap gap-2">{athlete.brandCategories.slice(0, 2).map((item) => <span key={item} className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] text-[#C7CCD6]">{item}</span>)}</div><div className="mt-5 flex flex-wrap items-center gap-3"><button type="button" aria-pressed={active} disabled={!active && shortlist.length >= 4} onClick={() => toggle(athlete)} className={`rounded-full px-4 py-2 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D] disabled:cursor-not-allowed disabled:opacity-40 ${active ? "bg-[#2AFF7D] text-[#07110B]" : "border border-white/15 text-white hover:bg-white/10"}`}>{active ? "✓ Shortlisted" : "Add to shortlist"}</button><Link href={`/talent/${athlete.slug}`} className="text-xs font-semibold text-white hover:text-[#2AFF7D]">View profile</Link></div></div>
       </article>;
     })}</div>
-    {selected.length ? <aside className="sticky bottom-4 z-20 mt-6 rounded-2xl border border-[#2AFF7D]/50 bg-[#0B0E11]/95 p-4 shadow-2xl backdrop-blur" aria-label="Athlete shortlist"><div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Campaign shortlist · {selected.length}/4</p><p className="mt-1 font-bold text-white">{names}</p></div><AthletePartnershipDialog athlete="the NXTG3N roster" athleteSlug="roster" location="partners_matchmaker" shortlistedAthletes={names} triggerLabel="Request this lineup" onOpen={() => trackConversion({ name: "athlete_shortlist_submit", properties: { athlete_slugs: shortlist.join("|"), shortlist_size: String(shortlist.length) } })} /></div></aside> : null}
+    {selected.length && comparisonOpen ? <section className="mt-8 rounded-3xl border border-[#1F6AE1]/40 bg-[#101722] p-5 sm:p-6" aria-labelledby="comparison-heading">
+      <div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Side-by-side review</p><h3 id="comparison-heading" className="mt-2 text-2xl font-black text-white">Compare your campaign lineup.</h3></div><button type="button" onClick={() => setComparisonOpen(false)} className="rounded-full border border-white/15 px-4 py-2 text-xs font-bold text-white hover:bg-white/10">Close comparison</button></div>
+      <div className="mt-6 overflow-x-auto pb-2"><div className="grid min-w-[44rem] gap-3" style={{ gridTemplateColumns: `repeat(${selected.length}, minmax(10rem, 1fr))` }}>{selected.map((athlete) => <article key={athlete.slug} className="rounded-2xl border border-white/10 bg-[#0B0E11] p-4">
+        <div className="relative h-32 overflow-hidden rounded-xl bg-[#101722]"><Image src={athlete.imagePath} alt="" fill sizes="16rem" className={athlete.imageFit === "contain" ? "object-contain" : "object-cover"} style={{ objectPosition: athlete.imagePosition ?? "50% 50%" }} /></div>
+        <h4 className="mt-4 text-lg font-black text-white">{athlete.name}</h4>
+        <dl className="mt-4 space-y-4 text-sm"><div><dt className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#7F8795]">Position</dt><dd className="mt-1 text-white">{athlete.position} · {athlete.height}</dd></div><div><dt className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#7F8795]">Current status</dt><dd className="mt-1 text-white">{athlete.status}</dd></div><div><dt className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#7F8795]">Campaign profile</dt><dd className="mt-1 leading-5 text-[#C7CCD6]">{athlete.profile}</dd></div><div><dt className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#7F8795]">Brand lanes</dt><dd className="mt-2 flex flex-wrap gap-1.5">{athlete.brandCategories.map((item) => <span key={item} className="rounded-full border border-[#2AFF7D]/20 bg-[#2AFF7D]/5 px-2 py-1 text-[10px] text-[#2AFF7D]">{item}</span>)}</dd></div></dl>
+        <Link href={`/talent/${athlete.slug}`} className="mt-5 inline-flex text-xs font-bold text-white hover:text-[#2AFF7D]">Open full profile →</Link>
+      </article>)}</div></div>
+      <p className="mt-4 text-xs leading-5 text-[#7F8795]">This comparison supports campaign planning. Final fit depends on the brief, availability, conflicts, terms, and athlete approval.</p>
+    </section> : null}
+    {selected.length ? <aside className="sticky bottom-4 z-20 mt-6 rounded-2xl border border-[#2AFF7D]/50 bg-[#0B0E11]/95 p-4 shadow-2xl backdrop-blur" aria-label="Athlete shortlist"><div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Campaign shortlist · {selected.length}/4</p><p className="mt-1 font-bold text-white">{names}</p></div><div className="flex flex-wrap items-center gap-3"><button type="button" onClick={openComparison} className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">Compare lineup</button><button type="button" onClick={() => { setShortlist([]); setComparisonOpen(false); }} className="px-2 py-3 text-sm font-semibold text-[#C7CCD6] hover:text-white">Clear</button><AthletePartnershipDialog athlete="the NXTG3N roster" athleteSlug="roster" location="partners_matchmaker" shortlistedAthletes={names} triggerLabel="Request this lineup" onOpen={() => trackConversion({ name: "athlete_shortlist_submit", properties: { athlete_slugs: shortlist.join("|"), shortlist_size: String(shortlist.length) } })} /></div></div></aside> : null}
   </div>;
 }
