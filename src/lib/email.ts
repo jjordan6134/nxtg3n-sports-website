@@ -14,6 +14,7 @@ type EmailPayload = {
   text: string;
   successMessage?: string;
   operation?: string;
+  successData?: Record<string, string>;
 };
 
 const RESEND_USER_AGENT = "NXTG3N-Website/1.0";
@@ -115,7 +116,7 @@ export async function sendFormEmail(payload: EmailPayload) {
     );
   }
 
-  return NextResponse.json({ message: payload.successMessage ?? "Thanks for reaching out. NXTG3N will be in touch soon." });
+  return NextResponse.json({ message: payload.successMessage ?? "Thanks for reaching out. NXTG3N will be in touch soon.", ...payload.successData });
 }
 
 export async function syncNewsletterContact(email: string, firstName?: string) {

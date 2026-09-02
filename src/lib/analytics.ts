@@ -10,6 +10,7 @@ type ConversionEvent =
   | { name: "athlete_application_submit"; properties: Record<string, never> }
   | { name: "partnership_inquiry_start"; properties: { athlete_slug: string; form_location: string } }
   | { name: "partnership_inquiry_submit"; properties: { athlete_slug: string; form_location: string; campaign_type: string } }
+  | { name: "campaign_brief_submit"; properties: { athlete_slug: string; objective: string; deliverable_count: string; platform_count: string; reference_id: string } }
   | { name: "athlete_profile_view"; properties: { athlete_slug: string } }
   | { name: "news_article_view"; properties: { article_slug: string; related_athlete: string } }
   | { name: "partners_page_view"; properties: { page_name: string } }

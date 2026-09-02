@@ -25,10 +25,11 @@ export async function POST(request: Request) {
       }
     }
     const timestamp = new Date().toISOString();
-    const entries = Object.entries(values).filter(([key]) => key !== "consent" && key !== "honeypot");
-    const html = `<h1>New NXTG3N athlete partnership request</h1>${entries.map(([key, value]) => `<p><strong>${escapeHtml(key)}:</strong> ${escapeHtml(String(value))}</p>`).join("")}<p><strong>Submitted:</strong> ${timestamp}</p><p><strong>Source:</strong> Website athlete partnership form</p>`;
-    const text = `New NXTG3N athlete partnership request\n\n${entries.map(([key, value]) => `${key}: ${value}`).join("\n")}\n\nSubmitted: ${timestamp}\nSource: Website athlete partnership form`;
-    return sendFormEmail({ subject: `NXTG3N partnership request for ${values.athlete}`, replyTo: values.email, html, text, successMessage: "Your partnership request has been received. NXTG3N will follow up after reviewing the details." });
+    const referenceId = `NXT-${timestamp.slice(0, 10).replaceAll("-", "")}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
+    const entries = [["referenceId", referenceId], ...Object.entries(values).filter(([key]) => key !== "consent" && key !== "honeypot")];
+    const html = `<h1>New NXTG3N sponsor campaign brief</h1>${entries.map(([key, value]) => `<p><strong>${escapeHtml(key)}:</strong> ${escapeHtml(String(value))}</p>`).join("")}<p><strong>Submitted:</strong> ${timestamp}</p><p><strong>Source:</strong> Website campaign brief builder</p>`;
+    const text = `New NXTG3N sponsor campaign brief\n\n${entries.map(([key, value]) => `${key}: ${value}`).join("\n")}\n\nSubmitted: ${timestamp}\nSource: Website campaign brief builder`;
+    return sendFormEmail({ subject: `[${referenceId}] NXTG3N campaign brief for ${values.athlete}`, replyTo: values.email, html, text, successMessage: `Campaign brief received. Reference: ${referenceId}. NXTG3N will follow up after reviewing the details.`, successData: { referenceId } });
   } catch {
     return NextResponse.json({ error: "The partnership request could not be submitted. Please email nxtgnsportstalentagencyllc@gmail.com." }, { status: 500 });
   }

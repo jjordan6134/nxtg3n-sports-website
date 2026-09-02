@@ -19,6 +19,12 @@ export type ApplicationFormValues = {
   honeypot?: string;
 };
 
+export const campaignObjectives = ["Brand awareness", "Audience growth", "Product launch", "Community impact", "Event promotion", "Content creation", "Sales or conversions", "Other"];
+export const campaignDeliverables = ["Social post", "Short-form video", "Story content", "Event appearance", "Interview", "Photo shoot", "Product integration", "Merchandise collaboration"];
+export const campaignPlatforms = ["Instagram", "TikTok", "YouTube", "Rumble", "X", "Facebook", "In person", "Brand channels"];
+export const campaignUsageRights = ["Athlete channels only", "Organic brand reposting", "Paid digital advertising", "Website and email", "Not sure — please advise"];
+export const campaignExclusivityOptions = ["No exclusivity requested", "Category exclusivity", "Competitor exclusivity", "Not sure — please advise"];
+
 export type PartnershipFormValues = {
   athleteSlug: string;
   athlete: string;
@@ -27,8 +33,14 @@ export type PartnershipFormValues = {
   email: string;
   phone?: string;
   campaignType: string;
+  objective: string;
+  deliverables: string;
+  platforms: string;
   timeline: string;
   budget?: string;
+  campaignLocation?: string;
+  usageRights: string;
+  exclusivity?: string;
   description: string;
   consent?: boolean;
   honeypot?: string;
@@ -177,6 +189,15 @@ export function validatePartnershipForm(form: Partial<PartnershipFormValues>) {
   if (!values.company) errors.company = "Company or organization is required.";
   if (!values.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) errors.email = "Please provide a valid email address.";
   if (!values.campaignType) errors.campaignType = "Campaign type is required.";
+  if (!values.objective) errors.objective = "Campaign objective is required.";
+  if (!values.deliverables) errors.deliverables = "Select at least one deliverable.";
+  if (!values.platforms) errors.platforms = "Select at least one platform or channel.";
+  if (!values.usageRights) errors.usageRights = "Please select a content usage plan.";
+  if (values.objective && !campaignObjectives.includes(values.objective)) errors.objective = "Please select a valid campaign objective.";
+  if (values.deliverables && values.deliverables.split(", ").some((value) => !campaignDeliverables.includes(value))) errors.deliverables = "Please select valid campaign deliverables.";
+  if (values.platforms && values.platforms.split(", ").some((value) => !campaignPlatforms.includes(value))) errors.platforms = "Please select valid platforms or channels.";
+  if (values.usageRights && !campaignUsageRights.includes(values.usageRights)) errors.usageRights = "Please select a valid content usage plan.";
+  if (values.exclusivity && !campaignExclusivityOptions.includes(values.exclusivity)) errors.exclusivity = "Please select a valid exclusivity preference.";
   if (!values.timeline) errors.timeline = "Estimated timeline is required.";
   if (!values.description || values.description.length < 20) errors.description = "Campaign description must be at least 20 characters.";
   if (values.description && values.description.length > 1000) errors.description = "Campaign description must be 1,000 characters or fewer.";
