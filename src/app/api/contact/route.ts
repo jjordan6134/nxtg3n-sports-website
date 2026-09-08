@@ -25,9 +25,10 @@ export async function POST(request: Request) {
 
     const values = validation.values as ContactFormValues;
     const timestamp = new Date().toISOString();
-    const html = `<h1>New NXTG3N contact message</h1><p><strong>Name:</strong> ${escapeHtml(values.name)}</p><p><strong>Email:</strong> ${escapeHtml(values.email)}</p><p><strong>Message:</strong><br>${escapeHtml(values.message).replace(/\n/g, "<br>")}</p><p><strong>Submitted:</strong> ${timestamp}</p><p><strong>Source:</strong> Website contact form</p>`;
-    const text = `New NXTG3N contact message\n\nName: ${values.name}\nEmail: ${values.email}\n\nMessage:\n${values.message}\n\nSubmitted: ${timestamp}\nSource: Website contact form`;
-    const response = await sendFormEmail({ subject: `NXTG3N contact inquiry from ${values.name}`, replyTo: values.email, html, text, successMessage: "Thanks for reaching out. NXTG3N will be in touch soon." });
+    const details = [["Service", values.service], ["Company", values.company], ["Budget context", values.budget], ["Timeline", values.timeline]].filter((entry): entry is [string, string] => Boolean(entry[1]));
+    const html = `<h1>New NXTG3N service inquiry</h1><p><strong>Name:</strong> ${escapeHtml(values.name)}</p><p><strong>Email:</strong> ${escapeHtml(values.email)}</p>${details.map(([label, value]) => `<p><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</p>`).join("")}<p><strong>Message:</strong><br>${escapeHtml(values.message).replace(/\n/g, "<br>")}</p><p><strong>Submitted:</strong> ${timestamp}</p><p><strong>Source:</strong> Website services/contact form</p>`;
+    const text = `New NXTG3N service inquiry\n\nName: ${values.name}\nEmail: ${values.email}\n${details.map(([label, value]) => `${label}: ${value}`).join("\n")}\n\nMessage:\n${values.message}\n\nSubmitted: ${timestamp}\nSource: Website services/contact form`;
+    const response = await sendFormEmail({ subject: `NXTG3N ${values.service || "contact"} inquiry from ${values.name}`, replyTo: values.email, html, text, successMessage: "Thanks for reaching out. NXTG3N will review your inquiry and follow up soon." });
     return response;
   } catch {
     return NextResponse.json(

@@ -18,10 +18,20 @@ export const navItems = [
   { label: "Home", href: "/" },
   { label: "News", href: "/news" },
   { label: "Talent", href: "/talent" },
+  { label: "Services", href: "/services" },
   { label: "Partners", href: "/partners" },
   { label: "Media", href: "/media" },
   { label: "About", href: "/about" },
 ];
+
+export const revenueServices = [
+  { id: "athlete-partnerships", audience: "Brands & sponsors", title: "Athlete Partnerships", description: "Build sponsored content, appearances, product integrations, community activations, and multi-athlete campaigns around a qualified roster fit.", outcomes: ["Athlete matching", "Campaign brief development", "Deliverable and usage planning"], href: "/partners", cta: "Build a campaign" },
+  { id: "athlete-representation", audience: "Athletes & families", title: "Athlete Representation", description: "Create a coordinated roadmap across development, identity, media, NIL readiness, education, and career planning.", outcomes: ["Representation review", "Personal brand direction", "Long-term athlete strategy"], href: "/apply", cta: "Apply for representation" },
+  { id: "media-production", audience: "Athletes, teams & brands", title: "Content & Media Production", description: "Develop athlete-centered interviews, features, campaign assets, highlight positioning, and short-form storytelling for modern platforms.", outcomes: ["Content concepts", "Athlete storytelling", "Platform-ready media"], href: "/contact?service=Content%20%26%20Media%20Production", cta: "Request a media scope" },
+  { id: "nil-strategy", audience: "Schools, teams & families", title: "NIL Education & Strategy", description: "Deliver practical education around athlete rights, partnership preparation, responsible decision-making, and sustainable brand growth.", outcomes: ["NIL workshops", "Family education", "Opportunity preparation"], href: "/contact?service=NIL%20Education%20%26%20Strategy", cta: "Plan an NIL session" },
+  { id: "ai-training", audience: "Organizations & teams", title: "AI Training & Automation", description: "Introduce practical AI workflows for content planning, athlete productivity, research, communication, and responsible decision support.", outcomes: ["Team workshops", "Workflow design", "Responsible AI education"], href: "/contact?service=AI%20Training%20%26%20Automation", cta: "Request AI training" },
+  { id: "financial-literacy", audience: "Teams, schools & communities", title: "Financial Literacy Workshops", description: "Give athletes and families a clearer foundation in budgeting, ownership, financial habits, and long-term thinking beyond competition.", outcomes: ["Athlete workshops", "Family sessions", "Financial foundations"], href: "/contact?service=Financial%20Literacy%20Workshops", cta: "Plan a workshop" },
+] as const;
 
 export const breakingNews = [
   "Athlete education and NIL strategy remain central to every roster roadmap.",
@@ -142,6 +152,7 @@ export const footerQuickLinks = [
   { label: "Home", href: "/" },
   { label: "News", href: "/news" },
   { label: "Talent", href: "/talent" },
+  { label: "Services", href: "/services" },
   { label: "Partners", href: "/partners" },
   { label: "Apply", href: "/apply" },
   { label: "Contact", href: "/contact" },

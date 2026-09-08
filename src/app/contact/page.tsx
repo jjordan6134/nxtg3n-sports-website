@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { contactChannels } from "@/data/site";
+import { useEffect, useRef, useState } from "react";
+import { contactChannels, revenueServices } from "@/data/site";
 import { SectionHeading } from "@/components/ui";
-import { validateContactForm } from "@/lib/form-validation";
+import { validateContactForm, type ContactFormValues } from "@/lib/form-validation";
 import { JsonLd } from "@/components/json-ld";
 import { brand } from "@/data/site";
 import { trackConversion } from "@/lib/analytics";
@@ -12,14 +12,26 @@ export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const serviceRef = useRef<HTMLSelectElement>(null);
+
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("service") ?? "";
+    const allowed = [...revenueServices.map((service) => service.title), "Custom Engagement"];
+    if (allowed.includes(requested as (typeof allowed)[number]) && serviceRef.current) serviceRef.current.value = requested;
+  }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const payload = {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
       message: String(formData.get("message") ?? ""),
+      service: String(formData.get("service") ?? ""),
+      company: String(formData.get("company") ?? ""),
+      budget: String(formData.get("budget") ?? ""),
+      timeline: String(formData.get("timeline") ?? ""),
       honeypot: String(formData.get("website") ?? ""),
     };
 
@@ -34,11 +46,12 @@ export default function ContactPage() {
     setFieldErrors({});
     setStatus("idle");
     setMessage("Sending your note...");
+    const values = validation.values as ContactFormValues;
 
     const response = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(validation.values),
+      body: JSON.stringify(values),
     });
 
     const data = await response.json();
@@ -51,8 +64,8 @@ export default function ContactPage() {
 
     setStatus("success");
     setMessage(data.message || "Thanks for reaching out. We will follow up soon.");
-    trackConversion({ name: "contact_form_submit", properties: {} });
-    event.currentTarget.reset();
+    trackConversion({ name: "contact_form_submit", properties: { service: values.service || "general" } });
+    form.reset();
   }
 
   return (
@@ -78,8 +91,9 @@ export default function ContactPage() {
       </div>
 
       <div className="mt-12 rounded-[2rem] border border-white/10 bg-[#101722] p-6 sm:p-8">
-        <h2 className="text-2xl font-black text-white">Send a message</h2>
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#2AFF7D]">Qualified inquiry</p><h2 className="mt-2 text-2xl font-black text-white">Tell us what you want to build</h2>
         <form className="mt-6 grid gap-5" onSubmit={handleSubmit} noValidate>
+          <div className="grid gap-5 md:grid-cols-2"><label className="block text-sm text-[#C7CCD6]"><span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Service pathway</span><select ref={serviceRef} name="service" defaultValue="" className="w-full rounded-2xl border border-white/10 bg-[#0B0E11] px-4 py-3 text-white"><option value="">General inquiry</option>{revenueServices.map((service) => <option key={service.id} value={service.title}>{service.title}</option>)}<option>Custom Engagement</option></select></label><label className="block text-sm text-[#C7CCD6]"><span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Company / organization</span><input name="company" type="text" className="w-full rounded-2xl border border-white/10 bg-[#0B0E11] px-4 py-3 text-white" placeholder="Optional" /></label></div>
           <div className="grid gap-5 md:grid-cols-2">
             <label className="block text-sm text-[#C7CCD6]">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Name</span>
@@ -93,6 +107,8 @@ export default function ContactPage() {
               {fieldErrors.email ? <span className="mt-2 block text-xs text-red-300">{fieldErrors.email}</span> : null}
             </label>
           </div>
+
+          <div className="grid gap-5 md:grid-cols-2"><label className="block text-sm text-[#C7CCD6]"><span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Budget context</span><input name="budget" type="text" className="w-full rounded-2xl border border-white/10 bg-[#0B0E11] px-4 py-3 text-white" placeholder="Optional range or not determined" /></label><label className="block text-sm text-[#C7CCD6]"><span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Desired timeline</span><input name="timeline" type="text" className="w-full rounded-2xl border border-white/10 bg-[#0B0E11] px-4 py-3 text-white" placeholder="Optional target date" /></label></div>
 
           <label className="block text-sm text-[#C7CCD6]">
             <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">Message</span>

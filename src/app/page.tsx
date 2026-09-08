@@ -144,6 +144,7 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+        <div className="mt-8 text-center"><Link href="/services" className="inline-flex rounded-full border border-[#2AFF7D]/40 px-5 py-3 text-sm font-semibold text-white hover:bg-[#2AFF7D] hover:text-[#07110B]">Explore services and revenue pathways</Link></div>
       </section>
 
       <section className="bg-[#0F151B]">

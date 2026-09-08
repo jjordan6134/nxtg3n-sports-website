@@ -2,6 +2,10 @@ export type ContactFormValues = {
   name: string;
   email: string;
   message: string;
+  service?: string;
+  company?: string;
+  budget?: string;
+  timeline?: string;
   honeypot?: string;
 };
 
@@ -85,6 +89,10 @@ export function validateContactForm(form: Partial<ContactFormValues>): FormValid
   const name = normalizeText(form.name);
   const email = normalizeText(form.email);
   const message = normalizeText(form.message);
+  const service = normalizeText(form.service).slice(0, 120);
+  const company = normalizeText(form.company).slice(0, 120);
+  const budget = normalizeText(form.budget).slice(0, 120);
+  const timeline = normalizeText(form.timeline).slice(0, 120);
   const errors: Record<string, string> = {};
 
   if (!name) {
@@ -103,13 +111,13 @@ export function validateContactForm(form: Partial<ContactFormValues>): FormValid
     return {
       ok: false,
       errors,
-      values: { name, email, message, honeypot: normalizeText(form.honeypot) },
+      values: { name, email, message, service, company, budget, timeline, honeypot: normalizeText(form.honeypot) },
     };
   }
 
   return {
     ok: true,
-    values: { name, email, message, honeypot: normalizeText(form.honeypot) },
+    values: { name, email, message, service, company, budget, timeline, honeypot: normalizeText(form.honeypot) },
   };
 }
 
