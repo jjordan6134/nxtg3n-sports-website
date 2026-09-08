@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
 import { SectionHeading } from "@/components/ui";
 import { storeCategories } from "@/data/site";
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default function StorePage() {
   return (

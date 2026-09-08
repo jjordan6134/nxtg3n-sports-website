@@ -19,14 +19,12 @@ export const navItems = [
   { label: "News", href: "/news" },
   { label: "Talent", href: "/talent" },
   { label: "Partners", href: "/partners" },
-  { label: "Staff", href: "/staff" },
   { label: "Media", href: "/media" },
-  { label: "Store", href: "/store" },
   { label: "About", href: "/about" },
 ];
 
 export const breakingNews = [
-  "NXTG3N Update: athlete education and NIL strategy remain central to every roster roadmap.",
+  "Athlete education and NIL strategy remain central to every roster roadmap.",
   "Neural Athlete philosophy expands across development, branding, and financial literacy.",
   "Media, education, and athlete storytelling continue to build the next era of sports representation.",
 ];
@@ -152,4 +150,5 @@ export const footerQuickLinks = [
 export const legalLinks = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
+  { label: "Editorial Standards", href: "/editorial-standards" },
 ];

@@ -1,11 +1,11 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import { SectionHeading } from "@/components/ui";
 
-const staffMembers = [
-  { title: "Founder / Chief Executive Officer", note: "Official bio coming soon" },
-  { title: "Director of Athlete Development", note: "Official bio coming soon" },
-  { title: "Director of NIL & Brand Strategy", note: "Official bio coming soon" },
-  { title: "Media & Content Director", note: "Official bio coming soon" },
-];
+export const metadata: Metadata = {
+  title: "Leadership | NXTG3N Sports",
+  robots: { index: false, follow: false },
+};
 
 export default function StaffPage() {
   return (
@@ -13,20 +13,14 @@ export default function StaffPage() {
       <SectionHeading
         eyebrow="Staff"
         title="Leadership and support behind the athlete experience"
-        intro="The NXTG3N leadership team will be introduced here as roles are officially confirmed and published."
+        intro="Verified leadership biographies are being finalized for publication."
         as="h1"
       />
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {staffMembers.map((member) => (
-          <article key={member.title} className="rounded-[2rem] border border-white/10 bg-[#101722] p-6">
-            <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#1F6AE1]/40 bg-[#1F6AE1]/10 text-2xl font-black text-[#2AFF7D]">
-              N
-            </div>
-            <h3 className="text-xl font-bold text-white">{member.title}</h3>
-            <p className="mt-4 text-sm text-[#C7CCD6]">{member.note}</p>
-          </article>
-        ))}
+      <div className="mt-10 rounded-[2rem] border border-white/10 bg-[#101722] p-8">
+        <h2 className="text-2xl font-black text-white">Leadership information is being prepared</h2>
+        <p className="mt-4 max-w-2xl leading-7 text-[#C7CCD6]">We are confirming biographies, roles, and professional details before publishing them. For leadership, media, or partnership inquiries, contact the agency directly.</p>
+        <Link href="/contact" className="mt-6 inline-flex rounded-full bg-[#1F6AE1] px-5 py-3 text-sm font-bold text-white hover:bg-[#2E7BFF]">Contact NXTG3N</Link>
       </div>
     </div>
   );

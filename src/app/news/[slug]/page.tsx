@@ -10,7 +10,7 @@ import { brand } from "@/data/site";
 import { ArticleReadingTools, BackToTop } from "@/components/article-reading-tools";
 import { PrimaryButton, SecondaryButton } from "@/components/ui";
 import { athletes } from "@/data/athletes";
-import { AdSlot } from "@/components/ad-slot";
+import { articleResources } from "@/data/article-resources";
 import { ConversionLink } from "@/components/conversion-paths";
 import { ConversionPageView } from "@/components/conversion-page-view";
 
@@ -49,14 +49,16 @@ export default async function NewsStoryPage({ params }: { params: Promise<{ slug
 
   const related = newsItems.filter((item) => item.slug !== article.slug).slice(0, 2);
   const index = newsItems.findIndex((item) => item.slug === article.slug);
-  const headings = article.content.map((_, paragraphIndex) => paragraphIndex === 0 ? "The starting point" : paragraphIndex === article.content.length - 1 ? "A careful next step" : `What to consider ${paragraphIndex}`);
-  const readingTime = estimateReadingTime(article.content);
   const relatedAthlete = article.relatedAthlete ? athletes.find((item) => item.name === article.relatedAthlete) : undefined;
+  const resource = articleResources[article.slug];
+  const headings = ["Analysis and context", ...(resource ? ["Practical takeaway", "Action checklist", "Frequently asked questions"] : [])];
+  const readingTime = estimateReadingTime([...article.content, resource?.takeaway ?? "", ...(resource?.checklist ?? []), ...(resource?.faqs.flatMap((item) => [item.question, item.answer]) ?? [])]);
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
       <ConversionPageView event={{ name: "news_article_view", properties: { article_slug: article.slug, related_athlete: article.relatedAthlete ?? "none" } }} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "NewsArticle", headline: article.title, description: article.summary, image: `${brand.siteUrl}${getNewsImage(article)}`, url: `${brand.siteUrl}/news/${article.slug}`, ...(article.publishedAt ? { datePublished: article.publishedAt } : {}), author: { "@type": "Organization", name: article.author }, publisher: { "@type": "Organization", name: brand.name, url: brand.siteUrl } }} />
+      {resource ? <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: resource.faqs.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }} /> : null}
       <BreadcrumbJsonLd items={[{ name: "Home", item: brand.siteUrl }, { name: "News", item: `${brand.siteUrl}/news` }, { name: article.title, item: `${brand.siteUrl}/news/${article.slug}` }]} />
       <div className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#2AFF7D]">
         <span>{article.category}</span>
@@ -83,14 +85,14 @@ export default async function NewsStoryPage({ params }: { params: Promise<{ slug
           <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E11]/45 via-transparent to-transparent" aria-hidden="true" />
         </div>
 
-        <div className="mt-8 space-y-6 text-base leading-8 text-[#D7DBE4]">
-          {article.content.map((paragraph, paragraphIndex) => (
-            <section key={paragraph} id={`section-${paragraphIndex + 1}`}><h2 className="text-xl font-black text-white">{headings[paragraphIndex]}</h2><p className="mt-2">{paragraph}</p></section>
-          ))}
-        </div>
+        <section id="section-1" className="mt-8 text-base leading-8 text-[#D7DBE4]"><h2 className="text-2xl font-black text-white">Analysis and context</h2><div className="mt-4 space-y-6">{article.content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></section>
+        {resource ? <div className="mt-10 space-y-8 border-t border-white/10 pt-8">
+          <section id="section-2"><h2 className="text-2xl font-black text-white">Practical takeaway</h2><p className="mt-3 text-base leading-8 text-[#D7DBE4]">{resource.takeaway}</p></section>
+          <section id="section-3"><h2 className="text-2xl font-black text-white">Action checklist</h2><ul className="mt-4 grid gap-3 sm:grid-cols-2">{resource.checklist.map((item) => <li key={item} className="flex gap-3 rounded-2xl border border-white/10 bg-[#0B0E11] p-4 text-sm leading-6 text-[#D7DBE4]"><span className="font-black text-[#2AFF7D]" aria-hidden="true">✓</span>{item}</li>)}</ul></section>
+          <section id="section-4"><h2 className="text-2xl font-black text-white">Frequently asked questions</h2><div className="mt-4 space-y-3">{resource.faqs.map((item) => <details key={item.question} className="rounded-2xl border border-white/10 bg-[#0B0E11] p-4"><summary className="cursor-pointer font-bold text-white">{item.question}</summary><p className="mt-3 text-sm leading-7 text-[#C7CCD6]">{item.answer}</p></details>)}</div></section>
+        </div> : null}
         <ArticleSharing url={`${brand.siteUrl}/news/${article.slug}`} title={article.title} slug={article.slug} />
       </div>
-      <AdSlot />
 
       <section className="mt-10 rounded-[2rem] border border-[#1F6AE1]/30 bg-[#101722] p-6" aria-labelledby="story-next-step">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2AFF7D]">Take the next step</p>

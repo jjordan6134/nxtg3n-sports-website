@@ -60,7 +60,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-[#C7CCD6] md:flex-row md:items-center md:justify-between">
-          <p>© 2026 {brand.legalName}. All rights reserved.</p>
+          <p>© 2026 {brand.legalName} All rights reserved.</p>
           <div className="flex gap-4">
             {legalLinks.map((item) => (
               <Link key={item.href} href={item.href} className="transition hover:text-white">

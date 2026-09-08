@@ -23,6 +23,7 @@ export type Athlete = {
   imagePosition?: string;
   imageFit?: "cover" | "contain";
   officialSources?: { publisher: string; label: string; url: string }[];
+  lastReviewed: string;
 };
 
 export const athletes: Athlete[] = [
@@ -50,6 +51,7 @@ export const athletes: Athlete[] = [
     relatedNews: ["inside-the-neural-athlete-philosophy"],
     imagePath: "/images/athletes/daniel-wondie.png",
     imagePosition: "50% 22%",
+    lastReviewed: "September 8, 2026",
   },
   {
     slug: "vynce-overshown",
@@ -59,9 +61,9 @@ export const athletes: Athlete[] = [
     height: "6'0\"",
     hometown: "Hammond, Indiana",
     profile: "Defensive playmaker and emerging floor general",
-    previousNote: "Former Mid Michigan College standout; Third Team All-Northern Conference.",
+    previousNote: "Former Mid Michigan College standout; Third Team All-Northern Conference recognition in an earlier season.",
     bio: "Vynce Overshown brings an aggressive defensive mindset and a strong command of tempo. His ability to control the flow of the game, create defensive pressure, and steer his team through difficult possessions makes him a valuable lead-guard profile.",
-    identity: ["Floor general", "Defensive playmaker", "Lead guard", "JUCO Defensive Player of the Year", "First Team All-Conference"],
+    identity: ["Floor general", "Defensive playmaker", "Lead guard", "JUCO Defensive Player of the Year and First Team All-Conference recognition in a separate season"],
     brandCategories: ["Leadership", "Defense", "Team Commerce"],
     keyStats: [
       { label: "School", value: "King University" },
@@ -76,6 +78,7 @@ export const athletes: Athlete[] = [
     note: "Information subject to official roster verification.",
     imagePath: "/images/athletes/vynce-overshown.jpg",
     imagePosition: "50% 20%",
+    lastReviewed: "September 8, 2026",
   },
   {
     slug: "demarcus-barr",
@@ -85,7 +88,7 @@ export const athletes: Athlete[] = [
     height: "6'1\"",
     hometown: "Fort Wayne, Indiana",
     profile: "Dynamic lead guard with speed and competitive toughness",
-    bio: "Demarcus Barr plays with a high motor and a downhill attacking mindset. His game emphasizes pace, pressure, and competitive toughness, creating value as a lead guard who can spark transition offense and set the tone defensively.",
+    bio: "De’Marcus Barr plays with a high motor and a downhill attacking mindset. His game emphasizes pace, pressure, and competitive toughness, creating value as a lead guard who can spark transition offense and set the tone defensively.",
     identity: ["Lead guard", "Speed-first scorer", "Competitive tone-setter"],
     brandCategories: ["Athlete Leadership", "Fast Break Offense", "Performance Branding"],
     keyStats: [
@@ -101,6 +104,7 @@ export const athletes: Athlete[] = [
     note: "Information subject to official roster verification.",
     imagePath: "/images/athletes/demarcus-barr.jpg",
     imagePosition: "50% 20%",
+    lastReviewed: "September 8, 2026",
   },
   {
     slug: "darrion-brooks",
@@ -130,6 +134,7 @@ export const athletes: Athlete[] = [
       { publisher: "Allegany College of Maryland Athletics", label: "Darrion Brooks — Allegany College of Maryland Men’s Basketball", url: "https://acmtrojans.com/sports/mens-basketball/roster/darrion-brooks/624" },
       { publisher: "NJCAA Region 20", label: "Darrion Brooks — NJCAA Region 20 Player Profile", url: "https://www.njcaaregion20.org/sports/mbkb/2025-26/players/darrionbrooksrsqp" },
     ],
+    lastReviewed: "September 8, 2026",
   },
   {
     slug: "caleb-coleman",
@@ -158,6 +163,7 @@ export const athletes: Athlete[] = [
     officialSources: [
       { publisher: "ESPN", label: "Caleb Coleman — ESPN Player Profile", url: "https://www.espn.com/mens-college-basketball/player/_/id/4594101/caleb-coleman" },
     ],
+    lastReviewed: "September 8, 2026",
   },
   {
     slug: "marquis-carver-smith",
@@ -187,6 +193,7 @@ export const athletes: Athlete[] = [
       { publisher: "Truman State Athletics", label: "Marquis Carver-Smith — Truman State Men’s Basketball", url: "https://trumanbulldogs.com/sports/mens-basketball/roster/marquis-carver-smith/8228" },
       { publisher: "Northeastern State Athletics", label: "Balanced Attack Lifts Northeastern State Past Truman State", url: "https://goriverhawksgo.com/news/2025/12/14/mens-basketball-balanced-attack-lifts-northeastern-state-past-truman-state-90-81.aspx" },
     ],
+    lastReviewed: "September 8, 2026",
   },
   {
     slug: "langston-wilson",
@@ -220,6 +227,7 @@ export const athletes: Athlete[] = [
       { publisher: "Washington Athletics", label: "Langston Wilson — Washington Men’s Basketball", url: "https://gohuskies.com/sports/mens-basketball/roster/langston-wilson/14480" },
       { publisher: "FIBA", label: "Langston Jake Wilson — KK Pelister", url: "https://www.fiba.basketball/en/events/fiba-europe-cup-25-26/teams/kk-pelister/374856-langston-jake-wilson" },
     ],
+    lastReviewed: "September 8, 2026",
   },
 ];
 

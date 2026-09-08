@@ -50,8 +50,14 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
+a[href^="mailto:"] {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .ticker-shell {
   contain: paint;
+  container-type: inline-size;
 }
 
 .ticker-track {
@@ -62,7 +68,7 @@ textarea:focus-visible {
   padding: 0.9rem 0;
   white-space: nowrap;
   will-change: transform;
-  animation: ticker-scroll 30s linear infinite;
+  animation: ticker-scroll 30s linear infinite alternate;
 }
 
 .ticker-item {
@@ -81,7 +87,7 @@ textarea:focus-visible {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(min(0px, calc(100cqw - 100%)));
   }
 }
 

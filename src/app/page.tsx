@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AthleteCard } from "@/components/athlete-card";
 import { NewsCard } from "@/components/news-card";
 import { PrimaryButton, SecondaryButton, SectionHeading } from "@/components/ui";
-import { featuredAthletes } from "@/data/athletes";
+import { athletes, featuredAthletes } from "@/data/athletes";
 import { newsItems } from "@/data/news";
 import { brand, serviceItems, storeCategories, trustPillars, valuePillars } from "@/data/site";
 import { ConversionPaths } from "@/components/conversion-paths";
@@ -101,7 +101,7 @@ export default function HomePage() {
         />
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {featuredAthletes.map((athlete) => (
+          {athletes.map((athlete) => (
             <AthleteCard key={athlete.slug} athlete={athlete} />
           ))}
         </div>
