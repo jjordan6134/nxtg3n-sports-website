@@ -108,7 +108,7 @@ export function AthleteMediaSection({ athleteSlug }: { athleteSlug: string }) {
 
 export function AthleteShare({ athleteSlug, athleteName }: { athleteSlug: string; athleteName: string }) {
   const [status, setStatus] = useState("");
-  const url = `https://nxtgnsports.com/talent/${athleteSlug}`;
+  const url = `https://nxtg3nsports.com/talent/${athleteSlug}`;
   async function share() {
     try {
       if (navigator.share) {

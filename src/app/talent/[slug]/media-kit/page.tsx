@@ -46,10 +46,10 @@ export default async function AthleteMediaKitPage({ params }: { params: Promise<
   const supportingLinkItems = supportingVideoItems.filter((item) => item.platform !== "spotify");
   const linkedItems = items.filter((item) => ["highlight", "interview", "music", "social"].includes(item.type) && !item.embedUrl);
   const latestDate = getLatestMediaDate(athlete.slug);
-  const canonicalUrl = `https://nxtgnsports.com/talent/${athlete.slug}/media-kit`;
+  const canonicalUrl = `https://nxtg3nsports.com/talent/${athlete.slug}/media-kit`;
 
   return <main className="media-kit-page mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-    <JsonLd data={{ "@context": "https://schema.org", "@type": "ProfilePage", url: canonicalUrl, mainEntity: { "@type": "Person", name: athlete.name, image: { "@type": "ImageObject", url: `https://nxtgnsports.com${athlete.imagePath}`, caption: `${athlete.name} athlete photo` }, jobTitle: athlete.position, description: athlete.bio, url: `https://nxtgnsports.com/talent/${athlete.slug}` } }} />
+    <JsonLd data={{ "@context": "https://schema.org", "@type": "ProfilePage", url: canonicalUrl, mainEntity: { "@type": "Person", name: athlete.name, image: { "@type": "ImageObject", url: `https://nxtg3nsports.com${athlete.imagePath}`, caption: `${athlete.name} athlete photo` }, jobTitle: athlete.position, description: athlete.bio, url: `https://nxtg3nsports.com/talent/${athlete.slug}` } }} />
     <BreadcrumbJsonLd items={[{ name: "Home", item: brand.siteUrl }, { name: "Talent", item: `${brand.siteUrl}/talent` }, { name: athlete.name, item: `${brand.siteUrl}/talent/${athlete.slug}` }, { name: "Media Kit", item: canonicalUrl }]} />
     <div className="media-kit-controls mb-8 flex flex-wrap items-center justify-between gap-4"><div className="flex flex-wrap gap-4"><Link href={`/talent/${athlete.slug}`} className="text-sm font-semibold text-[#C7CCD6] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2AFF7D]">Back to athlete profile</Link><Link href={`/talent/${athlete.slug}/one-sheet`} className="text-sm font-semibold text-[#2AFF7D] hover:text-white">Sponsor one-sheet</Link></div><MediaKitControls athleteSlug={athlete.slug} canonicalUrl={canonicalUrl} /></div>
     <header className="grid gap-8 border-b border-white/10 pb-10 md:grid-cols-[minmax(0,1fr)_18rem] md:items-center">

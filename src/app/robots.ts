@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://nxtgnsports.com/sitemap.xml",
+    sitemap: "https://nxtg3nsports.com/sitemap.xml",
   };
 }

@@ -63,7 +63,7 @@ export default async function AthleteOneSheetPage({ params }: { params: Promise<
           </div>
         </section>
 
-        <section className="flex items-end justify-between gap-5 border-t border-white/10 pt-5"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#2AFF7D]">Campaign opportunities</p><p className="mt-1 max-w-2xl text-xs leading-5 text-[#C7CCD6]">Sponsored content · appearances · interviews · community activations · athlete storytelling · product and merchandise collaborations</p></div><div className="text-right"><p className="text-[10px] font-semibold text-[#7F8795]">nxtgnsports.com</p><p className="mt-1 text-[9px] text-[#596170]">Availability and acceptance are not guaranteed.</p></div></section>
+        <section className="flex items-end justify-between gap-5 border-t border-white/10 pt-5"><div><p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#2AFF7D]">Campaign opportunities</p><p className="mt-1 max-w-2xl text-xs leading-5 text-[#C7CCD6]">Sponsored content · appearances · interviews · community activations · athlete storytelling · product and merchandise collaborations</p></div><div className="text-right"><p className="text-[10px] font-semibold text-[#7F8795]">nxtg3nsports.com</p><p className="mt-1 text-[9px] text-[#596170]">Availability and acceptance are not guaranteed.</p></div></section>
       </div>
     </article>
   </main>;

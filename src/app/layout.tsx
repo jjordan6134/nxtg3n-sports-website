@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nxtgnsports.com"),
+  metadataBase: new URL("https://nxtg3nsports.com"),
   title: {
     default: "NXTG3N Sports | The Neural Athlete",
     template: "%s | NXTG3N Sports",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     title: "NXTG3N Sports | The Neural Athlete",
     description:
       "A premium sports talent agency experience built for athlete development, NIL strategy, and long-term career planning.",
-    url: "https://nxtgnsports.com",
+    url: "https://nxtg3nsports.com",
     siteName: "NXTG3N Sports",
     locale: "en_US",
     type: "website",
