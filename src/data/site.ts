@@ -17,6 +17,7 @@ export const brand = {
 export const navItems = [
   { label: "Home", href: "/" },
   { label: "News", href: "/news" },
+  { label: "Resources", href: "/resources" },
   { label: "Talent", href: "/talent" },
   { label: "Services", href: "/services" },
   { label: "Partners", href: "/partners" },
@@ -151,6 +152,7 @@ export const contactChannels = [
 export const footerQuickLinks = [
   { label: "Home", href: "/" },
   { label: "News", href: "/news" },
+  { label: "NIL Resources", href: "/resources" },
   { label: "Talent", href: "/talent" },
   { label: "Services", href: "/services" },
   { label: "Partners", href: "/partners" },
