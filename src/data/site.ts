@@ -153,6 +153,7 @@ export const footerQuickLinks = [
   { label: "Home", href: "/" },
   { label: "News", href: "/news" },
   { label: "NIL Resources", href: "/resources" },
+  { label: "Leadership", href: "/staff" },
   { label: "Talent", href: "/talent" },
   { label: "Services", href: "/services" },
   { label: "Partners", href: "/partners" },
