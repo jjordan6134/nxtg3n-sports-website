@@ -1,3 +1,4 @@
+import { PlaybookCard } from "@/components/playbook-card";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -66,5 +67,6 @@ export default async function NilGuidePage({ params }: { params: Promise<{ slug:
       <ArticleSharing url={url} title={guide.title} slug={guide.slug} />
       <section className="mt-14"><h2 className="text-2xl font-black text-white">Continue learning</h2><div className="mt-5 grid gap-4 md:grid-cols-3">{related.map((item) => <Link key={item.slug} href={`/resources/guides/${item.slug}`} className="rounded-2xl border border-white/10 bg-[#101722] p-5 transition hover:border-[#1F6AE1]"><p className="text-xs font-black uppercase tracking-[0.16em] text-[#2AFF7D]">{item.category}</p><h3 className="mt-3 font-black text-white">{item.title}</h3><p className="mt-2 text-xs leading-5 text-[#9AA3B2]">{item.description}</p></Link>)}</div></section>
     </article>
+    <PlaybookCard />
   </main>;
 }

@@ -1,0 +1,15 @@
+# Playbook implementation audit and plan
+
+Existing architecture: Next.js 16.3 App Router, React 19, TypeScript, Tailwind 4, npm lockfile. Shared header/footer, UI buttons, JSON-LD helpers, resource guides, readiness assessment, brand blueprint and deal checklist already exist. Analytics use Vercel and optional GA; forms use Resend. Postgres is installed for an in-progress media integration. No payment, customer authentication, private file store, CMS or commerce admin was found. Store is a future-merchandise placeholder. No checked-in Vercel project configuration or GitHub deployment workflow was found. GitHub API access confirms push permission; the main protection endpoint returns 404 (no protection configuration returned). Remote main is behind existing local NIL-tools commit 61d5896, a prerequisite of this feature.
+
+Preserve the owner's uncommitted media work. Branch: feature/nil-power-playbook. No production deployment or live payment activation is authorized.
+
+Files to create: src/data/digital-products.ts; src/data/playbook-content.ts; src/components/playbook-{actions,card,lead-form}.tsx; src/app/nil-power-playbook/{page.tsx,playbook.module.css,success/page.tsx,download/page.tsx}; src/app/resources/nil-readiness-checklist/page.tsx; src/lib/commerce*.ts; src/app/api/commerce/{checkout,webhook,download,lead}/route.ts; migrations/003_commerce.sql; scripts/migrate-commerce.mjs; docs/playbook-operations.md; docs/playbook-qa.md. Cover only in public/images/books. No paid manuscript in public or git.
+
+Files to extend: Store, homepage, services, resource center, resource guide page, sitemap, package manifest/lockfile and .env.example. Reuse existing page structure and design tokens; gold is scoped to book components.
+
+Commerce: Stripe hosted Checkout, server-selected Stripe Price, verified raw-body webhooks, Postgres order/event ledger and durable email outbox. Supabase private Storage REST API is an optional compatible storage adapter; no new database client. Downloads are streamed through an authorization endpoint using expiring HMAC capabilities submitted by POST, avoiding download tokens in server URL logs. Payment failures, refunds and disputes revoke access. Dashboard/database views serve operations; no new admin portal.
+
+Publishing evidence: supplied DOCX explicitly says “Updated working manuscript” and requires independent review and proof approval. Ten chapter titles and two practical appendices were verified from that document. Sales, excerpt publication and marketing automation therefore default off. The JPG artwork is used unchanged. Full manuscripts, EPUB and print-wrap proofs remain private. The two numbered variants have equal sizes; final file/version approval is still required.
+
+Validation plan: security unit tests, existing tests, lint, TypeScript, production build, HTTP route checks and desktop/mobile browser inspection when tooling is available. Real Stripe, Postgres, storage and email tests require sandbox credentials. Prepare preview via existing GitHub/Vercel account if accessible; report unavailable access without claiming a deployment.

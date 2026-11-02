@@ -6,7 +6,7 @@ import { nilGuides } from "@/data/nil-guides";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://nxtg3nsports.com";
-  const staticRoutes = ["", "/news", "/resources", "/resources/athlete-brand-blueprint", "/resources/campaign-budget-planner", "/talent", "/services", "/partners", "/media", "/about", "/staff", "/apply", "/contact", "/privacy", "/terms", "/editorial-standards"];
+  const staticRoutes = ["", "/store", "/nil-power-playbook", "/resources/nil-readiness-checklist", "/news", "/resources", "/resources/athlete-brand-blueprint", "/resources/campaign-budget-planner", "/talent", "/services", "/partners", "/media", "/about", "/staff", "/apply", "/contact", "/privacy", "/terms", "/editorial-standards"];
 
   const articleRoutes = newsItems.map((item) => `/news/${item.slug}`);
   const athleteRoutes = athletes.map((athlete) => `/talent/${athlete.slug}`);

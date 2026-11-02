@@ -1,3 +1,4 @@
+import { PlaybookCard } from "@/components/playbook-card";
 import Image from "next/image";
 import Link from "next/link";
 import { AthleteCard } from "@/components/athlete-card";
@@ -263,6 +264,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <PlaybookCard />
     </div>
   );
 }

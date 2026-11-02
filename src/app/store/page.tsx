@@ -1,19 +1,22 @@
+import { PlaybookCard } from "@/components/playbook-card";
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/ui";
 import { storeCategories } from "@/data/site";
 
-export const metadata: Metadata = { robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Digital Library & Store", description: "Explore NXTG3N athlete education, The NIL Power Playbook and future merchandise collections.", alternates: { canonical: "/store" }, robots: { index: true, follow: true } };
 
 export default function StorePage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <SectionHeading
         eyebrow="Store"
-        title="Store launch in progress"
-        intro="The brand experience is being prepared for future drops, athlete collaborations, and performance collections."
+        title="A game plan for what comes next."
+        intro="Explore athlete education in the NXTG3N Digital Library, with future drops, athlete collaborations and performance collections still on the horizon."
         as="h1"
       />
 
+      <PlaybookCard />
+      <h2 className="mt-10 text-2xl font-bold">Future merchandise collections</h2>
       <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {storeCategories.map((category) => (
           <article key={category} className="rounded-[2rem] border border-white/10 bg-[#101722] p-6">

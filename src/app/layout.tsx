@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
+import { PrivacyAnalytics } from "@/components/privacy-analytics";
 import "./globals.css";
 import { BreakingNewsTicker } from "@/components/breaking-news-ticker";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { JsonLd } from "@/components/json-ld";
-import { GoogleAnalytics } from "@/components/google-analytics";
 import { GoogleAdsenseVerification } from "@/components/google-adsense";
 import { brand } from "@/data/site";
 
@@ -81,8 +80,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <BreakingNewsTicker />
           <main className="flex-1">{children}</main>
           <SiteFooter />
-          <Analytics />
-          {gaMeasurementId && <GoogleAnalytics measurementId={gaMeasurementId} />}
+          <PrivacyAnalytics measurementId={gaMeasurementId} />
+
           {adsenseClient && <GoogleAdsenseVerification client={adsenseClient} />}
           <JsonLd data={{
             "@context": "https://schema.org",
