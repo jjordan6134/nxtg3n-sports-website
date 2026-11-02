@@ -8,6 +8,7 @@ Executed November 1–2, 2026 (America/Phoenix).
 | ESLint | PASS after fixing analytics imports and download initialization |
 | Staged PR source tests, lint and TypeScript | PASS: 7 passed, 1 database integration skipped; no media-monitor files required |
 | Staged PR production build | PASS: webpack build, 78 generated pages; Turbopack cannot follow this review-only external dependency junction |
+| Vercel preview | READY via existing Git integration. GitHub reports successful deployment; unauthenticated HTTP checks redirect to Vercel login, so deployed page QA is blocked by preview access protection |
 | Full existing + commerce unit suite | 21 passed, 0 failed, 2 database integration tests skipped |
 | Production npm audit | PASS: 0 vulnerabilities after Next.js, Zod and compatible transitive updates |
 | All dependency audit | Development dependency advisories remain; production result is not an all-dependencies clean bill |

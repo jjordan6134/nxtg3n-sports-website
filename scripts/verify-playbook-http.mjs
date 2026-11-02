@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 const base = process.env.PLAYBOOK_QA_ORIGIN || "http://localhost:3100";
 for (const path of ["/nil-power-playbook", "/store", "/resources/nil-readiness-checklist", "/resources", "/services", "/", "/sitemap.xml", "/nil-power-playbook/download", "/nil-power-playbook/success"]) {
-  const r = await fetch(base+path); const body = await r.text();
+  const r = await fetch(base+path);
+  assert.equal(new URL(r.url).origin, new URL(base).origin, "Preview access redirected to authentication; use an authorized Vercel session or approved protection bypass.");
+  const body = await r.text();
   assert.equal(r.status,200,path);
   if (path === "/nil-power-playbook") {
     assert.match(body,/<h1/); assert.match(body,/proposed launch price/);
