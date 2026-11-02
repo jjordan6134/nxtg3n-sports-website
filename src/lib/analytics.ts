@@ -6,6 +6,10 @@ export type AnalyticsEvent =
 type ConversionEvent =
   | { name: "cta_click"; properties: { cta_name: string; cta_location: string; destination: string } }
   | { name: "newsletter_signup"; properties: { signup_location: string; interest: string } }
+  | { name: "resource_search"; properties: { query: string; result_count: string; category: string } }
+  | { name: "resource_filter"; properties: { category: string } }
+  | { name: "resource_cta_click"; properties: { action: string; location: string } }
+  | { name: "guide_download"; properties: { guide_slug: string; asset_type: string } }
   | { name: "athlete_application_start"; properties: Record<string, never> }
   | { name: "athlete_application_submit"; properties: Record<string, never> }
   | { name: "partnership_inquiry_start"; properties: { athlete_slug: string; form_location: string } }

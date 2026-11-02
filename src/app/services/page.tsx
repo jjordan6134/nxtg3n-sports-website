@@ -1,3 +1,4 @@
+import { PlaybookCard } from "@/components/playbook-card";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ConversionLink } from "@/components/conversion-paths";
@@ -38,5 +39,6 @@ export default function ServicesPage() {
     <section className="border-y border-white/10 bg-[#0F151B]"><div className="mx-auto grid max-w-7xl gap-5 px-4 py-14 sm:px-6 md:grid-cols-3 lg:px-8">{[{ label: "Discover", copy: "Choose a revenue pathway aligned with the audience and objective." }, { label: "Define", copy: "Share timing, location, deliverables, budget context, and desired outcomes." }, { label: "Scope", copy: "NXTG3N reviews fit and responds with the appropriate next step or written terms." }].map((step, index) => <div key={step.label} className="border-l-2 border-[#1F6AE1] p-5"><p className="text-xs font-black text-[#2AFF7D]">0{index + 1}</p><h3 className="mt-3 text-xl font-black text-white">{step.label}</h3><p className="mt-2 text-sm leading-6 text-[#C7CCD6]">{step.copy}</p></div>)}</div></section>
 
     <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8"><div className="rounded-[2rem] border border-white/10 bg-[#101722] p-6 sm:p-8"><p className="text-xs font-bold uppercase tracking-[0.22em] text-[#2AFF7D]">Service FAQ</p><h2 className="mt-3 text-3xl font-black text-white">Start with clarity.</h2><div className="mt-6 divide-y divide-white/10">{faqs.map((faq) => <details key={faq.question} className="group py-5"><summary className="cursor-pointer list-none font-bold text-white">{faq.question}<span className="float-right text-[#2AFF7D] group-open:rotate-45">+</span></summary><p className="mt-3 max-w-3xl text-sm leading-6 text-[#C7CCD6]">{faq.answer}</p></details>)}</div><div className="mt-7 flex flex-wrap gap-3"><ConversionLink label="Start a service inquiry" href="/contact?service=Custom%20Engagement" location="services_faq" className="rounded-full bg-[#1F6AE1] px-5 py-3 text-sm font-semibold text-white" /><Link href="/talent" className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">Explore the roster</Link></div></div></section>
+    <PlaybookCard />
   </main>;
 }

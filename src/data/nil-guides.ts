@@ -7,6 +7,10 @@ export type NilGuide = {
   faqs: { question: string; answer: string }[]; sources: GuideSource[];
 };
 
+export function getRelatedNilGuides(guide: NilGuide, limit = 3) {
+  return nilGuides.filter((item) => item.slug !== guide.slug).map((item) => ({ item, score: Number(item.category === guide.category) * 3 + Number(item.audience === guide.audience) * 2 + item.keyTakeaways.filter((takeaway) => guide.description.toLowerCase().split(/\W+/).some((word) => word.length > 5 && takeaway.toLowerCase().includes(word))).length })).sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title)).slice(0, limit).map(({ item }) => item);
+}
+
 const ncaaNil = { name: "Name, Image and Likeness", organization: "NCAA", href: "https://www.ncaa.org/student-athletes/name-image-likeness/" };
 const nilAssist = { name: "Student-Athlete NIL Resources", organization: "NCAA NIL Assist", href: "https://nilassist.ncaa.org/student-athletes/" };
 const ftcDisclosure = { name: "Disclosures 101 for Social Media Influencers", organization: "Federal Trade Commission", href: "https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers" };

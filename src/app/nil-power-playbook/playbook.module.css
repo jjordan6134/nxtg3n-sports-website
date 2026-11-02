@@ -1,0 +1,18 @@
+.page { --gold: #e5c58b; background: #0b1018; }
+.hero { position: relative; overflow: hidden; background: radial-gradient(ellipse at 78% 38%, #34415b66, transparent 48%), linear-gradient(140deg,#0a101a,#101c2b 60%,#0a101a); border-bottom: 1px solid #e5c58b30; }
+.hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .16; background-image: linear-gradient(#e5c58b33 1px,transparent 1px),linear-gradient(90deg,#e5c58b33 1px,transparent 1px); background-size: 96px 96px; mask-image: linear-gradient(90deg,transparent,#000); }
+.heroInner { position: relative; display: grid; align-items: center; gap: 3rem; max-width: 1280px; padding: 5rem 1.5rem; margin: auto; }
+.eyebrow { color: var(--gold); font-size: .7rem; font-weight: 700; letter-spacing: .23em; text-transform: uppercase; }
+.title { margin-top: 1.5rem; font-size: clamp(3.3rem,7vw,6.4rem); font-weight: 900; line-height: .98; letter-spacing: -.055em; }
+.title span { display: block; color: var(--gold); }
+.coverStage { position: relative; display: flex; justify-content: center; padding: 1.5rem 2rem 2.5rem; }
+.coverStage::after { content: ""; position: absolute; bottom: 0; width: 80%; height: 30px; background: #e5c58b40; filter: blur(24px); }
+.cover { position: relative; z-index: 1; width: min(100%,340px); height: auto; box-shadow: 18px 22px 50px #0009, 5px 0 0 #b79c6c; border: 1px solid #e5c58b60; }
+.section { max-width: 1280px; padding: 4.5rem 1.5rem; margin: auto; }
+.heading { font-size: clamp(2rem,3.4vw,3rem); line-height: 1.15; font-weight: 850; letter-spacing: -.035em; margin-top: .8rem; }
+.panel { border: 1px solid #e5c58b25; border-radius: 1.5rem; padding: 1.75rem; background: linear-gradient(145deg,#172130,#101722); }
+.divider { border-top: 1px solid #ffffff12; }
+.preview { padding: 2rem; border-left: 3px solid var(--gold); background: #111c2a; font-family: Georgia,serif; font-size: 1.2rem; line-height: 1.9; }
+.final { border-top: 1px solid #e5c58b30; background: radial-gradient(ellipse at top,#5a472c35,transparent 70%); text-align: center; }
+@media(min-width: 900px) { .heroInner { grid-template-columns: 1.25fr 1fr; padding: 6rem 2rem; } .cover { width: 350px; } }
+@media(prefers-reduced-motion: reduce) { .page { scroll-behavior: auto; } }
